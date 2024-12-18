@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ordering.repository.PatientMapper">
+  <insert id="insert">
+    INSERT INTO patients (
+    id,
+    name,
+    birthday,
+    gender,
+    created_by,
+    created_at,
+    updated_by,
+    updated_at,
+    deleted_by,
+    deleted_at
+    )
+    VALUES
+    (#{id}, #{name}, #{birthday}, #{gender},'太郎',CURRENT_TIMESTAMP, null, null, null, null)
+  </insert>
+
+  <select id="selectById" resultType="com.ordering.model.Patient">
+    SELECT
+    id,
+    name,
+    birthday,
+    gender,
+    created_by as createdBy,
+    created_at as createdAt,
+    updated_by as updatedBy,
+    updated_at as updatedAt,
+    deleted_by as deletedBy,
+    deleted_at as deletedAt
+    FROM patients
+    WHERE id = #{id}
+  </select>
+</mapper>
