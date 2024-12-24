@@ -2,61 +2,74 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>検査一覧</title>
   <style>
-    select {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #b6b5b5;
-    color: #757373;
+
+    .inspection_list {
+            border: 2px solid #000; /* 太さ: 2px、スタイル: solid、色: 黒 */
+            padding: 10px; /* 内側の余白 */
+            margin: 10px; /* 外側の余白 */
+            border-collapse: collapse;
+    }
+
+     th, td {
+            border: 1px solid black; /* 各セルの枠線を黒の実線で指定 */
+            padding: 8px; /* セル内の余白を指定 */
+            text-align: left; /* テキストを左揃えに指定 */
+        }
+    .de {
+    width: 500px;
+    }
+  a {
+     text-decoration:none;
   }
 
-    .inspectionComment {
-      width: 366px;
-      height: 191px;
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 40px;
+      height: 20px;
+      padding: 8px 24px;
+      font-family: sans-serif;
+      font-size: 16px;
+      color: #fff;
+      text-align: center;
+      overflow-wrap: anywhere;
+      background-color: #6fa24a;
+      border-radius: 10px
     }
 
-    .box {
-    border: solid 8px red;
-    width: 964px;
-    }
+
+  .button:hover {
+  background: #268425;
+  color: #ff701e;
+}
+
   </style>
 </head>
 <body>
-<p>こんばんは</p>
-<p th:text="${name}"></p>
+<h1>検査一覧画面</h1>
+<h2>アカウント名:<span th:text="${name}"></span></h2>
+
 <p th:text="${message}"></p>
+<table class="inspection_list">
+  <tr>
+    <th>No.</th>
+    <th>検査名</th>
+    <th>検査日時</th>
+    <th>検査詳細</th>
+  </tr>
+  <tr th:each="inspection, no:${inspections}">
+    <td th:text="${no.count}"></td>
+    <td th:text="${inspection.name}"></td>
+    <td th:text="${inspection.date}"></td>
+    <td class="de" th:text="${inspection.details}"></td>
+    <td><a class="button" th:href="@{/inspectionDetails/{id}(id=${inspection.id})}">詳細</a></td>
+  </tr>
+</table>
+<a th:href="@{inspection}">新規登録</a>
+<a th:href="@{/}">一覧を更新</a>
 
-<div class="box">
-  <p>こちらpostバージョン</p>
-  <form method="post" th:action="@{/inspectionSubmit}" th:object="${OrderForm}">
-    <p>依頼名：
-      <select th:field="*{inspection}">
-        <option value="選択">選択</option>
-        <option value="採血">採血</option>
-        <option value="心電図">心電図</option>
-        <option value="胸部レントゲン">胸部レントゲン</option>
-        <option value="CT">CT</option>
-        <option value="MRI">MRI</option>
-      </select>
-    </p>
-    <p>検査日：<input th:field="*{date}" type="date"></p>
-    <p>依頼内容<textarea class="inspectionComment" th:field="*{content}"></textarea></p>
-    <p><input type="submit" value="登録"></p>
-    <div style="color: red;" th:errors="*{content}"
-         th:if="${#fields.hasErrors('content')}"></div>
-    <div style="color: red;" th:if="${#fields.hasGlobalErrors()}">
-      <ul>
-        <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
-      </ul>
-    </div>
-  </form>
-
-  <span th:if="${OrderForm.inspection}!=null" th:text="この内容で登録しました"></span>
-  <span th:if="${OrderForm.inspection}!=null" th:text="${OrderForm.inspection}"></span>
-  <span th:if="${OrderForm.inspection}!=null" th:text="${OrderForm.date}"></span>
-  <span th:if="${OrderForm.inspection}!=null" th:text="${OrderForm.content}"></span>
-
-</div>
 </body>
 </html>

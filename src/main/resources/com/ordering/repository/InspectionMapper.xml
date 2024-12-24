@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ordering.repository.InspectionMapper">
+
+  <!--検査の削除-->
+  <delete id="delete">
+    DELETE FROM inspections WHERE id = #{id}
+  </delete>
+
+
+  <!-- 全件取得-->
+  <insert id="insert">
+    <!--    UUIDの発行-->
+    <selectKey keyProperty="id" order="BEFORE" resultType="string">
+      SELECT REPLACE(UUID(), '-', '')FROM DUAL
+    </selectKey>
+
+
+    <!--    新規検査依頼-->
+    INSERT INTO inspections(
+    id,
+    name,
+    date,
+    details,
+    created_by,
+    created_at,
+    updated_by,
+    updated_at,
+    deleted_by,
+    deleted_at
+    )
+    VALUES(
+    #{id},
+    #{name},
+    #{date},
+    #{details},
+    #{createdBy},
+    CURRENT_TIMESTAMP,
+    null,
+    null,
+    null,
+    null
+    )
+  </insert>
+
+
+  <!--  検査の詳細取得-->
+  <select id="selectById">
+    SELECT
+    id,
+    name,
+    date,
+    details,
+    created_by,
+    created_at,
+    updated_by,
+    updated_at,
+    deleted_by,
+    deleted_at
+    FROM inspections
+    WHERE id = #{id}
+
+  </select>
+
+  <!--  検査の一覧表示-->
+  <select id="selectAll">
+    SELECT * FROM inspections
+  </select>
+
+
+  <!--  検査の更新-->
+  <update id="update">
+    UPDATE inspections SET
+    name = #{name},
+    date = #{date},
+    details = #{details},
+    updated_by = #{updatedBy},
+    updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+  </update>
+
+
+</mapper>
