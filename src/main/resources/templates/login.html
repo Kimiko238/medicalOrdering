@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>ログイン画面</title>
+</head>
+<body>
+<h1>ログイン画面</h1>
+
+<h2>登録している方は下記に入力してください</h2>
+<p th:if="${message}" th:text="${message}"></p>
+<form method="post" th:action="@{/login}">
+  <p>登録名：<input name="name" type="text"></p>
+  <p>登録パスワード：<input name="pass" type="password"></p>
+  <button type="submit">ログイン</button>
+</form>
+<a th:href="@{/userRegister}">ユーザー登録</a>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>検査一覧</title>
@@ -49,8 +49,15 @@
   </style>
 </head>
 <body>
+<header>
+  <form method="get" th:action="@{/searchPatient}">
+    <p>患者ID検索：<input name="showId" type="number"></p>
+    <button type="submit">検索</button>
+  </form>
+
+</header>
 <h1>検査一覧画面</h1>
-<h2>アカウント名:<span th:text="${name}"></span></h2>
+<h2>ログインアカウント名:<span th:text="${authentication.getName()}"></span></h2>
 
 <p th:text="${message}"></p>
 <table class="inspection_list">
@@ -68,8 +75,15 @@
     <td><a class="button" th:href="@{/inspectionDetails/{id}(id=${inspection.id})}">詳細</a></td>
   </tr>
 </table>
-<a th:href="@{inspection}">新規登録</a>
+<a th:href="@{newInspectionView}">検査新規登録</a>
+<a th:href="@{newPatientView}">患者新規登録</a>
+<a th:href="@{newPatientView}">患者編集</a>
 <a th:href="@{/}">一覧を更新</a>
+
+
+<form method="post" th:action="@{/logout}">
+  <button type="submit">ログアウト</button>
+</form>
 
 </body>
 </html>

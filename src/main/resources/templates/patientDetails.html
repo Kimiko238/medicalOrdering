@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>患者詳細画面</title>
+</head>
+<body>
+<form method="post" th:action="@{/editPatientView}" th:object="${patient}">
+  <h1>患者の詳細画面</h1>
+  <p>患者名：<input th:attr="readonly=${readOnly}" th:field="*{name}" type="text"></p>
+</form>
+</body>
+</html>

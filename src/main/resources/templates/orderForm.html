@@ -38,16 +38,16 @@
   </p>
   <p>検査日：<input th:field="*{date}" type="datetime-local"></p>
   <p>依頼内容<textarea class="inspectionComment" th:field="*{details}"></textarea></p>
-  <p th:if="${inspection.number} == 0">作成者:<input th:field="*{createdBy}"></p>
-  <p th:if="${inspection.number} == 1">更新者:<input th:field="*{updatedBy}"></p>
+  <!--  <p th:if="${inspection.number} == 0">作成者:<input th:field="*{createdBy}"-->
+  <!--                                                     type="text"-->
+  <!--                                                     value="${authentication}"></p>-->
+  <input th:field="*{createdBy}" type="hidden">
+  <input th:field="*{updatedBy}" type="hidden">
+  <!--  <p th:if="${inspection.number} == 1">更新者:<input th:field="*{updatedBy}"></p>-->
   <p><input th:if="${inspection.number} == 0" type="submit" value="登録"></p>
   <p><input th:if="${inspection.number} == 1" type="submit" value="更新"></p>
-  <div style="color: red;" th:errors="*{details}"
+  <div style="color: green;" th:errors="*{details}"
        th:if="${#fields.hasErrors('details')}"></div>
-  <div style="color: red;" th:if="${#fields.hasGlobalErrors()}">
-    <ul>
-      <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
-    </ul>
   </div>
 </form>
 </body>

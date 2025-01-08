@@ -3,8 +3,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ordering.repository.PatientMapper">
   <insert id="insert">
+    <!--    UUIDの発行-->
+    <selectKey keyProperty="id" order="BEFORE" resultType="string">
+      SELECT REPLACE(UUID(), '-', '')FROM DUAL
+    </selectKey>
+
     INSERT INTO patients (
     id,
+    show_id,
     name,
     birthday,
     gender,
@@ -16,12 +22,14 @@
     deleted_at
     )
     VALUES
-    (#{id}, #{name}, #{birthday}, #{gender},'太郎',CURRENT_TIMESTAMP, null, null, null, null)
+    (#{id}, null, #{name}, #{birthday}, #{gender},#{createdBy},CURRENT_TIMESTAMP, null, null,
+    null, null)
   </insert>
 
   <select id="selectById" resultType="com.ordering.model.Patient">
     SELECT
     id,
+    show_id,
     name,
     birthday,
     gender,
@@ -32,6 +40,23 @@
     deleted_by as deletedBy,
     deleted_at as deletedAt
     FROM patients
-    WHERE id = #{id}
+    WHERE show_id = #{showId}
+  </select>
+
+  <select id="selectByNameAndBirthday">
+    SELECT
+    id,
+    show_id,
+    name,
+    birthday,
+    gender,
+    created_by as createdBy,
+    created_at as createdAt,
+    updated_by as updatedBy,
+    updated_at as updatedAt,
+    deleted_by as deletedBy,
+    deleted_at as deletedAt
+    FROM patients
+    WHERE name = #{name} AND birthday = #{birthday}
   </select>
 </mapper>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+</head>
+<body>
+<h1>ユーザー登録画面</h1>
+<form method="post" th:action="@{/createUser}" th:object="${user}">
+  <p>名前：<input th:field="*{name}" type="text"></p>
+  <p>生年月日：<input th:field="*{birthday}" type="date"></p>
+  <p>性別：
+    <input th:field="*{gender}" type="radio" value="1">男性
+    <input th:field="*{gender}" type="radio" value="2">女性
+  </p>
+
+  <p>パスワード：<input th:field="*{pass}" type="password"></p>
+  <p>作成者:<input th:field="*{createdBy}"></p>
+  <input type="submit" value="登録">
+</form>
+</body>
+</html>

@@ -4,6 +4,7 @@ import com.ordering.model.Inspection;
 import com.ordering.repository.InspectionMapper;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,8 @@ public class InspectionService {
   private InspectionMapper inspectionMapper;
 
   //  新規保存時
-  public void save(Inspection inspection) {
+  public void save(Inspection inspection, Authentication authentication) {
+    inspection.setCreatedBy(authentication.getName());
     inspectionMapper.insert(inspection);
   }
 
@@ -32,7 +34,8 @@ public class InspectionService {
   }
 
   //  検査の詳細を編集
-  public void edit(Inspection inspection) {
+  public void edit(Inspection inspection, Authentication authentication) {
+    inspection.setUpdatedBy(authentication.getName());
     inspectionMapper.update(inspection);
   }
 
