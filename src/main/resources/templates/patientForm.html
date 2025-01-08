@@ -9,12 +9,12 @@
 <form method="post"
       th:action="${#strings.isEmpty(patient.id) ? '/createPatient' : '/updatePatient' }"
       th:object="${patient}">
-  <!--  非表示項目-->
+  <!--  非表示項目  -->
   <input th:field="*{id}" type="hidden">
   <input th:field="*{createdBy}" type="hidden">
   <input th:field="*{updatedBy}" type="hidden">
 
-  <!--  入力部分-->
+  <!--  入力部分です   -->
   <p>※苗字と名前の間は半角開けてください。</p>
   <p>患者名：<input th:field="*{name}" type="text"></p>
   <p>生年月日：<input th:field="*{birthday}" type="date"></p>
@@ -27,7 +27,7 @@
   </div>
 
   <p th:if="${message}" th:text="${message}"></p>
-  <p>IDは<input th:field="*{showId}" th:if="${show_id}">です。</p>
+  <p>IDは<input th:field="*{showId}" th:if="${show_id}">です</p>
 </form>
 </body>
 </html>
