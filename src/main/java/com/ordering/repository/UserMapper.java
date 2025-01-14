@@ -9,6 +9,7 @@ public interface UserMapper {
   void insert(User user);
 
   User findByName(String username);
+
 }
 
 

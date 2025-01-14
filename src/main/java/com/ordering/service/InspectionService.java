@@ -39,6 +39,7 @@ public class InspectionService {
     inspectionMapper.update(inspection);
   }
 
+  //  検査を削除
   public void delete(Inspection inspection) {
     inspectionMapper.delete(inspection);
   }

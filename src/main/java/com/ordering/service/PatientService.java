@@ -14,13 +14,14 @@ public class PatientService {
 
   private PatientMapper patientMapper;
 
+  //  連番IDから患者情報を取得
   public Patient findById(Integer showId) {
     return patientMapper.selectById(showId);
   }
 
+  //  重複登録がないかチェックする処理
   public String checkNameAndBirthday(Patient patient, Authentication authentication) {
-    Patient nameAndBirthday = patientMapper.selectByNameAndBirthday(patient.getName(),
-        patient.getBirthday());
+    Patient nameAndBirthday = patientMapper.selectByNameAndBirthday(patient.getName(), patient.getBirthday());
     if (nameAndBirthday != null) {
       String messageAlready = "この患者は登録済みです";
       return messageAlready;
@@ -36,4 +37,5 @@ public class PatientService {
     patient.setCreatedBy(authentication.getName());
     patientMapper.insert(patient);
   }
+
 }

@@ -1,6 +1,5 @@
 package com.ordering.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +28,7 @@ public class Patient {
   /**
    * 生年月日
    */
-  private LocalDate birthday;
+  private String birthday;
   /**
    * 性別
    */
