@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:${TEST_DB_PORT}/${TEST_DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  config:
+    import: optional:file:.env[.properties]
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
