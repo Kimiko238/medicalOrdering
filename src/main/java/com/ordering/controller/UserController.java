@@ -1,7 +1,6 @@
 package com.ordering.controller;
 
 import com.ordering.model.User;
-import com.ordering.service.InspectionService;
 import com.ordering.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
   private UserService userService;
-  private InspectionService inspectionService;
+
 
   //ユーザーのログイン画面遷移
   @GetMapping("/login")
@@ -35,6 +34,7 @@ public class UserController {
     return "userRegister";
   }
 
+  //  新規登録処理
   @PostMapping("/createUser")
   public String createUser(Model model, @Validated User user,
       BindingResult bindingResult) {
