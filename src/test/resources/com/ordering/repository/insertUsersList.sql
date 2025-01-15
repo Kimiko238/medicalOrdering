@@ -13,9 +13,9 @@ INSERT INTO md_test_db.users (
 ) VALUES (
     'addId',
     'たろう',
-    '2024-12-30',
+    '2024-12-10',
     '1',
-    'pass',
+    'word',
     'アシュ',
     NOW(),
     null,

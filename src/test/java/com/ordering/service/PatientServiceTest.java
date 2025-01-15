@@ -55,9 +55,9 @@ public class PatientServiceTest {
     int showId = 1;
     doReturn(patientSample).when(patientMapper).selectById(showId);
     Patient patientDto = patientService.findById(showId);
-    assertEquals(patientDto.getId(), patientSample.getId());
-    assertEquals(patientDto.getName(), patientSample.getName());
-    assertEquals(patientDto.getBirthday(), patientSample.getBirthday());
+    assertEquals(patientSample.getId(), patientDto.getId());
+    assertEquals(patientSample.getName(), patientDto.getName());
+    assertEquals(patientSample.getBirthday(), patientDto.getBirthday());
   }
 
   //  重複登録がないかチェックする処理、のテスト
@@ -75,6 +75,7 @@ public class PatientServiceTest {
   @Test
   void saveTest() {
     doNothing().when(patientMapper).insert(patientSample);
+    doReturn("花子").when(authentication).getName();
     patientService.save(patientSample, authentication);
     verify(patientMapper, times(1)).insert(patientSample);
   }
