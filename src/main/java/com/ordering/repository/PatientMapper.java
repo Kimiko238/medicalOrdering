@@ -1,7 +1,6 @@
 package com.ordering.repository;
 
 import com.ordering.model.Patient;
-import java.time.LocalDate;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,6 +18,6 @@ public interface PatientMapper {
   Patient selectById(@Param("showId") Integer showId);
 
 
-  Patient selectByNameAndBirthday(String name, LocalDate birthday);
+  Patient selectByNameAndBirthday(String name, String birthday);
 }
 

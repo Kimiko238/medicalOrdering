@@ -25,6 +25,7 @@ public class PatientController {
   public String newPatientView(Model model, Authentication authentication, Patient patient) {
     model.addAttribute("authentication", authentication);
     model.addAttribute("patient", new Patient());
+
     return "patientForm";
   }
 
@@ -37,7 +38,7 @@ public class PatientController {
 
   //  患者検索の遷移
   @GetMapping("/searchPatient")
-  public String seacchPatient(@RequestParam("showId") Integer showId,
+  public String searchPatient(@RequestParam("showId") Integer showId,
       Model model) {
     Patient patient = patientService.findById(showId);
     model.addAttribute("patient", patient);
