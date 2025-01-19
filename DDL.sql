@@ -1,33 +1,36 @@
 
 -- 患者情報
-CREATE TABLE md_db.patients (
-    id VARCHAR(255) NOT NULL,
-    name VARCHAR(20) NOT NULL,
-    birthday DATE NOT NULL,
-    gender CHAR(1) NOT NULL,
-    created_by VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_by VARCHAR(255),
-    updated_at DATETIME,
-    deleted_by VARCHAR(255),
-    deleted_at DATETIME,
-    PRIMARY KEY(id)
-    );
-
---ユーザー情報
-CREATE TABLE md_db.users (
-    id VARCHAR(255) NOT NULL,
-    name VARCHAR(20) NOT NULL,
-    birthday DATE NOT NULL,
-    gender CHAR(1) NOT NULL,
-    created_by VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_by VARCHAR(255),
-    updated_at DATETIME,
-    deleted_by VARCHAR(255),
-    deleted_at DATETIME,
-    PRIMARY KEY(id)
+CREATE TABLE patients (
+id  VARCHAR(255) NOT NULL,
+show_id  INT(6) NOT NULL auto_increment,
+name VARCHAR(20) NOT NULL,
+birthday  DATE NOT NULL,
+gender  CHAR(1) NOT NULL,
+created_by VARCHAR(255) NOT NULL,
+created_at DATETIME NOT NULL,
+updated_by VARCHAR(255),
+updated_at DATETIME,
+deleted_by VARCHAR(255),
+deleted_at DATETIME,
+PRIMARY KEY (id),
+UNIQUE KEY (show_id)
 );
+
+--- usersテーブル
+ CREATE TABLE md_db.users (
+ id VARCHAR(255) NOT NULL,
+ name VARCHAR(20) NOT NULL,
+ birthDay DATE NOT NULL,
+ gender CHAR(1) NOT NULL,
+ pass VARCHAR(255) NOT NULL,
+ created_by VARCHAR(255) NOT NULL,
+ created_at DATETIME NOT NULL,
+ updated_by VARCHAR(255),
+ updated_at DATETIME,
+ deleted_by VARCHAR(255),
+ deleted_at DATETIME,
+ PRIMARY KEY (id)
+ );
 
 
 --検査情報
