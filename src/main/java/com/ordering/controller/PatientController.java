@@ -21,8 +21,8 @@ public class PatientController {
 
 
   //  患者新規作成画面の遷移
-  @GetMapping("/newPatientView")
-  public String newPatientView(Model model, Authentication authentication, Patient patient) {
+  @GetMapping("/newPatient")
+  public String newPatient(Model model, Authentication authentication, Patient patient) {
     model.addAttribute("authentication", authentication);
     model.addAttribute("patient", new Patient());
 
@@ -31,7 +31,7 @@ public class PatientController {
 
   //  患者編集画面の遷移
   @GetMapping("/editPatientView")
-  public String editPatientView(Model model, Authentication authentication, Patient patient) {
+  public String editPatient(Model model, Authentication authentication, Patient patient) {
     model.addAttribute("authentication", authentication);
     return null;
   }
@@ -53,13 +53,13 @@ public class PatientController {
       BindingResult bindingResult,
       Authentication authentication) {
     if (bindingResult.hasErrors()) {
-      return "redirect:newPatientView";
+      return "redirect:newPatient";
     }
     String message = patientService.checkNameAndBirthday(patient, authentication);
     redirectAttributes.addFlashAttribute("message", message);
     redirectAttributes.addFlashAttribute("authentication", authentication);
     redirectAttributes.addFlashAttribute("patient", patient);
-    return "redirect:newPatientView";
+    return "redirect:newPatient";
   }
 
   //  患者更新
@@ -67,6 +67,6 @@ public class PatientController {
   public String createCompPatient(RedirectAttributes redirectAttributes, @Validated Patient patient,
       BindingResult bindingResult, Authentication authentication) {
     patientService.findById(patient.getShowId());
-    return "redirect:newPatientView";
+    return "redirect:newPatient";
   }
 }

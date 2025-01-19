@@ -12,14 +12,14 @@ INSERT INTO md_test_db.inspections (
     deleted_at
 )
 VALUES(
-"id",
-"テスト検査",
-"2022-3-5",
-"検査テストです",
-"アシュ"
+'id',
+'テスト検査',
+'2025-01-17 10:30:00',
+'検査テストです',
+'アシュ',
 CURRENT_TIMESTAMP,
  null,
  null,
  null,
   null
-)
+);

@@ -1,5 +1,6 @@
 package com.ordering.model;
 
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class Patient {
   /**
    * することID
    */
+
   private String id;
 
   /**
@@ -24,6 +26,7 @@ public class Patient {
   /**
    * 名前
    */
+  @Size(min = 1)
   private String name;
   /**
    * 生年月日

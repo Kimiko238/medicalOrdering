@@ -5,7 +5,8 @@
 
   <!--検査の削除-->
   <delete id="delete">
-    DELETE FROM inspections WHERE id = #{id}
+    DELETE FROM inspections
+    WHERE id = #{id}
   </delete>
 
 
