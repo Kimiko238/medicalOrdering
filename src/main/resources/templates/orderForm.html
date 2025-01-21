@@ -19,10 +19,16 @@
   </style>
 </head>
 <body>
-<h1 th:if="${inspection.number} == 0">検査依頼の新規登録画面</h1>
-<h1 th:if="${inspection.number} == 1">検査依頼の更新画面</h1>
+<!--<h1 th:if="${inspection.number} == 0">検査依頼の新規登録画面</h1>-->
+<!--<h1 th:if="${inspection.number} == 1">検査依頼の更新画面</h1>-->
+
+<h1 th:if="${inspection.id == null}">検査依頼の新規登録画面</h1>
+<h1 th:if="${inspection.id != null}">検査依頼の編集画面</h1>
+
 <p th:text="${message}"></p>
-<form method="post" th:action="@{/inspectionSubmit}" th:object="${inspection}">
+<form method="post"
+      th:action="${inspection.id == null} ?@{/newInspectionSubmit} : @{/editInspectionSubmit}"
+      th:object="${inspection}">
   <input th:field="*{id}" type="hidden">
   <input name="number" th:if=${inspection.number}==0 type="hidden" value="0">
   <input name="number" th:if=${inspection.number}==1 type="hidden" value="1">
@@ -44,8 +50,8 @@
   <input th:field="*{createdBy}" type="hidden">
   <input th:field="*{updatedBy}" type="hidden">
   <!--  <p th:if="${inspection.number} == 1">更新者:<input th:field="*{updatedBy}"></p>-->
-  <p><input th:if="${inspection.number} == 0" type="submit" value="登録"></p>
-  <p><input th:if="${inspection.number} == 1" type="submit" value="更新"></p>
+  <p><input th:if="${inspection.id} == null" type="submit" value="登録"></p>
+  <p><input th:if="${inspection.id} != null" type="submit" value="更新"></p>
   <div style="color: green;" th:errors="*{details}"
        th:if="${#fields.hasErrors('details')}"></div>
   </div>
