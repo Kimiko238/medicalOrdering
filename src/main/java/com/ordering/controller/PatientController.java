@@ -1,5 +1,6 @@
 package com.ordering.controller;
 
+import com.ordering.exception.PatientAlreadyExistsException;
 import com.ordering.model.Patient;
 import com.ordering.service.PatientService;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ public class PatientController {
 
   //  患者新規作成画面の遷移
   @GetMapping("/newPatient")
-  public String newPatient(Model model, Authentication authentication, Patient patient) {
+  public String newPatient(Model model, Authentication authentication) {
     model.addAttribute("authentication", authentication);
     model.addAttribute("patient", new Patient());
 
@@ -55,10 +56,16 @@ public class PatientController {
     if (bindingResult.hasErrors()) {
       return "redirect:newPatient";
     }
-    String message = patientService.checkNameAndBirthday(patient, authentication);
-    redirectAttributes.addFlashAttribute("message", message);
-    redirectAttributes.addFlashAttribute("authentication", authentication);
-    redirectAttributes.addFlashAttribute("patient", patient);
+
+    try {
+      Patient createdPatient = patientService.save(patient, authentication);
+      redirectAttributes.addFlashAttribute("message", "患者は登録できました");
+      redirectAttributes.addFlashAttribute("showId", createdPatient.getShowId());
+    } catch (PatientAlreadyExistsException e) {
+      redirectAttributes.addFlashAttribute("message", "この患者は登録済みです");
+    }
+//    redirectAttributes.addFlashAttribute("message", message);
+
     return "redirect:newPatient";
   }
 

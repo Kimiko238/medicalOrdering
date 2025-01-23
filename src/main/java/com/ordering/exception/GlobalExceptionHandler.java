@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(NoResourceFoundException.class)
   public String handleNoResourceFoundException(Exception ex, Model model) {
     model.addAttribute(
-        "errorMessage",
+        "errorMessage"  ,
         "そんなページは存在しません（NoResourceFoundExceptionが発生）。具体的なエラーメッセージ: "
             + ex.getMessage());
     return "error";
