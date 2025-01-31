@@ -1,13 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>患者詳細画面</title>
+  <link href="/static/css/patientDetails.css" rel="stylesheet" type="text/css">
 </head>
+
 <body>
+<header>
+  <div class="header">
+    ログイン名：<span sec:authentication="principal.user.name"></span>
+  </div>
+</header>
 <form method="post" th:action="@{/editPatientView}" th:object="${patient}">
   <h1>患者の詳細画面</h1>
-  <p>患者名：<input th:attr="readonly=${readOnly}" th:field="*{name}" type="text"></p>
+
+
+  <div class="main">
+    <div class="patientInformation">
+      <p class="patientName">患者名：<span th:text="*{name}" type="text"></span></p>
+    </div>
+    <div class="patientInformation">
+      <h3>患者情報</h3>
+      <p>患者 ID: <span th:text="*{showId}" type="text"></span></p>
+      <p>性別: <span></span></p>
+    </div>
+  </div>
+  <a th:href="@{newOrder(showId=${patient.showId})}">検査をオーダーする</a>
+
+
+  <div>
+    <h3>患者の検査一覧</h3>
+
+  </div>
+
+
 </form>
 </body>
 </html>

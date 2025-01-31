@@ -43,7 +43,8 @@ public class PatientController {
       Model model) {
     Patient patient = patientService.findById(showId);
     model.addAttribute("patient", patient);
-    model.addAttribute("readOnly", true);
+    System.out.println(patient.getShowId());
+
     return "patientDetails";
   }
 
