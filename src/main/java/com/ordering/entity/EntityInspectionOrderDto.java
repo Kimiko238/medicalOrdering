@@ -1,8 +1,6 @@
 package com.ordering.entity;
 
-import com.ordering.model.Inspection;
 import jakarta.validation.constraints.NotEmpty;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestInspectionOrderDto {
+public class EntityInspectionOrderDto {
 
   private String orderId;
 
@@ -20,11 +18,9 @@ public class RequestInspectionOrderDto {
 
   private String inspectionName;
 
-  private List<Inspection> inspections;
-
   private String date;
 
-  private String status;
+//  private String status;
 
   @NotEmpty(message = "入力しなさい")
   private String details;

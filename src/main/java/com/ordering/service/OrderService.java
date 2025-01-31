@@ -1,7 +1,7 @@
 package com.ordering.service;
 
-import com.ordering.entity.RequestInspectionOrderDto;
-import com.ordering.entity.ResponseInspectionOrderDto;
+import com.ordering.entity.EntityInspectionOrderDto;
+import com.ordering.entity.FormInspectionOrderDto;
 import com.ordering.helper.OrderHelper;
 import com.ordering.model.Inspection;
 import com.ordering.model.Order;
@@ -25,21 +25,28 @@ public class OrderService {
 
 
   //  新規保存時
-  public void save(ResponseInspectionOrderDto responseInspectionOrderDto,
+  public void save(EntityInspectionOrderDto entityInspectionOrderDto,
       Authentication authentication) {
     Inspection inspection = inspectionMapper.selectById(
-        responseInspectionOrderDto.getInspectionId());
-    Order order = OrderHelper.convertOrder(responseInspectionOrderDto, authentication);
+        entityInspectionOrderDto.getInspectionId());
+    Order order = OrderHelper.convertEntity(entityInspectionOrderDto, authentication);
     orderMapper.insert(order);
   }
 
+  //  新規保存後、または編集保存後の表示
+  public FormInspectionOrderDto showViewSaveData(
+      EntityInspectionOrderDto entityInspectionOrderDto) {
+    Order orderSavedData = orderMapper.selectById(entityInspectionOrderDto.getOrderId());
+    FormInspectionOrderDto formInspectionOrderDto = OrderHelper.convertForm(orderSavedData);
+    return formInspectionOrderDto;
+  }
 
-  public RequestInspectionOrderDto settingOrder(int showId) {
-    RequestInspectionOrderDto requestInspectionOrderDto = new RequestInspectionOrderDto();
-    requestInspectionOrderDto.setPatientShowId(showId);
+  public FormInspectionOrderDto settingOrder(int showId) {
+    FormInspectionOrderDto formInspectionOrderDto = new FormInspectionOrderDto();
+    formInspectionOrderDto.setPatientShowId(showId);
     List<Inspection> inspections = inspectionMapper.selectAll();
-    requestInspectionOrderDto.setInspections(inspections);
-    return requestInspectionOrderDto;
+    formInspectionOrderDto.setInspections(inspections);
+    return formInspectionOrderDto;
   }
 
 
@@ -64,6 +71,8 @@ public class OrderService {
   public void delete(Order order) {
     orderMapper.delete(order);
   }
+
+
 }
 
 

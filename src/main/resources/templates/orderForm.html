@@ -20,13 +20,13 @@
 </head>
 <body>
 
-<h1 th:if="${requestInspectionOrderDto.orderId == null}">検査依頼の新規登録画面</h1>
-<h1 th:if="${requestInspectionOrderDto.orderId != null}">検査依頼の編集画面</h1>
+<h1 th:if="${formInspectionOrderDto.orderId == null}">検査依頼の新規登録画面</h1>
+<h1 th:if="${formInspectionOrderDto.orderId != null}">検査依頼の編集画面</h1>
 
 <p th:text="${message}"></p>
 <form method="post"
-      th:action="${requestInspectionOrderDto.orderId == null} ?@{/newOrderSubmit} : @{/editInspectionSubmit}"
-      th:object="${requestInspectionOrderDto}">
+      th:action="${formInspectionOrderDto.orderId == null} ?@{/newOrderSubmit} : @{/editInspectionSubmit}"
+      th:object="${formInspectionOrderDto}">
 
   <!--  見えない部分だが入れておく必要がある項目（送りたい項目）　-->
   <input th:field="*{orderId}" type="hidden">
@@ -40,7 +40,7 @@
   <p>依頼名：
     <select th:field="*{inspectionId}">
       <option value="選択">選択</option>
-      <option th:each="inspection : ${requestInspectionOrderDto.inspections}"
+      <option th:each="inspection : ${formInspectionOrderDto.inspections}"
               th:text="${inspection.name}"
               th:value="${inspection.id}"></option>
     </select>
@@ -52,8 +52,8 @@
   <!--                                                     value="${authentication}"></p>-->
 
   <!--  <p th:if="${order.number} == 1">更新者:<input th:field="*{updatedBy}"></p>-->
-  <p><input th:if="${requestInspectionOrderDto.orderId} == null" type="submit" value="登録"></p>
-  <p><input th:if="${requestInspectionOrderDto.orderId} != null" type="submit" value="更新"></p>
+  <p><input th:if="${formInspectionOrderDto.orderId} == null" type="submit" value="登録"></p>
+  <p><input th:if="${formInspectionOrderDto.orderId} != null" type="submit" value="更新"></p>
   <div style="color: green;" th:errors="*{details}"
        th:if="${#fields.hasErrors('details')}"></div>
   </div>

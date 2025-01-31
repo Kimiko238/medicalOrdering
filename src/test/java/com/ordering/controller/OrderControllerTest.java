@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.ordering.config.SecurityConfig;
-import com.ordering.entity.ResponseInspectionOrderDto;
+import com.ordering.entity.EntityInspectionOrderDto;
 import com.ordering.model.Order;
 import com.ordering.service.OrderService;
 import java.util.List;
@@ -145,7 +145,7 @@ public class OrderControllerTest {
   @Test
   void test_POST_newSubmitOk() throws Exception {
     doNothing().when(orderService)
-        .save(any(ResponseInspectionOrderDto.class), any(Authentication.class));
+        .save(any(EntityInspectionOrderDto.class), any(Authentication.class));
     doReturn(sampleOrder).when(orderService).findById(any(String.class));
     mockMvc.perform(
             post("/newInspectionSubmit")
@@ -159,7 +159,7 @@ public class OrderControllerTest {
         .andExpect(flash().attribute("message", "登録しました"))
         .andExpect(flash().attributeExists("inspectionDto"));
 
-    verify(orderService, times(1)).save(any(ResponseInspectionOrderDto.class),
+    verify(orderService, times(1)).save(any(EntityInspectionOrderDto.class),
         any(Authentication.class));
   }
 

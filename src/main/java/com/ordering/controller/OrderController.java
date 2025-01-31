@@ -1,7 +1,7 @@
 package com.ordering.controller;
 
-import com.ordering.entity.RequestInspectionOrderDto;
-import com.ordering.entity.ResponseInspectionOrderDto;
+import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.entity.EntityInspectionOrderDto;
 import com.ordering.model.Order;
 import com.ordering.service.OrderService;
 import java.util.List;
@@ -56,8 +56,8 @@ public class OrderController {
   @GetMapping("/newOrder")
   public String newOrder(Model model,
       @RequestParam int showId) {
-    RequestInspectionOrderDto requestInspectionOrderDto = orderService.settingOrder(showId);
-    model.addAttribute("requestInspectionOrderDto", requestInspectionOrderDto);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.settingOrder(showId);
+    model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "orderForm";
   }
 
@@ -65,7 +65,7 @@ public class OrderController {
   @PostMapping("/newOrderSubmit")
   public String newSubmit(Model model,
       RedirectAttributes redirectAttributes,
-      @Validated ResponseInspectionOrderDto responseInspectionOrderDto,
+      @Validated EntityInspectionOrderDto entityInspectionOrderDto,
       BindingResult bindingResult,
       Authentication authentication) {
     //入力された内容のチェック（条件分岐）
@@ -73,10 +73,10 @@ public class OrderController {
       // エラーがある場合、フォームに戻る
       return "orderForm";
     }
-    orderService.save(responseInspectionOrderDto, authentication);
+    orderService.save(entityInspectionOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "登録しました");
-    Order orderDto = orderService.findById(responseInspectionOrderDto.getOrderId());
-    redirectAttributes.addFlashAttribute("orderDto", orderDto);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.showViewSaveData(entityInspectionOrderDto);
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "redirect:/";
   }
 

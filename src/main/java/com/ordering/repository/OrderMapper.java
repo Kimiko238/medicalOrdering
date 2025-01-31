@@ -1,6 +1,6 @@
 package com.ordering.repository;
 
-import com.ordering.entity.RequestInspectionOrderDto;
+import com.ordering.entity.FormInspectionOrderDto;
 import com.ordering.model.Order;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +14,7 @@ public interface OrderMapper {
   List<Order> selectAll();
 
   //  RequestInspectionOrderDtoへデータをセットするための取得
-  List<RequestInspectionOrderDto> selectAllDto();
+  List<FormInspectionOrderDto> selectAllDto();
 
   Order selectById(String id);
 

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.ordering.entity.ResponseInspectionOrderDto;
+import com.ordering.entity.EntityInspectionOrderDto;
 import com.ordering.model.Order;
 import com.ordering.repository.OrderMapper;
 import java.util.List;
@@ -64,7 +64,7 @@ public class OrderServiceTest {
     Order orderDto = orderDtoList.stream().findFirst()
         .orElseThrow();
     assertEquals(orderDto.getId(), orderSample.getId());
-    assertEquals(ResponseInspectionOrderDto.getName(), orderSample.getName());
+    assertEquals(EntityInspectionOrderDto.getName(), orderSample.getName());
     assertEquals(orderDto.getDate(), orderSample.getDate());
     assertEquals(orderDto.getDetails(), orderSample.getDetails());
   }
