@@ -9,14 +9,12 @@
     WHERE id = #{id}
   </delete>
 
-
   <!-- 全件取得-->
   <insert id="insert">
     <!--    UUIDの発行-->
     <selectKey keyProperty="id" order="BEFORE" resultType="string">
       SELECT REPLACE(UUID(), '-', '')FROM DUAL
     </selectKey>
-
 
     <!--    新規検査依頼-->
     INSERT INTO inspection_orders(
@@ -49,7 +47,6 @@
     )
   </insert>
 
-
   <!--  検査の詳細取得-->
   <select id="selectById">
     SELECT
@@ -65,7 +62,6 @@
     deleted_at
     FROM inspection_orders
     WHERE id = #{id}
-
   </select>
 
   <!--  検査の一覧表示-->

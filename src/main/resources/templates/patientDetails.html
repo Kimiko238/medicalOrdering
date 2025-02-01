@@ -14,8 +14,6 @@
 </header>
 <form method="post" th:action="@{/editPatientView}" th:object="${patient}">
   <h1>患者の詳細画面</h1>
-
-
   <div class="main">
     <div class="patientInformation">
       <p class="patientName">患者名：<span th:text="*{name}" type="text"></span></p>
@@ -27,14 +25,9 @@
     </div>
   </div>
   <a th:href="@{newOrder(patientId=${patient.id})}">検査をオーダーする</a>
-
-
   <div>
     <h3>患者の検査一覧</h3>
-
   </div>
-
-
 </form>
 </body>
 </html>

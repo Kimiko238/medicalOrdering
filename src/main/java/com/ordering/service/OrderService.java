@@ -72,7 +72,6 @@ public class OrderService {
 
   //  検査の詳細を取得
   public InspectionOrder findById(String id) {
-
     return orderMapper.selectById(id);
   }
 
@@ -86,8 +85,6 @@ public class OrderService {
   public void delete(InspectionOrder inspectionOrder) {
     orderMapper.delete(inspectionOrder);
   }
-
-
 }
 
 

@@ -7,8 +7,6 @@ import org.springframework.security.core.Authentication;
 
 
 public class OrderHelper {
-
-
   public static FormInspectionOrderDto convertForm(InspectionOrder inspectionOrder) {
     return new FormInspectionOrderDto();
   }
