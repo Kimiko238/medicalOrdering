@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.ordering.config.SecurityConfig;
-import com.ordering.model.Patient;
+import com.ordering.entity.Patient;
 import com.ordering.service.PatientService;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;

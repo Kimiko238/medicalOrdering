@@ -1,6 +1,6 @@
 package com.ordering.controller;
 
-import com.ordering.model.User;
+import com.ordering.entity.User;
 import com.ordering.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,10 +17,9 @@ public class UserController {
 
   private UserService userService;
 
-
   //ユーザーのログイン画面遷移
   @GetMapping("/login")
-  public String login(Authentication authentication, Model model) {
+  public String login(Authentication authentication) {
     if (authentication != null && authentication.isAuthenticated()) {
       return "redirect:/";
     }
@@ -29,14 +28,15 @@ public class UserController {
 
   //ユーザー登録画面遷移
   @GetMapping("/userRegister")
-  public String userRegister(User user) {
-
+  public String userRegister() {
     return "userRegister";
   }
 
   //  新規登録処理
   @PostMapping("/createUser")
-  public String createUser(Model model, @Validated User user,
+  public String createUser(
+      Model model,
+      @Validated User user,
       BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
       return "redirect:/userRegister";

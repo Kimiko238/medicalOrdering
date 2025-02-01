@@ -11,3 +11,9 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+mybatis:
+  configuration:
+    #   アンダースコアをキャメルケースに変換OK（マッピング
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

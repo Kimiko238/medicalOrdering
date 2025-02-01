@@ -1,6 +1,6 @@
 package com.ordering.service;
 
-import com.ordering.model.User;
+import com.ordering.entity.User;
 import com.ordering.repository.UserMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

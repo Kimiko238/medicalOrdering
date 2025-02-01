@@ -1,0 +1,28 @@
+
+.patientName {
+  font-size: 30px;
+
+}
+
+ .header {
+  background-color: #BFDE14;
+  padding: 10px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+ }
+
+ .main {
+   grid-row: 2 / 3;
+   background-color: #BFDE14;
+   padding: 10px;
+   border-right: 1px solid #ddd;
+   display: flex;
+   width: 1920px;
+  }
+
+  .patientInformation {
+  width: 300px;
+  flex: 1;
+  }

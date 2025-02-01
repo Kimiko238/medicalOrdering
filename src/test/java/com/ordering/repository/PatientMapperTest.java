@@ -2,7 +2,7 @@ package com.ordering.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.ordering.model.Patient;
+import com.ordering.entity.Patient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -26,7 +26,7 @@ public class PatientMapperTest {
 
     patientSample = new Patient(
         "44",
-        2,
+        null,
         "冴子",
         "2023-01-15",
         "2",
@@ -54,7 +54,15 @@ public class PatientMapperTest {
     patientMapper.insert(patientSample);
     Patient patientDto = patientMapper.selectByNameAndBirthday("冴子", "2023-01-15");
 //    Patient checkPatient = patientMapper.selectById(patientDto.getShowId());
-    assertEquals("4", patientDto.getShowId());
+    assertEquals("2", patientDto.getGender());
+    assertEquals("アシュ", patientDto.getCreatedBy());
+  }
+
+  @Test
+  @Sql("./insertPatientList.sql")
+  void testSelectByNameBirthday() {
+    Patient patientDto = patientMapper.selectByNameAndBirthday("トム", "2025-01-17");
+    assertEquals("2", patientDto.getGender());
     assertEquals("アシュ", patientDto.getCreatedBy());
   }
 }

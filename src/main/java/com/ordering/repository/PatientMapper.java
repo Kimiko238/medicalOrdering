@@ -1,6 +1,6 @@
 package com.ordering.repository;
 
-import com.ordering.model.Patient;
+import com.ordering.entity.Patient;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

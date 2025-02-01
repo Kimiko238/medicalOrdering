@@ -1,6 +1,6 @@
 package com.ordering.service;
 
-import com.ordering.model.Patient;
+import com.ordering.entity.Patient;
 import com.ordering.repository.PatientMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,22 +20,39 @@ public class PatientService {
   }
 
   //  重複登録がないかチェックする処理
-  public String checkNameAndBirthday(Patient patient, Authentication authentication) {
-    Patient nameAndBirthday = patientMapper.selectByNameAndBirthday(patient.getName(), patient.getBirthday());
-    if (nameAndBirthday != null) {
-      String messageAlready = "この患者は登録済みです";
-      return messageAlready;
-    } else {
-      this.save(patient, authentication);
-      String messagePass = "登録が完了しました！";
-      return messagePass;
-    }
+  public Patient checkNameAndBirthday(Patient patient, Authentication authentication) {
+    return patientMapper.selectByNameAndBirthday(patient.getName(), patient.getBirthday());
+
+//    if (nameAndBirthday != null) {
+//      String messageAlready = "この患者は登録済みです";
+//      return messageAlready;
+//    } else {
+//      this.save(patient, authentication);
+//      String messagePass = "登録が完了しました！";
+//      return messagePass;
+//    }
+  }
+
+  public boolean existPatient(String name, String birthday) {
+    return patientMapper.selectByNameAndBirthday(name, birthday) != null;
+
   }
 
   //患者の新規作成
-  public void save(Patient patient, Authentication authentication) {
-    patient.setCreatedBy(authentication.getName());
-    patientMapper.insert(patient);
+  public Patient save(Patient patient, Authentication authentication) {
+    boolean existPatient = existPatient(patient.getName(), patient.getBirthday());
+    if (existPatient) {
+      throw new RuntimeException();
+    } else {
+      patient.setCreatedBy(authentication.getName());
+      patientMapper.insert(patient);
+    }
+
+    return findByNameAndBirthday(patient.getName(), patient.getBirthday());
+  }
+
+  public Patient findByNameAndBirthday(String name, String birthDay) {
+    return patientMapper.selectByNameAndBirthday(name, birthDay);
   }
 
 }

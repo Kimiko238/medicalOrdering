@@ -2,7 +2,7 @@ package com.ordering.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.ordering.model.User;
+import com.ordering.entity.User;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

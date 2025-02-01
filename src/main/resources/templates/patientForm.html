@@ -23,11 +23,11 @@
     <input th:field="*{gender}" type="radio" value="2">女性
   </p>
   <div th:if="${#strings.isEmpty(patient.id)}">
-    <button type="submit">登録</button>
+    <button type="submit">保存</button>
   </div>
 
   <p th:if="${message}" th:text="${message}"></p>
-  <p>IDは<input th:field="*{showId}" th:if="${show_id}">です</p>
+  <p>IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
 </form>
 </body>
 </html>

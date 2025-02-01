@@ -1,6 +1,6 @@
 package com.ordering.repository;
 
-import com.ordering.model.User;
+import com.ordering.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

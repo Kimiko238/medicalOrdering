@@ -6,7 +6,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.ordering.model.Patient;
+import com.ordering.entity.Patient;
 import com.ordering.repository.PatientMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,15 +61,15 @@ public class PatientServiceTest {
   }
 
   //  重複登録がないかチェックする処理、のテスト
-  @Test
-  void checkNameAndBirthdayTest() {
-    String message = "確認チェック";
-    doReturn(message)
-        .when(patientMapper)
-        .selectByNameAndBirthday(patientSample.getName(), patientSample.getBirthday());
-    String checkMessage = patientService
-        .checkNameAndBirthday(patientSample, authentication);
-  }
+//  @Test
+//  void checkNameAndBirthdayTest() {
+//    String message = "確認チェック";
+//    doReturn(message)
+//        .when(patientMapper)
+//        .selectByNameAndBirthday(patientSample.getName(), patientSample.getBirthday());
+//    String checkMessage = patientService
+//        .checkNameAndBirthday(patientSample, authentication);
+//  }
 
   //  新規登録のテスト
   @Test

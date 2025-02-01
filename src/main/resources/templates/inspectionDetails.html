@@ -8,11 +8,11 @@
 
 <!--検査詳細画面のビュー-->
 <h1>検査依頼の詳細画面</h1>
-<h2>検査名：<span th:text="${inspection.name}"></span></h2>
-<h3>検査日時：<span th:text="${inspection.date}"></span></h3>
-<h4>検査の詳細：<span th:text="${inspection.details}"></span></h4>
-<a th:href="@{/edit/{id}(id=${inspection.id})}">編集</a>
-<a th:href="@{/delete/{id}(id=${inspection.id})}">中止</a>
+<h2>検査名：<span th:text="${inspectionOrderSummary.name}"></span></h2>
+<h3>検査日時：<span th:text="${inspectionOrderSummary.date}"></span></h3>
+<h4>検査の詳細：<span th:text="${inspectionOrderSummary.details}"></span></h4>
+<a th:href="@{/edit/{id}(id=${inspectionOrderSummary.orderId})}">編集</a>
+<a th:href="@{/delete/{id}(id=${inspectionOrderSummary.orderId})}">中止</a>
 
 </body>
 </html>

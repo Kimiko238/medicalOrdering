@@ -19,39 +19,35 @@
   </style>
 </head>
 <body>
-<!--<h1 th:if="${inspection.number} == 0">検査依頼の新規登録画面</h1>-->
-<!--<h1 th:if="${inspection.number} == 1">検査依頼の更新画面</h1>-->
 
-<h1 th:if="${inspection.id == null}">検査依頼の新規登録画面</h1>
-<h1 th:if="${inspection.id != null}">検査依頼の編集画面</h1>
+<h1 th:if="${formInspectionOrderDto.orderId == null}">検査依頼の新規登録画面</h1>
+<h1 th:if="${formInspectionOrderDto.orderId != null}">検査依頼の編集画面</h1>
 
 <p th:text="${message}"></p>
 <form method="post"
-      th:action="${inspection.id == null} ?@{/newInspectionSubmit} : @{/editInspectionSubmit}"
-      th:object="${inspection}">
-  <input th:field="*{id}" type="hidden">
-  <input name="number" th:if=${inspection.number}==0 type="hidden" value="0">
-  <input name="number" th:if=${inspection.number}==1 type="hidden" value="1">
+      th:action="${formInspectionOrderDto.orderId == null} ?@{/newOrderSubmit} : @{/editInspectionSubmit}"
+      th:object="${formInspectionOrderDto}">
+
+  <input th:field="*{patientId}" type="hidden">
+
+  <!--入力欄-->
   <p>依頼名：
-    <select th:field="*{name}">
+    <select th:field="*{inspectionId}">
       <option value="選択">選択</option>
-      <option value="採血">採血</option>
-      <option value="心電図">心電図</option>
-      <option value="胸部レントゲン">胸部レントゲン</option>
-      <option value="CT">CT</option>
-      <option value="MRI">MRI</option>
+      <option th:each="inspection : ${formInspectionOrderDto.inspectionTypes}"
+              th:text="${inspection.name}"
+              th:value="${inspection.id}"></option>
     </select>
   </p>
   <p>検査日：<input th:field="*{date}" type="datetime-local"></p>
   <p>依頼内容<textarea class="inspectionComment" th:field="*{details}"></textarea></p>
-  <!--  <p th:if="${inspection.number} == 0">作成者:<input th:field="*{createdBy}"-->
+  <!--  <p th:if="${order.number} == 0">作成者:<input th:field="*{createdBy}"-->
   <!--                                                     type="text"-->
   <!--                                                     value="${authentication}"></p>-->
-  <input th:field="*{createdBy}" type="hidden">
-  <input th:field="*{updatedBy}" type="hidden">
-  <!--  <p th:if="${inspection.number} == 1">更新者:<input th:field="*{updatedBy}"></p>-->
-  <p><input th:if="${inspection.id} == null" type="submit" value="登録"></p>
-  <p><input th:if="${inspection.id} != null" type="submit" value="更新"></p>
+
+  <!--  <p th:if="${order.number} == 1">更新者:<input th:field="*{updatedBy}"></p>-->
+  <p><input th:if="${formInspectionOrderDto.orderId} == null" type="submit" value="登録"></p>
+  <p><input th:if="${formInspectionOrderDto.orderId} != null" type="submit" value="更新"></p>
   <div style="color: green;" th:errors="*{details}"
        th:if="${#fields.hasErrors('details')}"></div>
   </div>
