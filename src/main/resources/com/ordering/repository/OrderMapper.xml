@@ -5,7 +5,7 @@
 
   <!--検査の削除-->
   <delete id="delete">
-    DELETE FROM order
+    DELETE FROM inspection_orders
     WHERE id = #{id}
   </delete>
 
@@ -78,9 +78,9 @@
   <!--  検査の更新-->
   <update id="update">
     UPDATE inspection_orders SET
-    name = #{name},
-    date = #{date},
-    details = #{details},
+    inspection_id = #{inspectionId},
+    inspection_date = #{inspectionDate},
+    inspection_details = #{inspectionDetails},
     updated_by = #{updatedBy},
     updated_at = CURRENT_TIMESTAMP
     WHERE id = #{id}

@@ -1,7 +1,6 @@
 package com.ordering.controller;
 
 import com.ordering.entity.FormInspectionOrderDto;
-import com.ordering.model.Order;
 import com.ordering.service.OrderService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -39,7 +38,7 @@ public class OrderController {
   public String inspectionDetails(@PathVariable("id") String orderId, Model model) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(orderId);
     model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
-    return "inspectionDetails";
+    return "orderDetails";
   }
 
   //  検査依頼：編集画面への遷移時
@@ -83,17 +82,17 @@ public class OrderController {
   @PostMapping("/editInspectionSubmit")
   public String editSubmit(Model model,
       RedirectAttributes redirectAttributes,
-      @Validated Order order,
+      @Validated FormInspectionOrderDto editOrderDto,
       BindingResult bindingResult,
       Authentication authentication) {
     if (bindingResult.hasErrors()) {
       return "orderForm";
     }
     //更新処理時の分岐
-    orderService.edit(order, authentication);
+    orderService.edit(editOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "更新しました");
-    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(order.getId());
-    redirectAttributes.addFlashAttribute("formInspectionOrderDto", formInspectionOrderDto);
+    FormInspectionOrderDto editedOrderDto = orderService.showViewSaveData();
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", editedOrderDto);
     return "redirect:/";
   }
 
@@ -101,8 +100,8 @@ public class OrderController {
   @GetMapping("/delete/{id}")
   public String delete(@PathVariable("id") String inspectionId,
       Model model, Authentication authentication) {
-//    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
-//    orderService.delete(formInspectionOrderDto);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
+    orderService.delete(formInspectionOrderDto);
     model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
     return "index";

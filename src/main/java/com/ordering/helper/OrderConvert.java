@@ -5,7 +5,6 @@ import com.ordering.model.Inspection;
 import com.ordering.model.Order;
 import com.ordering.repository.InspectionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,16 +30,18 @@ public class OrderConvert {
 
 
   public Order convertEntity(
-      FormInspectionOrderDto entityInspectionOrderDto,
-      Authentication authentication) {
+      FormInspectionOrderDto formDto) {
     Order order = new Order();
     order.setInspectionId
-        (entityInspectionOrderDto.getInspectionId());
-    order.setPatientId(entityInspectionOrderDto.getPatientShowId());
-    order.setStatus("未実施");
-    order.setInspectionDetails(entityInspectionOrderDto.getDetails());
-    order.setInspectionDate(entityInspectionOrderDto.getDate());
-    order.setCreatedBy(authentication.getName());
+        (formDto.getInspectionId());
+    order.setPatientId(formDto.getPatientShowId());
+    order.setInspectionDetails(formDto.getDetails());
+    order.setInspectionDate(formDto.getDate());
+    if (formDto.getOrderId() != null) {
+      order.setId(formDto.getOrderId());
+    } else {
+      order.setStatus("未実施"); // Order ID が null の場合、"未実施" を設定
+    }
     return order;
   }
 

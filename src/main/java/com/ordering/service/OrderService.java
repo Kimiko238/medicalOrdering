@@ -36,7 +36,8 @@ public class OrderService {
       Authentication authentication) {
     Inspection inspection = inspectionMapper.selectById(
         formInspectionOrderDto.getInspectionId());
-    order = orderConvert.convertEntity(formInspectionOrderDto, authentication);
+    order = orderConvert.convertEntity(formInspectionOrderDto);
+    order.setCreatedBy(authentication.getName());
     orderMapper.insert(order);
   }
 
@@ -77,14 +78,17 @@ public class OrderService {
   //  検査の詳細を編集
 
 
-  public void edit(Order order, Authentication authentication) {
+  public void edit(FormInspectionOrderDto formInspectionOrderDto, Authentication authentication) {
+    Order order = orderConvert.convertEntity(formInspectionOrderDto);
     order.setUpdatedBy(authentication.getName());
+    this.order = order;
     orderMapper.update(order);
   }
 
   //  検査を削除
-  public void delete(Order order) {
-    orderMapper.delete(order);
+  public void delete(FormInspectionOrderDto deleteDto) {
+    Order deleteOrder = orderConvert.convertEntity(deleteDto);
+    orderMapper.delete(deleteOrder);
   }
 
 
