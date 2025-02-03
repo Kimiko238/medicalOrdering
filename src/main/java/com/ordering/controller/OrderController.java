@@ -1,7 +1,6 @@
 package com.ordering.controller;
 
 import com.ordering.entity.FormInspectionOrderDto;
-import com.ordering.entity.EntityInspectionOrderDto;
 import com.ordering.model.Order;
 import com.ordering.service.OrderService;
 import java.util.List;
@@ -25,11 +24,11 @@ public class OrderController {
 
   private OrderService orderService;
 
-  //検査依頼：一覧画面遷移時
+  //検査依頼：検査一覧画面遷移時
   @GetMapping
   public String index(Model model, Authentication authentication) {
-    List<Order> orders = orderService.findAll();
-    model.addAttribute("orders", orders);
+    List<FormInspectionOrderDto> formInspectionOrderDtos = orderService.findAll();
+    model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
     model.addAttribute("authentication", authentication);
     return "index";
   }
@@ -37,17 +36,17 @@ public class OrderController {
   //検査依頼：詳細画面遷移時
   //  @PathVariable・・・Getマッピングによって取得してきた{id}をオブジェクトに入れる
   @GetMapping("/inspectionDetails/{id}")
-  public String inspectionDetails(@PathVariable("id") String userId, Model model) {
-    Order order = orderService.findById(userId);
-    model.addAttribute("order", order);
+  public String inspectionDetails(@PathVariable("id") String orderId, Model model) {
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(orderId);
+    model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "inspectionDetails";
   }
 
   //  検査依頼：編集画面への遷移時
   @GetMapping("/edit/{id}")
   public String edit(@PathVariable("id") String inspectionId, Model model) {
-    Order order = orderService.findById(inspectionId);
-    model.addAttribute("order", order);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
+    model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "orderForm";
   }
 
@@ -65,7 +64,7 @@ public class OrderController {
   @PostMapping("/newOrderSubmit")
   public String newSubmit(Model model,
       RedirectAttributes redirectAttributes,
-      @Validated EntityInspectionOrderDto entityInspectionOrderDto,
+      @Validated FormInspectionOrderDto formInspectionOrderDto,
       BindingResult bindingResult,
       Authentication authentication) {
     //入力された内容のチェック（条件分岐）
@@ -73,10 +72,10 @@ public class OrderController {
       // エラーがある場合、フォームに戻る
       return "orderForm";
     }
-    orderService.save(entityInspectionOrderDto, authentication);
+    orderService.save(formInspectionOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "登録しました");
-    FormInspectionOrderDto formInspectionOrderDto = orderService.showViewSaveData(entityInspectionOrderDto);
-    redirectAttributes.addFlashAttribute("formInspectionOrderDto", formInspectionOrderDto);
+    FormInspectionOrderDto returnFormInspectionOrderDto = orderService.showViewSaveData();
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", returnFormInspectionOrderDto);
     return "redirect:/";
   }
 
@@ -93,8 +92,8 @@ public class OrderController {
     //更新処理時の分岐
     orderService.edit(order, authentication);
     redirectAttributes.addFlashAttribute("message", "更新しました");
-    Order orderCorrection = orderService.findById(order.getId());
-    redirectAttributes.addFlashAttribute("orderCorrection", orderCorrection);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(order.getId());
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "redirect:/";
   }
 
@@ -102,8 +101,8 @@ public class OrderController {
   @GetMapping("/delete/{id}")
   public String delete(@PathVariable("id") String inspectionId,
       Model model, Authentication authentication) {
-    Order order = orderService.findById(inspectionId);
-    orderService.delete(order);
+//    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
+//    orderService.delete(formInspectionOrderDto);
     model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
     return "index";

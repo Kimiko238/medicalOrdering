@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>検査一覧</title>
-  <link href="/static/css/index.css" rel="stylesheet" type="text/css">
+  <link href="/css/index.css" rel="stylesheet" type="text/css">
   <style>
 
 
@@ -28,16 +28,17 @@
     <th>検査日時</th>
     <th>検査詳細</th>
   </tr>
-  <tr th:each="order, no:${order}">
+  <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
     <td th:text="${no.count}"></td>
-    <td th:text="${order.name}"></td>
-    <td th:text="${order.date}"></td>
-    <td class="de" th:text="${order.details}"></td>
-    <td><a class="button" th:href="@{/inspectionDetails/{id}(id=${order.id})}">詳細</a>
+    <td th:text="${formInspectionOrderDto.inspectionName}"></td>
+    <td th:text="${formInspectionOrderDto.date}"></td>
+    <td class="de" th:text="${formInspectionOrderDto.details}"></td>
+    <td><a class="button"
+           th:href="@{/inspectionDetails/{id}(id=${formInspectionOrderDto.orderId})}">詳細</a>
     </td>
   </tr>
 </table>
-<a th:href="@{newOrder}">検査新規登録</a>
+
 <a th:href="@{newPatient}">患者新規登録</a>
 <a th:href="@{newPatient}">患者編集</a>
 <a th:href="@{/}">一覧を更新</a>

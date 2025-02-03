@@ -54,9 +54,11 @@
   <select id="selectById">
     SELECT
     id,
-    name,
-    date,
-    details,
+    patient_id,
+    inspection_id,
+    status,
+    inspection_details,
+    inspection_date,
     created_by,
     created_at,
     updated_by,
@@ -65,7 +67,6 @@
     deleted_at
     FROM inspection_orders
     WHERE id = #{id}
-
   </select>
 
   <!--  検査の一覧表示-->

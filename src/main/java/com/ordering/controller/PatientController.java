@@ -44,7 +44,6 @@ public class PatientController {
     Patient patient = patientService.findById(showId);
     model.addAttribute("patient", patient);
     System.out.println(patient.getShowId());
-
     return "patientDetails";
   }
 

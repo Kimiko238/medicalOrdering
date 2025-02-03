@@ -1,6 +1,7 @@
 package com.ordering.model;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,10 @@ public class Order {
 
   //  検査内容
   @NotEmpty(message = "入力しなさい")
-  private String details;
+  private String inspectionDetails;
 
   //検査日
-  private String date;
+  private String inspectionDate;
 
   //  作成者
   private String createdBy;
