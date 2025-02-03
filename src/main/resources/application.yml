@@ -1,3 +1,8 @@
+server:
+  servlet:
+    session: false
+
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:${DB_PORT}/${DB_NAME}
@@ -9,3 +14,10 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+
+
+mybatis:
+  configuration:
+    #   アンダースコアをキャメルケースに変換OK（マッピング
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

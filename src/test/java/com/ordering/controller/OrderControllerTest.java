@@ -15,8 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.ordering.config.SecurityConfig;
-import com.ordering.model.Inspection;
-import com.ordering.service.InspectionService;
+import com.ordering.entity.EntityInspectionOrderDto;
+import com.ordering.model.Order;
+import com.ordering.service.OrderService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,24 +29,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(InspectionController.class)
+@WebMvcTest(OrderController.class)
 @Import(SecurityConfig.class)
-public class InspectionControllerTest {
+public class OrderControllerTest {
 
-  Inspection sampleInspection;
+  Order sampleOrder;
+  List<Order> mockOrderList;
   @Autowired
   MockMvc mockMvc;
 
   @MockitoBean
-  InspectionService inspectionService;
+  OrderService orderService;
 
   @MockitoBean
   Authentication authentication;
 
   @BeforeEach
   void setUp() {
-    sampleInspection = new Inspection(
-        0,
+    sampleOrder = new Order(
         "id",
         "検査",
         "2024-12-22 11:05:15",
@@ -63,9 +64,8 @@ public class InspectionControllerTest {
   //検査依頼：一覧画面遷移時、のテスト
   @Test
   void test_GET_index() throws Exception {
-    List<Inspection> mockInspectionList = List.of(
-        new Inspection(
-            1,
+    mockOrderList = List.of(
+        new Order(
             "id1",
             "検査1",
             "2024-01-01 10:00:00",
@@ -76,8 +76,7 @@ public class InspectionControllerTest {
             null,
             null,
             null),
-        new Inspection(
-            2,
+        new Order(
             "id2",
             "検査2",
             "2024-01-02 10:00:00",
@@ -88,7 +87,7 @@ public class InspectionControllerTest {
             null,
             null,
             null));
-    Mockito.when(inspectionService.findAll()).thenReturn(mockInspectionList);
+    Mockito.when(orderService.findAll()).thenReturn(mockOrderList);
 
     mockMvc.perform(
             get("/")
@@ -97,7 +96,7 @@ public class InspectionControllerTest {
         )
         .andExpect(status().is2xxSuccessful())
         .andExpect(view().name("index"))
-        .andExpect(model().attribute("inspections", mockInspectionList))
+        .andExpect(model().attribute("inspections", mockOrderList))
         .andExpect(model().attributeExists("authentication"));
     ;
   }
@@ -105,29 +104,29 @@ public class InspectionControllerTest {
   //検査依頼：詳細画面遷移時、のテスト
   @Test
   void test_GET_inspectionDetails() throws Exception {
-    Mockito.when(inspectionService.findById("id")).thenReturn(sampleInspection);
+    Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/inspectionDetails/{id}", sampleInspection.getId())
+            get("/inspectionDetails/{id}", sampleOrder.getId())
                 .with(csrf())
                 .with(user("test").password("testTest"))
         )
         .andExpect(status().is2xxSuccessful())
         .andExpect(view().name("inspectionDetails"))
-        .andExpect(model().attribute("inspection", sampleInspection));
+        .andExpect(model().attribute("inspection", sampleOrder));
   }
 
   //  検査依頼：編集画面への遷移時、のテスト
   @Test
   void test_GET_edit() throws Exception {
-    Mockito.when(inspectionService.findById("id")).thenReturn(sampleInspection);
+    Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/edit/{id}", sampleInspection.getId())
+            get("/edit/{id}", sampleOrder.getId())
                 .with(csrf())
                 .with(user("test").password(("pass")))
         )
         .andExpect(status().is2xxSuccessful())
         .andExpect(view().name("orderForm"))
-        .andExpect(model().attribute("inspection", sampleInspection));
+        .andExpect(model().attribute("inspection", sampleOrder));
   }
 
   //  検査依頼：新規登録画面遷移時、のテスト
@@ -145,20 +144,23 @@ public class InspectionControllerTest {
   //  検査依頼：新規登録時にバリデーションOKだった、テスト
   @Test
   void test_POST_newSubmitOk() throws Exception {
-    doNothing().when(inspectionService).save(any(Inspection.class), any(Authentication.class));
-    doReturn(sampleInspection).when(inspectionService).findById(any(String.class));
+    doNothing().when(orderService)
+        .save(any(EntityInspectionOrderDto.class), any(Authentication.class));
+    doReturn(sampleOrder).when(orderService).findById(any(String.class));
     mockMvc.perform(
             post("/newInspectionSubmit")
                 .with(csrf())
                 .with(user("test").password("pass"))
+                .param("id", "id")
                 .param("details", "検査詳細")
         )
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/"))
-        .andExpect(flash().attribute("message", "登録しました"));
-//        .andExpect(flash().attributeExists("inspections"));
+        .andExpect(flash().attribute("message", "登録しました"))
+        .andExpect(flash().attributeExists("inspectionDto"));
 
-    verify(inspectionService, times(1)).save(any(Inspection.class), any(Authentication.class));
+    verify(orderService, times(1)).save(any(EntityInspectionOrderDto.class),
+        any(Authentication.class));
   }
 
   //  検査依頼：新規登録時にバリデーションNGだった、テスト
@@ -177,8 +179,9 @@ public class InspectionControllerTest {
   //検査依頼：編集登録時にバリデーションOKだった、テスト
   @Test
   void test_POST_editSubmitOK() throws Exception {
-    doNothing().when(inspectionService).edit(any(Inspection.class), any(Authentication.class));
-    doReturn(sampleInspection).when(inspectionService).findById(any(String.class));
+    doNothing().when(orderService)
+        .edit(any(Order.class), any(Authentication.class));
+    doReturn(sampleOrder).when(orderService).findById(any(String.class));
     mockMvc.perform(
             post("/editInspectionSubmit")
                 .with(csrf())
@@ -191,7 +194,8 @@ public class InspectionControllerTest {
         .andExpect(flash().attribute("message", "更新しました"))
         .andExpect(flash().attributeExists("inspectionCorrection"));
 
-    verify(inspectionService, times(1)).edit(any(Inspection.class), any(Authentication.class));
+    verify(orderService, times(1)).edit(any(Order.class),
+        any(Authentication.class));
   }
 
   //検査依頼：編集登録時にバリデーションNGだった、テスト
@@ -209,9 +213,9 @@ public class InspectionControllerTest {
   //依頼の削除、のテスト
   @Test
   void test_GET_delete() throws Exception {
-    Mockito.when(inspectionService.findById("id")).thenReturn(sampleInspection);
+    Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/delete/{id}", sampleInspection.getId())
+            get("/delete/{id}", sampleOrder.getId())
                 .with(csrf())
                 .with(user("test").password("pass"))
         )

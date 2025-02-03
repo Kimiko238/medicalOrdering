@@ -28,16 +28,16 @@
   <select id="selectById" resultType="com.ordering.model.Patient">
     SELECT
     id,
-    show_id,
+    show_id ,
     name,
     birthday,
     gender,
-    created_by as createdBy,
-    created_at as createdAt,
-    updated_by as updatedBy,
-    updated_at as updatedAt,
-    deleted_by as deletedBy,
-    deleted_at as deletedAt
+    created_by,
+    created_at,
+    updated_by,
+    updated_at,
+    deleted_by,
+    deleted_at
     FROM patients
     WHERE show_id = #{showId}
   </select>
@@ -45,16 +45,16 @@
   <select id="selectByNameAndBirthday">
     SELECT
     id,
-    show_id
+    show_id,
     name,
     birthday,
     gender,
-    created_by as createdBy,
-    created_at as createdAt,
-    updated_by as updatedBy,
-    updated_at as updatedAt,
-    deleted_by as deletedBy,
-    deleted_at as deletedAt
+    created_by,
+    created_at,
+    updated_by,
+    updated_at,
+    deleted_by,
+    deleted_at
     FROM patients
     WHERE name = #{name} AND birthday = #{birthday}
   </select>

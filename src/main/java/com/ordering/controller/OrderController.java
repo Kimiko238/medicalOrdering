@@ -1,7 +1,7 @@
 package com.ordering.controller;
 
-import com.ordering.model.Inspection;
-import com.ordering.service.InspectionService;
+import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.service.OrderService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -13,20 +13,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/")
-public class InspectionController {
+public class OrderController {
 
-  private InspectionService inspectionService;
+  private OrderService orderService;
 
-  //検査依頼：一覧画面遷移時
+  //検査依頼：検査一覧画面遷移時
   @GetMapping
   public String index(Model model, Authentication authentication) {
-    List<Inspection> inspections = inspectionService.findAll();
-    model.addAttribute("inspections", inspections);
+    List<FormInspectionOrderDto> formInspectionOrderDtos = orderService.findAll();
+    model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
     model.addAttribute("authentication", authentication);
     return "index";
   }
@@ -34,34 +35,35 @@ public class InspectionController {
   //検査依頼：詳細画面遷移時
   //  @PathVariable・・・Getマッピングによって取得してきた{id}をオブジェクトに入れる
   @GetMapping("/inspectionDetails/{id}")
-  public String inspectionDetails(@PathVariable("id") String userId, Model model) {
-    Inspection inspection = inspectionService.findById(userId);
-    model.addAttribute("inspection", inspection);
-    return "inspectionDetails";
+  public String inspectionDetails(@PathVariable("id") String orderId, Model model) {
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(orderId);
+    model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
+    return "orderDetails";
   }
 
   //  検査依頼：編集画面への遷移時
   @GetMapping("/edit/{id}")
   public String edit(@PathVariable("id") String inspectionId, Model model) {
-    Inspection inspection = inspectionService.findById(inspectionId);
-    model.addAttribute("inspection", inspection);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
+    model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "orderForm";
   }
 
 
   //  検査依頼：新規登録画面遷移時
-  @GetMapping("/newInspection")
-  public String newOrder(Model model, Inspection inspection) {
-    inspection = new Inspection();
-    model.addAttribute(inspection);
+  @GetMapping("/newOrder")
+  public String newOrder(Model model,
+      @RequestParam int showId) {
+    FormInspectionOrderDto formInspectionOrderDto = orderService.settingOrder(showId);
+    model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
     return "orderForm";
   }
 
   //  検査依頼：新規登録時
-  @PostMapping("/newInspectionSubmit")
+  @PostMapping("/newOrderSubmit")
   public String newSubmit(Model model,
       RedirectAttributes redirectAttributes,
-      @Validated Inspection inspection,
+      @Validated FormInspectionOrderDto formInspectionOrderDto,
       BindingResult bindingResult,
       Authentication authentication) {
     //入力された内容のチェック（条件分岐）
@@ -69,10 +71,10 @@ public class InspectionController {
       // エラーがある場合、フォームに戻る
       return "orderForm";
     }
-    inspectionService.save(inspection, authentication);
+    orderService.save(formInspectionOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "登録しました");
-    Inspection inspections = inspectionService.findById(inspection.getId());
-    redirectAttributes.addFlashAttribute("inspections", inspections);
+    FormInspectionOrderDto returnFormInspectionOrderDto = orderService.showViewSaveData();
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", returnFormInspectionOrderDto);
     return "redirect:/";
   }
 
@@ -80,17 +82,17 @@ public class InspectionController {
   @PostMapping("/editInspectionSubmit")
   public String editSubmit(Model model,
       RedirectAttributes redirectAttributes,
-      @Validated Inspection inspection,
+      @Validated FormInspectionOrderDto editOrderDto,
       BindingResult bindingResult,
       Authentication authentication) {
     if (bindingResult.hasErrors()) {
       return "orderForm";
     }
     //更新処理時の分岐
-    inspectionService.edit(inspection, authentication);
+    orderService.edit(editOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "更新しました");
-    Inspection inspectionCorrection = inspectionService.findById(inspection.getId());
-    redirectAttributes.addFlashAttribute("inspectionCorrection", inspectionCorrection);
+    FormInspectionOrderDto editedOrderDto = orderService.showViewSaveData();
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", editedOrderDto);
     return "redirect:/";
   }
 
@@ -98,8 +100,8 @@ public class InspectionController {
   @GetMapping("/delete/{id}")
   public String delete(@PathVariable("id") String inspectionId,
       Model model, Authentication authentication) {
-    Inspection inspection = inspectionService.findById(inspectionId);
-    inspectionService.delete(inspection);
+    FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
+    orderService.delete(formInspectionOrderDto);
     model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
     return "index";

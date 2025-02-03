@@ -3,48 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>検査一覧</title>
+  <link href="/css/index.css" rel="stylesheet" type="text/css">
   <style>
 
-    .inspection_list {
-            border: 2px solid #000; /* 太さ: 2px、スタイル: solid、色: 黒 */
-            padding: 10px; /* 内側の余白 */
-            margin: 10px; /* 外側の余白 */
-            border-collapse: collapse;
-    }
-
-     th, td {
-            border: 1px solid black; /* 各セルの枠線を黒の実線で指定 */
-            padding: 8px; /* セル内の余白を指定 */
-            text-align: left; /* テキストを左揃えに指定 */
-        }
-    .de {
-    width: 500px;
-    }
-  a {
-     text-decoration:none;
-  }
-
-    .button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 40px;
-      height: 20px;
-      padding: 8px 24px;
-      font-family: sans-serif;
-      font-size: 16px;
-      color: #fff;
-      text-align: center;
-      overflow-wrap: anywhere;
-      background-color: #6fa24a;
-      border-radius: 10px
-    }
-
-
-  .button:hover {
-  background: #268425;
-  color: #ff701e;
-}
 
   </style>
 </head>
@@ -67,15 +28,17 @@
     <th>検査日時</th>
     <th>検査詳細</th>
   </tr>
-  <tr th:each="inspection, no:${inspections}">
+  <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
     <td th:text="${no.count}"></td>
-    <td th:text="${inspection.name}"></td>
-    <td th:text="${inspection.date}"></td>
-    <td class="de" th:text="${inspection.details}"></td>
-    <td><a class="button" th:href="@{/inspectionDetails/{id}(id=${inspection.id})}">詳細</a></td>
+    <td th:text="${formInspectionOrderDto.inspectionName}"></td>
+    <td th:text="${formInspectionOrderDto.date}"></td>
+    <td class="de" th:text="${formInspectionOrderDto.details}"></td>
+    <td><a class="button"
+           th:href="@{/inspectionDetails/{id}(id=${formInspectionOrderDto.orderId})}">詳細</a>
+    </td>
   </tr>
 </table>
-<a th:href="@{newInspection}">検査新規登録</a>
+
 <a th:href="@{newPatient}">患者新規登録</a>
 <a th:href="@{newPatient}">患者編集</a>
 <a th:href="@{/}">一覧を更新</a>

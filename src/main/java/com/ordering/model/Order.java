@@ -1,5 +1,7 @@
 package com.ordering.model;
 
+import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +9,26 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Inspection {
+public class Order {
 
-//  検査ID
+  //オーダーID
   private String id;
 
-//  検査名
-  private String name;
+  //  検査ID
+  private String inspectionId;
+
+  //  患者ID
+  private int patientId;
+
+  //  検査ステータス
+  private String status;
+
+  //  検査内容
+  @NotEmpty(message = "入力しなさい")
+  private String inspectionDetails;
+
+  //検査日
+  private String inspectionDate;
 
   //  作成者
   private String createdBy;
@@ -32,7 +47,5 @@ public class Inspection {
 
   //  削除日時
   private String deletedAt;
-
-
 
 }

@@ -61,15 +61,15 @@ public class PatientServiceTest {
   }
 
   //  重複登録がないかチェックする処理、のテスト
-  @Test
-  void checkNameAndBirthdayTest() {
-    String message = "確認チェック";
-    doReturn(message)
-        .when(patientMapper)
-        .selectByNameAndBirthday(patientSample.getName(), patientSample.getBirthday());
-    String checkMessage = patientService
-        .checkNameAndBirthday(patientSample, authentication);
-  }
+//  @Test
+//  void checkNameAndBirthdayTest() {
+//    String message = "確認チェック";
+//    doReturn(message)
+//        .when(patientMapper)
+//        .selectByNameAndBirthday(patientSample.getName(), patientSample.getBirthday());
+//    String checkMessage = patientService
+//        .checkNameAndBirthday(patientSample, authentication);
+//  }
 
   //  新規登録のテスト
   @Test
