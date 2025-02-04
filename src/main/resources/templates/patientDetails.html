@@ -26,6 +26,28 @@
       <p>性別: <span></span></p>
     </div>
   </div>
+
+  <h2>患者の検査一覧</h2>
+  <table>
+    <tr>
+      <th>No.</th>
+      <th>検査名</th>
+      <th>検査日時</th>
+      <th>検査詳細</th>
+    </tr>
+    <tr>
+    <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
+      <td th:text="${no.count}"></td>
+      <td th:text="${formInspectionOrderDto.inspectionName}"></td>
+      <td th:text="${formInspectionOrderDto.date}"></td>
+      <td class="de" th:text="${formInspectionOrderDto.details}"></td>
+      <td><a class="button"
+             th:href="@{/inspectionDetails/{id}(id=${formInspectionOrderDto.orderId})}">詳細</a>
+      </td>
+    </tr>
+
+  </table>
+
   <a th:href="@{newOrder(showId=${patient.showId})}">検査をオーダーする</a>
 
 
