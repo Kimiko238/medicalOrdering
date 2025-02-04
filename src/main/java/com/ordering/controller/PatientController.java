@@ -45,7 +45,9 @@ public class PatientController {
       Model model) {
     Patient patient = patientService.findById(showId);
     model.addAttribute("patient", patient);
-    List<FormInspectionOrderDto> formInspectionOrderDtos = patientService.viewInspectionList();
+    List<FormInspectionOrderDto> formInspectionOrderDtos = patientService.viewInspectionList(
+        showId);
+    //modeへ登録する
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
     return "patientDetails";
   }

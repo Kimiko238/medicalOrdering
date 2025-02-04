@@ -21,4 +21,6 @@ public interface OrderMapper {
   void update(Order order);
 
   void delete(Order order);
+
+  List<Order> selectAllByPatientId(int showId);
 }

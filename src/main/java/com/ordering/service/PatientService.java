@@ -75,8 +75,8 @@ public class PatientService {
   }
 
   // 患者idに絞った検査一覧を取得
-  public List<FormInspectionOrderDto> viewInspectionList() {
-    List<Order> patientOrders = orderMapper.selectAll();
+  public List<FormInspectionOrderDto> viewInspectionList(int showId) {
+    List<Order> patientOrders = orderMapper.selectAllByPatientId(showId);
     List<FormInspectionOrderDto> patientFormDtos = new ArrayList<>();
     for (Order patientOrder : patientOrders) {
       FormInspectionOrderDto patientFormDto = orderConvert.convertForm(patientOrder);

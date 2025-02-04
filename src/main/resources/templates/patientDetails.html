@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>患者詳細画面</title>
-  <link href="/static/css/patientDetails.css" rel="stylesheet" type="text/css">
+  <link href="/css/patientDetails.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -27,8 +27,8 @@
     </div>
   </div>
 
-  <h2>患者の検査一覧</h2>
-  <table>
+  <h3>患者の検査一覧</h3>
+  <table class="inspection_list">
     <tr>
       <th>No.</th>
       <th>検査名</th>
@@ -42,17 +42,16 @@
       <td th:text="${formInspectionOrderDto.date}"></td>
       <td class="de" th:text="${formInspectionOrderDto.details}"></td>
       <td><a class="button"
-             th:href="@{/inspectionDetails/{id}(id=${formInspectionOrderDto.orderId})}">詳細</a>
+             th:href="@{/orderDetails/{id}(id=${formInspectionOrderDto.orderId})}">詳細</a>
       </td>
     </tr>
-
   </table>
 
   <a th:href="@{newOrder(showId=${patient.showId})}">検査をオーダーする</a>
 
 
   <div>
-    <h3>患者の検査一覧</h3>
+
 
   </div>
 
