@@ -19,6 +19,7 @@ public class OrderConvert {
     Inspection inspection = inspectionMapper.selectById(order.getInspectionId());
     formInspectionOrderDto.setOrderId(order.getId());
     formInspectionOrderDto.setInspectionId(order.getInspectionId());
+    formInspectionOrderDto.setStatus(order.getStatus());
     formInspectionOrderDto.setInspectionName(inspection.getName());
     formInspectionOrderDto.setDate(order.getInspectionDate());
     formInspectionOrderDto.setDetails(order.getInspectionDetails());
@@ -35,12 +36,13 @@ public class OrderConvert {
     order.setInspectionId
         (formDto.getInspectionId());
     order.setPatientId(formDto.getPatientShowId());
+    order.setStatus(formDto.getStatus());
     order.setInspectionDetails(formDto.getDetails());
     order.setInspectionDate(formDto.getDate());
-    if (formDto.getOrderId() != null) {
+    if (formDto.getOrderId() != "") {
       order.setId(formDto.getOrderId());
     } else {
-      order.setStatus("未実施"); // Order ID が null の場合、"未実施" を設定
+      order.setStatus("未実施"); // Order ID が空の場合、"未実施" を設定
     }
     return order;
   }

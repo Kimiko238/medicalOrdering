@@ -11,7 +11,6 @@
 <h2>検査名：<span th:text="${formInspectionOrderDto.inspectionName}"></span></h2>
 <h3>検査日時：<span th:text="${formInspectionOrderDto.date}"></span></h3>
 <h4>検査の詳細：<span th:text="${formInspectionOrderDto.details}"></span></h4>
-<a th:href="@{/edit/{id}(id=${formInspectionOrderDto.orderId})}">編集</a>
 <a th:href="@{/delete/{id}(id=${formInspectionOrderDto.orderId})}">中止</a>
 
 </body>

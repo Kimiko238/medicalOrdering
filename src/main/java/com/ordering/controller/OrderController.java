@@ -34,7 +34,7 @@ public class OrderController {
 
   //検査依頼：詳細画面遷移時
   //  @PathVariable・・・Getマッピングによって取得してきた{id}をオブジェクトに入れる
-  @GetMapping("/inspectionDetails/{id}")
+  @GetMapping("/orderDetails/{id}")
   public String inspectionDetails(@PathVariable("id") String orderId, Model model) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(orderId);
     model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);

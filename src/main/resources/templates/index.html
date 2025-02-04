@@ -24,17 +24,22 @@
 <table class="inspection_list">
   <tr>
     <th>No.</th>
+    <th>検査ステータス</th>
     <th>検査名</th>
     <th>検査日時</th>
     <th>検査詳細</th>
   </tr>
   <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
     <td th:text="${no.count}"></td>
+    <td th:text="${formInspectionOrderDto.status}"></td>
     <td th:text="${formInspectionOrderDto.inspectionName}"></td>
     <td th:text="${formInspectionOrderDto.date}"></td>
     <td class="de" th:text="${formInspectionOrderDto.details}"></td>
     <td><a class="button"
            th:href="@{/inspectionDetails/{id}(id=${formInspectionOrderDto.orderId})}">詳細</a>
+    </td>
+    <td><a class="button"
+           th:href="@{/inspectionDetails/{id}(id=${formInspectionOrderDto.orderId})}">検査ステータス変更</a>
     </td>
   </tr>
 </table>
