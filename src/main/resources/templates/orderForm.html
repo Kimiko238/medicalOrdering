@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <link crossorigin="anonymous"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet" type="text/css">
   <style>
     select {
  width: 300px;
@@ -31,7 +37,7 @@
   <!--  見えない部分だが入れておく必要がある項目（送りたい項目）　-->
   <input th:field="*{orderId}" type="hidden">
   <input th:field="*{patientShowId}" type="hidden">
-  <input type="hidden" th:field="*{status}" th:value="未実施">
+  <input th:field="*{status}" th:value="未実施" type="hidden">
 
   <!--  <input th:field="*{createdBy}" type="hidden">-->
   <!--  <input th:field="*{updatedBy}" type="hidden">-->
@@ -59,5 +65,17 @@
        th:if="${#fields.hasErrors('details')}"></div>
   </div>
 </form>
+
+<p>以下サンプル</p>
+<div class="mb-3">
+  <label class="form-label" for="datetimepicker">日時を選択:</label>
+  <input class="form-control" id="datetimepicker" type="text">
+</div>
+
+<script crossorigin="anonymous"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
