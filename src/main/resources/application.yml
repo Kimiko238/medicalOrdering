@@ -2,6 +2,7 @@
 #  port: 5000
 spring:
   datasource:
+    initialization-mode: always
     url: jdbc:mysql://localhost:${DB_PORT}/${DB_NAME}
     username: ${DB_USER}
     password: ${DB_PASS}
