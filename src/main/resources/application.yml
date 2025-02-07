@@ -2,14 +2,15 @@
 #  port: 5000
 spring:
   datasource:
-    initialization-mode: always
     url: jdbc:mysql://localhost:${DB_PORT}/${DB_NAME}
     username: ${DB_USER}
     password: ${DB_PASS}
   #    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
   #    username: ${RDS_USERNAME}
   #    password: ${RDS_PASSWORD}
-
+  sql:
+    init:
+      mode: always # アプリ起動時にDDLを自動実行する
   config:
     import: optional:file:.env[.properties]
 
