@@ -1,18 +1,37 @@
 package com.ordering.service;
 
+import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.helper.OrderConvert;
+import com.ordering.model.Order;
 import com.ordering.model.Patient;
+import com.ordering.repository.OrderMapper;
 import com.ordering.repository.PatientMapper;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
 @Transactional
+@AllArgsConstructor
 public class PatientService {
 
+
   private PatientMapper patientMapper;
+  private OrderMapper orderMapper;
+  private OrderConvert orderConvert;
+
+//  @Autowired
+//  public PatientService(PatientMapper patientMapper,
+//      OrderMapper orderMapper,
+//      OrderConvert orderConvert) {
+//    this.patientMapper = patientMapper;
+//    this.orderMapper = orderMapper;
+//    this.orderConvert = orderConvert;
+//  }
+
 
   //  連番IDから患者情報を取得
   public Patient findById(Integer showId) {
@@ -55,4 +74,14 @@ public class PatientService {
     return patientMapper.selectByNameAndBirthday(name, birthDay);
   }
 
+  // 患者idに絞った検査一覧を取得
+  public List<FormInspectionOrderDto> viewInspectionList(int showId) {
+    List<Order> patientOrders = orderMapper.selectAllByPatientId(showId);
+    List<FormInspectionOrderDto> patientFormDtos = new ArrayList<>();
+    for (Order patientOrder : patientOrders) {
+      FormInspectionOrderDto patientFormDto = orderConvert.convertForm(patientOrder);
+      patientFormDtos.add(patientFormDto);
+    }
+    return patientFormDtos;
+  }
 }

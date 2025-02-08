@@ -38,8 +38,8 @@
     #{patientId},
     #{inspectionId},
     #{status},
-    #{details},
-    #{date},
+    #{inspectionDetails},
+    #{inspectionDate},
     #{createdBy},
     CURRENT_TIMESTAMP,
     null,
@@ -76,6 +76,26 @@
 
 
   <!--  検査の更新-->
+  <select id="selectAllByPatientId">
+    SELECT
+    io.id,
+    io.patient_id,
+    io.inspection_id,
+    io.status,
+    io.inspection_details,
+    io.inspection_date,
+    io.created_by,
+    io.created_at,
+    io.updated_by,
+    io.updated_at,
+    io.deleted_by,
+    io.deleted_at
+    FROM inspection_orders io
+    INNER JOIN patients p ON io.patient_id = p.show_id
+    WHERE io.patient_id = #{patientId}
+  </select>
+
+
   <update id="update">
     UPDATE inspection_orders SET
     inspection_id = #{inspectionId},

@@ -1,8 +1,10 @@
 package com.ordering.controller;
 
+import com.ordering.entity.FormInspectionOrderDto;
 import com.ordering.exception.PatientAlreadyExistsException;
 import com.ordering.model.Patient;
 import com.ordering.service.PatientService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,10 @@ public class PatientController {
       Model model) {
     Patient patient = patientService.findById(showId);
     model.addAttribute("patient", patient);
-    System.out.println(patient.getShowId());
+    List<FormInspectionOrderDto> formInspectionOrderDtos = patientService.viewInspectionList(
+        showId);
+    //modeへ登録する
+    model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
     return "patientDetails";
   }
 

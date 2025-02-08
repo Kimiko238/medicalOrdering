@@ -1,0 +1,25 @@
+.index-navi-font {
+   font-size: 24px;
+   }
+
+.index-wide-column {
+min-width: 200px; /* 幅を調整（適宜変更） */
+text-align: center; /* ボタンを中央配置 */
+}
+
+
+/*orderForm.html*/
+.flatpickr-time .flatpickr-time-separator,
+.flatpickr-time .numInputWrapper {
+  display: none !important;
+}
+
+.flatpickr-time {
+  display: flex;
+  justify-content: center;
+}
+
+.flatpickr-time select {
+  font-size: 16px;
+  padding: 5px;
+}
