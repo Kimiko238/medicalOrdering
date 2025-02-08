@@ -36,10 +36,10 @@ public class PatientController {
   @GetMapping("/editPatientView")
   public String editPatient(Model model, Authentication authentication, Patient patient) {
     model.addAttribute("authentication", authentication);
-    return null;
+    return "patientForm";
   }
 
-  //  患者検索の遷移
+  //  患者検索の遷移(患者詳細画面へ）
   @GetMapping("/searchPatient")
   public String searchPatient(@RequestParam("showId") Integer showId,
       Model model) {
@@ -47,8 +47,15 @@ public class PatientController {
     model.addAttribute("patient", patient);
     List<FormInspectionOrderDto> formInspectionOrderDtos = patientService.viewInspectionList(
         showId);
-    //modeへ登録する
+//    リストが空だった場合の処理
+    boolean zeroList = false;
+    if (formInspectionOrderDtos.size() == 0) {
+      zeroList = true;
+    }
+
+    //modelへ登録する
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
+    model.addAttribute("zeroList", zeroList);
     return "patientDetails";
   }
 

@@ -1,7 +1,6 @@
 package com.ordering.model;
 
 import jakarta.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class Order {
   private String inspectionId;
 
   //  患者ID
-  private int patientId;
+  private int patientShowId;
 
   //  検査ステータス
   private String status;

@@ -7,15 +7,68 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
         rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<header>
+  <header>
+    <!--  ナビゲーション-->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand navi-font"
+           th:href="@{/searchPatient(showId=${formInspectionOrderDto.PatientShowId})}">＜＜患者詳細画面へ戻る</a>
 
-<!--検査詳細画面のビュー-->
-<h1>検査依頼の詳細画面</h1>
-<h2>検査名：<span th:text="${formInspectionOrderDto.inspectionName}"></span></h2>
-<h3>検査日時：<span th:text="${formInspectionOrderDto.date}"></span></h3>
-<h4>検査の詳細：<span th:text="${formInspectionOrderDto.details}"></span></h4>
-<a th:href="@{/delete/{id}(id=${formInspectionOrderDto.orderId})}">中止</a>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <div class="d-flex justify-content-end">
+          <h2>ログイン名:<span th:text="${authentication.getName()}"></span></h2>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+</header>
+<main>
+  <!--検査詳細画面のビュー-->
+  <div class="container mt-5">
+    <div class="card bg-dark text-white border-secondary shadow-lg"
+         style="max-width: 500px; margin: auto;">
+      <div class="card-header d-flex justify-content-between align-items-left border-secondary">
+        <label>検査名</label>
+        <h5 class="mb-0"><span th:text="${formInspectionOrderDto.inspectionName}"></span></h5>
+        <p th:if="${from == 'index'}"><span th:text="${formInspectionOrderDto.status}"></span></p>
+      </div>
+      <div class="card-body">
+        <label>検査日時</label>
+        <p class="card-text"><span th:text="${formInspectionOrderDto.date}"></span></p>
+        <label>検査詳細</label>
+        <p class="card-text"><span th:text="${formInspectionOrderDto.details}"></span></p>
+      </div>
+      <!--      患者詳細画面からの遷移時-->
+      <div class="card-footer border-secondary d-flex justify-content-end"
+           th:if="${from == 'patientDetails'}">
+        <form method="get" th:action="@{/delete/{id}(id=${formInspectionOrderDto.orderId})}">
+          <button class="btn btn-secondary me-2">依頼を削除</button>
+        </form>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+      <!--      検査一覧画面からの遷移時-->
+      <div class="card-footer border-secondary d-flex justify-content-end"
+           th:if="${from == 'index'}">
+        <form method="post"
+              th:action="@{/statusEditOrder/{id}(id=${formInspectionOrderDto.orderId})}"
+              th:object="${formInspectionOrderDto}">
+          <input name="from" type="hidden" value="index">
+          <input name="status" type="hidden" value="registered">
+          <button class="btn btn-secondary me-2">受付する</button>
+        </form>
+        <button class="btn btn-primary">実施する</button>
+      </div>
+
+    </div>
+  </div>
+</main>
+<script crossorigin="anonymous"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

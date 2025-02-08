@@ -1,11 +1,29 @@
-.index-navi-font {
-   font-size: 24px;
+.navi-font {
+   font-size: 15px;
    }
 
 .index-wide-column {
 min-width: 200px; /* 幅を調整（適宜変更） */
 text-align: center; /* ボタンを中央配置 */
 }
+
+
+.index-page_title h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #012970;
+
+}
+
+.btn-delete {
+background-color: #6c757d;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Nunito", sans-serif;
+}
+
 
 
 /*orderForm.html*/

@@ -91,7 +91,27 @@ public class OrderService {
     orderMapper.delete(deleteOrder);
   }
 
+  //オーダーステータスの変更
+  public void setStatus(FormInspectionOrderDto formInspectionOrderDto,
+      String editedStatus,
+      String status) {
+    if ("registered".equals(status)) {
+      if (!formInspectionOrderDto.getStatus().equals("未実施")) {
+        throw new RuntimeException();
+      }
+      editedStatus = status;
+      formInspectionOrderDto.setStatus("受付済");
 
+    } else if ("executed".equals(status)) {
+      if (!formInspectionOrderDto.getStatus().equals("受付済")) {
+        throw new RuntimeException();
+      }
+      editedStatus = status;
+      formInspectionOrderDto.setStatus("受付済");
+    }
+
+
+  }
 }
 
 

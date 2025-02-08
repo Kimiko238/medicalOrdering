@@ -44,21 +44,25 @@
   <!--  ここまで-->
 
   <!--入力欄-->
-  <p>依頼名：
-    <select th:field="*{inspectionId}">
-      <option value="選択">選択</option>
-      <option th:each="inspection : ${formInspectionOrderDto.inspections}"
-              th:text="${inspection.name}"
-              th:value="${inspection.id}"></option>
-    </select>
-  </p>
-  <p>検査日：<input th:field="*{date}" type="datetime-local"></p>
-  <p>依頼内容<textarea class="inspectionComment" th:field="*{details}"></textarea></p>
-  <!--  <p th:if="${order.number} == 0">作成者:<input th:field="*{createdBy}"-->
-  <!--                                                     type="text"-->
-  <!--                                                     value="${authentication}"></p>-->
+  <label>検査名</label>
+  <select aria-label=".form-select-lg example" class="form-select form-select-lg mb-3"
+          th:field="*{inspectionId}">
+    <option selected th:value="0">選択</option>
+    <option th:each="inspection : ${formInspectionOrderDto.inspections}"
+            th:text="${inspection.name}"
+            th:value="${inspection.id}"></option>
+  </select>
+  <!--  <p>検査日：<input th:field="*{date}" type="datetime-local"></p>-->
+  <div class="mb-3">
+    <label class="form-label" for="datetimepicker">検査日時</label>
+    <input class="form-control" id="datetimepicker" th:field="*{date}" type="text">
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="exampleFormControlTextarea1">依頼内容</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+              th:field="*{details}"></textarea>
+  </div>
 
-  <!--  <p th:if="${order.number} == 1">更新者:<input th:field="*{updatedBy}"></p>-->
   <p><input th:if="${formInspectionOrderDto.orderId} == null" type="submit" value="登録"></p>
   <p><input th:if="${formInspectionOrderDto.orderId} != null" type="submit" value="更新"></p>
   <div style="color: green;" th:errors="*{details}"
@@ -66,11 +70,6 @@
   </div>
 </form>
 
-<p>以下サンプル</p>
-<div class="mb-3">
-  <label class="form-label" for="datetimepicker">日時を選択:</label>
-  <input class="form-control" id="datetimepicker" type="text">
-</div>
 
 <script crossorigin="anonymous"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
