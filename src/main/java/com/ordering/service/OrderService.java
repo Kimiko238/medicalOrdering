@@ -1,6 +1,7 @@
 package com.ordering.service;
 
 import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.exception.OrderStatusException;
 import com.ordering.helper.OrderConvert;
 import com.ordering.model.Inspection;
 import com.ordering.model.Order;
@@ -103,7 +104,7 @@ public class OrderService {
 
     if (validTransitions.containsKey(status)) {
       if (!validTransitions.get(status).equals(formInspectionOrderDto.getStatus())) {
-        throw new RuntimeException();
+        throw new OrderStatusException();
       }
       updateStatus(formInspectionOrderDto, status);
     }

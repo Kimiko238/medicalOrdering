@@ -5,7 +5,7 @@ flatpickr("#datetimepicker", {
     dateFormat: "Y-m-d H:i",  // 表示フォーマット（YYYY-MM-DD HH:mm）
     time_24hr: true,          // 24時間表記
     minuteIncrement: 30,      // 30分ごとの選択
-    defaultHour: 6,           // 初期時間を6時に設定
+    defaultHour: 9,           // 初期時間を6時に設定
     minTime: "9:00",         // 最小時間を6:00
     maxTime: "15:30",         // 最大時間を23:30
     disableMobile: true,      // モバイルのデフォルトピッカーを無効化

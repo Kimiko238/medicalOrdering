@@ -31,29 +31,13 @@
             <a aria-current="page" class="nav-link active" th:href="@{editPatientView}">患者編集</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-               href="#"
-               role="button">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link" th:href="@{/}">検査一覧を更新</a>
           </li>
         </ul>
+      </div>
 
-        <!--        検索欄-->
+      <!--        検索欄-->
+      <div class="container text-center">
         <div class="d-flex justify-content-center align-items-center mx-auto">
           <label class="me-2">患者ID検索</label>
           <form class="d-flex" method="get" role="search" th:action="@{/searchPatient}">
@@ -65,22 +49,22 @@
             </div>
           </form>
         </div>
-        <div class="d-flex justify-content-end">
-          <h2>ログイン名:<span th:text="${authentication.getName()}"></span></h2>
-        </div>
+      </div>
+      <div class="d-flex justify-content-end align-items-center" style="margin: 0;">
+        <span class="navi-font">ログイン名:<span
+            th:text="${authentication.getName()}"></span></span>
       </div>
     </div>
   </nav>
 </header>
 <main>
+  <p th:if="${searchedMessage}" th:text="${searchedMessage}"></p>
   <div class="index-page_title">
     <h1>検査一覧画面</h1>
   </div>
 
   <p th:text="${message}"></p>
 
-  <a th:href="@{newPatient}">患者編集</a>
-  <a th:href="@{/}">一覧を更新</a>
 
   <div th:if="${!zeroList}">
     <table class="table table-hover">
