@@ -62,6 +62,6 @@ CREATE TABLE IF NOT EXISTS inspection_orders (
     deleted_by VARCHAR(255),
     deleted_at DATETIME,
     PRIMARY KEY(id),
-    FOREIGN KEY (patient_id) REFRENCES patients(show_id),
-    FOREIGN KEY (inspection_id) REFRENCES inspection_types(id)
+    FOREIGN KEY (patient_id) REFERENCES patients(show_id),
+    FOREIGN KEY (inspection_id) REFERENCES inspection_types(id)
 );

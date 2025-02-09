@@ -8,6 +8,8 @@ import com.ordering.repository.InspectionMapper;
 import com.ordering.repository.OrderMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -92,25 +94,32 @@ public class OrderService {
   }
 
   //オーダーステータスの変更
-  public void setStatus(FormInspectionOrderDto formInspectionOrderDto,
-      String editedStatus,
+  public FormInspectionOrderDto setStatus(FormInspectionOrderDto formInspectionOrderDto,
       String status) {
-    if ("registered".equals(status)) {
-      if (!formInspectionOrderDto.getStatus().equals("未実施")) {
-        throw new RuntimeException();
-      }
-      editedStatus = status;
-      formInspectionOrderDto.setStatus("受付済");
+    Map<String, String> validTransitions = Map.of(
+        "受付済", "未実施",
+        "実施済", "受付済"
+    );
 
-    } else if ("executed".equals(status)) {
-      if (!formInspectionOrderDto.getStatus().equals("受付済")) {
+    if (validTransitions.containsKey(status)) {
+      if (!validTransitions.get(status).equals(formInspectionOrderDto.getStatus())) {
         throw new RuntimeException();
       }
-      editedStatus = status;
-      formInspectionOrderDto.setStatus("受付済");
+      updateStatus(formInspectionOrderDto, status);
     }
+    return formInspectionOrderDto;
+  }
 
 
+  public void updateStatus(FormInspectionOrderDto formInspectionOrderDto, String showStatus) {
+    Optional.ofNullable(formInspectionOrderDto)
+        .flatMap(dto -> Optional.ofNullable(showStatus).map(s -> {
+          dto.setStatus(s);
+          order = orderMapper.selectById(formInspectionOrderDto.getOrderId());
+          order.setStatus(s);
+          orderMapper.update(order);
+          return dto;
+        }));
   }
 }
 

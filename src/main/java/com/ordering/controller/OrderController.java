@@ -123,22 +123,20 @@ public class OrderController {
   //  オーダーのステータスを変更する
   @PostMapping("/statusEditOrder/{id}")
   public String statusEdit(
-      @PathVariable("id") String id,
       @RequestParam(value = "from", required = false) String from,
-      @RequestParam(value = "status", required = false) String status,
+      @RequestParam(value = "clickStatus", required = false) String clickStatus,
       FormInspectionOrderDto formInspectionOrderDto,
-      Model model
+      RedirectAttributes redirectAttributes
   ) {
     try {
-      String editedStatus = "";
-      orderService.setStatus(formInspectionOrderDto, editedStatus, status);
-      model.addAttribute("from", from);
-      model.addAttribute("status", editedStatus);
+      FormInspectionOrderDto editedDto = orderService.setStatus(formInspectionOrderDto,
+          clickStatus);
+      redirectAttributes.addFlashAttribute("from", from);
+      redirectAttributes.addFlashAttribute("clickStatus", clickStatus);
     } catch (OrderStatusException e) {
-      model.addAttribute("message",
+      redirectAttributes.addFlashAttribute("message",
           "この検査ステータスはすでに「受付済」か「実施済」、または「受付」せずに「実施済」をしようとしています。");
     }
     return "redirect:/";
   }
-
 }

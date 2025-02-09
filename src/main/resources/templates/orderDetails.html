@@ -30,45 +30,50 @@
 <main>
   <!--検査詳細画面のビュー-->
   <div class="container mt-5">
+
     <div class="card bg-dark text-white border-secondary shadow-lg"
          style="max-width: 500px; margin: auto;">
-      <div class="card-header d-flex justify-content-between align-items-left border-secondary">
-        <label>検査名</label>
-        <h5 class="mb-0"><span th:text="${formInspectionOrderDto.inspectionName}"></span></h5>
-        <p th:if="${from == 'index'}"><span th:text="${formInspectionOrderDto.status}"></span></p>
-      </div>
-      <div class="card-body">
-        <label>検査日時</label>
-        <p class="card-text"><span th:text="${formInspectionOrderDto.date}"></span></p>
-        <label>検査詳細</label>
-        <p class="card-text"><span th:text="${formInspectionOrderDto.details}"></span></p>
-      </div>
-      <!--      患者詳細画面からの遷移時-->
-      <div class="card-footer border-secondary d-flex justify-content-end"
-           th:if="${from == 'patientDetails'}">
-        <form method="get" th:action="@{/delete/{id}(id=${formInspectionOrderDto.orderId})}">
-          <button class="btn btn-secondary me-2">依頼を削除</button>
-        </form>
-        <button class="btn btn-primary">Save changes</button>
-      </div>
-      <!--      検査一覧画面からの遷移時-->
-      <div class="card-footer border-secondary d-flex justify-content-end"
-           th:if="${from == 'index'}">
-        <form method="post"
-              th:action="@{/statusEditOrder/{id}(id=${formInspectionOrderDto.orderId})}"
-              th:object="${formInspectionOrderDto}">
+      <form method="post"
+            th:action="@{/statusEditOrder/{id}(id=${formInspectionOrderDto.orderId})}"
+            th:object="${formInspectionOrderDto}">
+        <div class="card-header d-flex justify-content-between align-items-left border-secondary">
+          <label>検査名</label>
+          <h5 class="mb-0"><span th:text="${formInspectionOrderDto.inspectionName}"></span></h5>
+          <p><span th:text="${formInspectionOrderDto.status}"></span></p>
+          <!--          非表示でかつ、おくりたいもの-->
+          <input name="status" th:value="${formInspectionOrderDto.status}" type="hidden">
+          <input name="orderId" th:value="${formInspectionOrderDto.orderId}" type="hidden">
+        </div>
+        <div class="card-body">
+          <label>検査日時</label>
+          <p class="card-text"><span th:text="${formInspectionOrderDto.date}"></span></p>
+          <label>検査詳細</label>
+          <p class="card-text"><span th:text="${formInspectionOrderDto.details}"></span></p>
+        </div>
+        <!--      患者詳細画面からの遷移時-->
+        <div class="card-footer border-secondary d-flex justify-content-end"
+             th:if="${from == 'patientDetails'}">
+          <form method="get" th:action="@{/delete/{id}(id=${formInspectionOrderDto.orderId})}">
+            <button class="btn btn-secondary me-2">依頼を削除</button>
+          </form>
+          <button class="btn btn-primary">Save changes</button>
+        </div>
+        <!--      検査一覧画面からの遷移時-->
+        <div class="card-footer border-secondary d-flex justify-content-end"
+             th:if="${from == 'index'}">
           <input name="from" type="hidden" value="index">
-          <input name="status" type="hidden" value="registered">
-          <button class="btn btn-secondary me-2">受付する</button>
-        </form>
-        <button class="btn btn-primary">実施する</button>
-      </div>
+          <input id="clickStatus" name="clickStatus" type="hidden" value="受付済">
+          <button class="btn btn-secondary me-2" onclick="setStatus('受付済')">受付する</button>
 
+          <button class="btn btn-primary" onclick="setStatus('実施済')">実施する</button>
+        </div>
+      </form>
     </div>
   </div>
 </main>
 <script crossorigin="anonymous"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
