@@ -19,6 +19,7 @@ public class OrderConvert {
     Inspection inspection = inspectionMapper.selectById(order.getInspectionId());
     formInspectionOrderDto.setOrderId(order.getId());
     formInspectionOrderDto.setInspectionId(order.getInspectionId());
+    formInspectionOrderDto.setPatientShowId(order.getPatientShowId());
     formInspectionOrderDto.setStatus(order.getStatus());
     formInspectionOrderDto.setInspectionName(inspection.getName());
     formInspectionOrderDto.setDate(order.getInspectionDate());
@@ -35,7 +36,7 @@ public class OrderConvert {
     Order order = new Order();
     order.setInspectionId
         (formDto.getInspectionId());
-    order.setPatientId(formDto.getPatientShowId());
+    order.setPatientShowId(formDto.getPatientShowId());
     order.setStatus(formDto.getStatus());
     order.setInspectionDetails(formDto.getDetails());
     order.setInspectionDate(formDto.getDate());

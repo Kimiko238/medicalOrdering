@@ -1,6 +1,7 @@
 package com.ordering.service;
 
 import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.exception.OrderStatusException;
 import com.ordering.helper.OrderConvert;
 import com.ordering.model.Inspection;
 import com.ordering.model.Order;
@@ -8,6 +9,8 @@ import com.ordering.repository.InspectionMapper;
 import com.ordering.repository.OrderMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -91,7 +94,34 @@ public class OrderService {
     orderMapper.delete(deleteOrder);
   }
 
+  //オーダーステータスの変更
+  public FormInspectionOrderDto setStatus(FormInspectionOrderDto formInspectionOrderDto,
+      String status) {
+    Map<String, String> validTransitions = Map.of(
+        "受付済", "未実施",
+        "実施済", "受付済"
+    );
 
+    if (validTransitions.containsKey(status)) {
+      if (!validTransitions.get(status).equals(formInspectionOrderDto.getStatus())) {
+        throw new OrderStatusException();
+      }
+      updateStatus(formInspectionOrderDto, status);
+    }
+    return formInspectionOrderDto;
+  }
+
+
+  public void updateStatus(FormInspectionOrderDto formInspectionOrderDto, String showStatus) {
+    Optional.ofNullable(formInspectionOrderDto)
+        .flatMap(dto -> Optional.ofNullable(showStatus).map(s -> {
+          dto.setStatus(s);
+          order = orderMapper.selectById(formInspectionOrderDto.getOrderId());
+          order.setStatus(s);
+          orderMapper.update(order);
+          return dto;
+        }));
+  }
 }
 
 

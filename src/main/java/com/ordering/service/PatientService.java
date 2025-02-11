@@ -1,6 +1,7 @@
 package com.ordering.service;
 
 import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.exception.PatientNullException;
 import com.ordering.helper.OrderConvert;
 import com.ordering.model.Order;
 import com.ordering.model.Patient;
@@ -8,6 +9,7 @@ import com.ordering.repository.OrderMapper;
 import com.ordering.repository.PatientMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,11 @@ public class PatientService {
 
   //  連番IDから患者情報を取得
   public Patient findById(Integer showId) {
-    return patientMapper.selectById(showId);
+    Patient searchedPatient = patientMapper.selectById(showId);
+    if (Objects.isNull(searchedPatient)) {
+      throw new PatientNullException();
+    }
+    return searchedPatient;
   }
 
   //  重複登録がないかチェックする処理

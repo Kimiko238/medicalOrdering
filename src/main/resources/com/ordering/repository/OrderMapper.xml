@@ -21,7 +21,7 @@
     <!--    新規検査依頼-->
     INSERT INTO inspection_orders(
     id,
-    patient_id,
+    patient_show_id,
     inspection_id,
     status,
     inspection_details,
@@ -35,7 +35,7 @@
     )
     VALUES(
     #{id},
-    #{patientId},
+    #{patientShowId},
     #{inspectionId},
     #{status},
     #{inspectionDetails},
@@ -54,7 +54,7 @@
   <select id="selectById">
     SELECT
     id,
-    patient_id,
+    patient_show_id,
     inspection_id,
     status,
     inspection_details,
@@ -79,7 +79,7 @@
   <select id="selectAllByPatientId">
     SELECT
     io.id,
-    io.patient_id,
+    io.patient_show_id,
     io.inspection_id,
     io.status,
     io.inspection_details,
@@ -91,8 +91,8 @@
     io.deleted_by,
     io.deleted_at
     FROM inspection_orders io
-    INNER JOIN patients p ON io.patient_id = p.show_id
-    WHERE io.patient_id = #{patientId}
+    INNER JOIN patients p ON io.patient_show_id = p.show_id
+    WHERE io.patient_show_id = #{patientShowId}
   </select>
 
 
@@ -100,6 +100,7 @@
     UPDATE inspection_orders SET
     inspection_id = #{inspectionId},
     inspection_date = #{inspectionDate},
+    status = #{status},
     inspection_details = #{inspectionDetails},
     updated_by = #{updatedBy},
     updated_at = CURRENT_TIMESTAMP

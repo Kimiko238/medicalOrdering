@@ -1,6 +1,7 @@
 package com.ordering.controller;
 
 import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.exception.OrderStatusException;
 import com.ordering.service.OrderService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -27,17 +28,27 @@ public class OrderController {
   @GetMapping
   public String index(Model model, Authentication authentication) {
     List<FormInspectionOrderDto> formInspectionOrderDtos = orderService.findAll();
+    boolean zeroList = false;
+    if (formInspectionOrderDtos.size() == 0) {
+      zeroList = true;
+    }
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
     model.addAttribute("authentication", authentication);
+    model.addAttribute("zeroList", zeroList);
     return "index";
   }
 
   //検査依頼：詳細画面遷移時
   //  @PathVariable・・・Getマッピングによって取得してきた{id}をオブジェクトに入れる
   @GetMapping("/orderDetails/{id}")
-  public String inspectionDetails(@PathVariable("id") String orderId, Model model) {
+  public String inspectionDetails(@PathVariable("id") String orderId,
+      @RequestParam(value = "from", required = false) String from,
+      Model model,
+      Authentication authentication) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(orderId);
     model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
+    model.addAttribute("authentication", authentication);
+    model.addAttribute("from", from);
     return "orderDetails";
   }
 
@@ -102,9 +113,30 @@ public class OrderController {
       Model model, Authentication authentication) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
     orderService.delete(formInspectionOrderDto);
+    boolean zeroList = true;
     model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
+    model.addAttribute("zeroList", zeroList);
     return "index";
   }
 
+  //  オーダーのステータスを変更する
+  @PostMapping("/statusEditOrder/{id}")
+  public String statusEdit(
+      @RequestParam(value = "from", required = false) String from,
+      @RequestParam(value = "clickStatus", required = false) String clickStatus,
+      FormInspectionOrderDto formInspectionOrderDto,
+      RedirectAttributes redirectAttributes
+  ) {
+    try {
+      FormInspectionOrderDto editedDto = orderService.setStatus(formInspectionOrderDto,
+          clickStatus);
+      redirectAttributes.addFlashAttribute("from", from);
+      redirectAttributes.addFlashAttribute("clickStatus", clickStatus);
+    } catch (OrderStatusException e) {
+      redirectAttributes.addFlashAttribute("message",
+          "この検査ステータスはすでに「受付済」か「実施済」、または「受付」せずに「実施済」をしようとしています。");
+    }
+    return "redirect:/";
+  }
 }

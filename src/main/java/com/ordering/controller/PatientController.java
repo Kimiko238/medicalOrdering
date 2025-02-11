@@ -36,19 +36,33 @@ public class PatientController {
   @GetMapping("/editPatientView")
   public String editPatient(Model model, Authentication authentication, Patient patient) {
     model.addAttribute("authentication", authentication);
-    return null;
+    return "patientForm";
   }
 
-  //  患者検索の遷移
+  //  患者検索の遷移(患者詳細画面へ）
   @GetMapping("/searchPatient")
   public String searchPatient(@RequestParam("showId") Integer showId,
-      Model model) {
-    Patient patient = patientService.findById(showId);
-    model.addAttribute("patient", patient);
+      Model model,
+      RedirectAttributes redirectAttributes) {
+    try {
+      Patient patient = patientService.findById(showId);
+      model.addAttribute("patient", patient);
+    } catch (Exception e) {
+      redirectAttributes.addFlashAttribute("searchedMessage", "このIDで患者は登録されていません");
+      return "redirect:/";
+    }
+
     List<FormInspectionOrderDto> formInspectionOrderDtos = patientService.viewInspectionList(
         showId);
-    //modeへ登録する
+//    リストが空だった場合の処理
+    boolean zeroList = false;
+    if (formInspectionOrderDtos.size() == 0) {
+      zeroList = true;
+    }
+
+    //modelへ登録する
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
+    model.addAttribute("zeroList", zeroList);
     return "patientDetails";
   }
 
