@@ -64,9 +64,11 @@ public class OrderController {
   //  検査依頼：新規登録画面遷移時
   @GetMapping("/newOrder")
   public String newOrder(Model model,
-      @RequestParam int showId) {
+      @RequestParam int showId,
+      Authentication authentication) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.settingOrder(showId);
     model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
+    model.addAttribute("authentication", authentication);
     return "orderForm";
   }
 

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,16 +27,19 @@ public class PatientController {
   //  患者新規作成画面の遷移
   @GetMapping("/newPatient")
   public String newPatient(Model model, Authentication authentication) {
-    model.addAttribute("authentication", authentication);
     model.addAttribute("patient", new Patient());
-
+    boolean newPatient = true;
+    model.addAttribute("newPatient", newPatient);
     return "patientForm";
   }
 
   //  患者編集画面の遷移
-  @GetMapping("/editPatientView")
-  public String editPatient(Model model, Authentication authentication, Patient patient) {
-    model.addAttribute("authentication", authentication);
+  @GetMapping("/editPatient/{id}")
+  public String editPatient(Model model, @PathVariable String id) {
+    Patient patient = patientService.findById(id);
+    model.addAttribute("patient", patient);
+    boolean newPatient = false;
+    model.addAttribute("newPatient", newPatient);
     return "patientForm";
   }
 
@@ -45,7 +49,7 @@ public class PatientController {
       Model model,
       RedirectAttributes redirectAttributes) {
     try {
-      Patient patient = patientService.findById(showId);
+      Patient patient = patientService.findByShowId(showId);
       model.addAttribute("patient", patient);
     } catch (Exception e) {
       redirectAttributes.addFlashAttribute("searchedMessage", "このIDで患者は登録されていません");
@@ -83,7 +87,6 @@ public class PatientController {
     } catch (PatientAlreadyExistsException e) {
       redirectAttributes.addFlashAttribute("message", "この患者は登録済みです");
     }
-//    redirectAttributes.addFlashAttribute("message", message);
 
     return "redirect:newPatient";
   }
@@ -92,7 +95,7 @@ public class PatientController {
   @PostMapping("/updatePatient")
   public String createCompPatient(RedirectAttributes redirectAttributes, @Validated Patient patient,
       BindingResult bindingResult, Authentication authentication) {
-    patientService.findById(patient.getShowId());
+    patientService.findByShowId(patient.getShowId());
     return "redirect:newPatient";
   }
 }

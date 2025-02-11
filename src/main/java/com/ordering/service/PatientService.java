@@ -36,32 +36,31 @@ public class PatientService {
 
 
   //  連番IDから患者情報を取得
-  public Patient findById(Integer showId) {
-    Patient searchedPatient = patientMapper.selectById(showId);
+  public Patient findByShowId(Integer showId) {
+    Patient searchedPatient = patientMapper.selectByShowId(showId);
     if (Objects.isNull(searchedPatient)) {
       throw new PatientNullException();
     }
     return searchedPatient;
   }
 
+  //  患者ID（String型）から情報を取得
+  public Patient findById(String id) {
+    return patientMapper.selectById(id);
+  }
+
+
   //  重複登録がないかチェックする処理
   public Patient checkNameAndBirthday(Patient patient, Authentication authentication) {
     return patientMapper.selectByNameAndBirthday(patient.getName(), patient.getBirthday());
-
-//    if (nameAndBirthday != null) {
-//      String messageAlready = "この患者は登録済みです";
-//      return messageAlready;
-//    } else {
-//      this.save(patient, authentication);
-//      String messagePass = "登録が完了しました！";
-//      return messagePass;
-//    }
   }
+
 
   public boolean existPatient(String name, String birthday) {
     return patientMapper.selectByNameAndBirthday(name, birthday) != null;
 
   }
+
 
   //患者の新規作成
   public Patient save(Patient patient, Authentication authentication) {

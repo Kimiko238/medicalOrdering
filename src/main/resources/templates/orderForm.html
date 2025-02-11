@@ -26,8 +26,26 @@
 </head>
 <body>
 
-<h1 th:if="${formInspectionOrderDto.orderId == null}">検査依頼の新規登録画面</h1>
-<h1 th:if="${formInspectionOrderDto.orderId != null}">検査依頼の編集画面</h1>
+<header>
+  <!--  ナビゲーション-->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand navi-font"
+         th:href="@{/searchPatient(showId=${formInspectionOrderDto.PatientShowId})}"
+      >＜＜患者詳細画面へ戻る</a>
+
+
+      <div class="d-flex justify-content-end">
+        <h2>ログイン名:<span th:text="${#authentication.name}"></span></h2>
+      </div>
+    </div>
+  </nav>
+</header>
+</header>
+
+
+<h1 th:text="${formInspectionOrderDto.orderId == null} ? '検査依頼の新規登録画面' : '検査依頼の編集画面'"></h1>
+
 
 <p th:text="${message}"></p>
 <form method="post"
@@ -44,31 +62,45 @@
   <!--  ここまで-->
 
   <!--入力欄-->
-  <label>検査名</label>
-  <select aria-label=".form-select-lg example" class="form-select form-select-lg mb-3"
-          th:field="*{inspectionId}">
-    <option selected th:value="0">選択</option>
-    <option th:each="inspection : ${formInspectionOrderDto.inspections}"
-            th:text="${inspection.name}"
-            th:value="${inspection.id}"></option>
-  </select>
-  <!--  <p>検査日：<input th:field="*{date}" type="datetime-local"></p>-->
-  <div class="mb-3">
-    <label class="form-label" for="datetimepicker">検査日時</label>
-    <input class="form-control" id="datetimepicker" th:field="*{date}" type="text">
-  </div>
-  <div class="mb-3">
-    <label class="form-label" for="exampleFormControlTextarea1">依頼内容</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-              th:field="*{details}"></textarea>
-  </div>
+  <div class="container mt-5">
+    <label>検査名</label>
+    <select aria-label=".form-select-lg example" class="form-select form-select-lg mb-3"
+            th:field="*{inspectionId}">
+      <option selected th:value="0">選択</option>
+      <option th:each="inspection : ${formInspectionOrderDto.inspections}"
+              th:text="${inspection.name}"
+              th:value="${inspection.id}"></option>
+    </select>
+    <!--  <p>検査日：<input th:field="*{date}" type="datetime-local"></p>-->
+    <div class="mb-3">
+      <label class="form-label" for="datetimepicker">検査日時</label>
+      <input class="form-control" id="datetimepicker" th:field="*{date}" type="text">
+    </div>
 
-  <p><input th:if="${formInspectionOrderDto.orderId} == null" type="submit" value="登録"></p>
-  <p><input th:if="${formInspectionOrderDto.orderId} != null" type="submit" value="更新"></p>
-  <div style="color: green;" th:errors="*{details}"
-       th:if="${#fields.hasErrors('details')}"></div>
+    <div class="form-floating">
+      <textarea class="form-control" id="exampleFormControlTextarea"
+                placeholder="コメントを入力してください" style="height:500px;"
+                th:field="*{details}"></textarea>
+      <label class="form-label" for="exampleFormControlTextarea">依頼内容</label>
+    </div>
+
+    <p><input th:value="${formInspectionOrderDto.orderId == null} ? '登録' : '更新'" type="submit">
+    </p>
+
+    <div style="color: green;" th:errors="*{details}"
+         th:if="${#fields.hasErrors('details')}"></div>
   </div>
 </form>
+
+
+<div class="container mt-5">
+  <div class="form-floating">
+    <textarea class="form-control" id="floatingTextarea"
+              placeholder="コメントを入力してください"></textarea>
+    <label for="floatingTextarea">Comments</label>
+  </div>
+</div>
+
 
 
 <script crossorigin="anonymous"

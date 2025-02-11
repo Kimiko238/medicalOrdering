@@ -53,8 +53,8 @@ public class PatientServiceTest {
   @Test
   void findByIdTest() {
     int showId = 1;
-    doReturn(patientSample).when(patientMapper).selectById(showId);
-    Patient patientDto = patientService.findById(showId);
+    doReturn(patientSample).when(patientMapper).selectByShowId(showId);
+    Patient patientDto = patientService.findByShowId(showId);
     assertEquals(patientSample.getId(), patientDto.getId());
     assertEquals(patientSample.getName(), patientDto.getName());
     assertEquals(patientSample.getBirthday(), patientDto.getBirthday());

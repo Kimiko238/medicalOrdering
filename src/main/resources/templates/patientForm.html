@@ -9,30 +9,56 @@
         rel="stylesheet">
 </head>
 <body>
-<h1>患者登録画面</h1>
-<form method="post"
-      th:action="${#strings.isEmpty(patient.id) ? '/createPatient' : '/updatePatient' }"
-      th:object="${patient}">
-  <!--  非表示項目  -->
-  <input th:field="*{id}" type="hidden">
-  <input th:field="*{createdBy}" type="hidden">
-  <input th:field="*{updatedBy}" type="hidden">
 
-  <!--  入力部分です   -->
-  <p>※苗字と名前の間は半角開けてください。</p>
-  <p>患者名：<input th:field="*{name}"></p>
-  <p>生年月日：<input th:field="*{birthday}" type="date"></p>
-  <p>性別：
-    <input th:field="*{gender}" type="radio" value="1">男性
-    <input th:field="*{gender}" type="radio" value="2">女性
-  </p>
-  <div th:if="${#strings.isEmpty(patient.id)}">
-    <button type="submit">保存</button>
-  </div>
+<header>
+  <!--  ナビゲーション-->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand navi-font" th:href="@{/}"
+         th:if="${newPatient}">＜＜検査一覧画面へもどる</a>
 
-  <p th:if="${message}" th:text="${message}"></p>
-  <p>IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
-</form>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+      <a class="navbar-brand navi-font" th:href="@{/searchPatient(showId=${patient.showId})}"
+         th:if="${!newPatient}"
+      >＜＜患者詳細画面へ戻る</a>
+
+      <div class="d-flex justify-content-end">
+        <h2>ログイン名:<span th:text="${#authentication.name}"></span></h2>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <h1 th:text="${#strings.isEmpty(patient.id)} ? '患者新規登録画面' : '患者編集画面'"></h1>
+  <form method="post"
+        th:action="${#strings.isEmpty(patient.id) ? '/createPatient' : '/updatePatient' }"
+        th:object="${patient}">
+    <!--  非表示項目  -->
+    <input th:field="*{id}" type="hidden">
+    <input th:field="*{createdBy}" type="hidden">
+    <input th:field="*{updatedBy}" type="hidden">
+
+    <!--  入力部分です   -->
+    <p>※苗字と名前の間は半角開けてください。</p>
+    <p>患者名：<input th:field="*{name}"></p>
+    <p>生年月日：<input th:field="*{birthday}" type="date"></p>
+    <p>性別：
+      <input th:field="*{gender}" type="radio" value="1">男性
+      <input th:field="*{gender}" type="radio" value="2">女性
+    </p>
+    <div>
+      <button th:value="${#strings.isEmpty(patient.id)} ? '保存': '更新'" type="submit"></button>
+    </div>
+
+
+    <p th:if="${message}" th:text="${message}"></p>
+    <div th:if="${newPatient}">
+      <p th:if="${showId}">IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
+    </div>
+  </form>
+  <script crossorigin="anonymous"
+          integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</main>
 </body>
 </html>

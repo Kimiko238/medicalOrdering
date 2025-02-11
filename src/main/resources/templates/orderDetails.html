@@ -60,7 +60,10 @@
           <form method="get" th:action="@{/delete/{id}(id=${formInspectionOrderDto.orderId})}">
             <button class="btn btn-secondary me-2">依頼を削除</button>
           </form>
-          <button class="btn btn-primary">Save changes</button>
+          <form method="get" th:action="@{/edit/{id}(id=${formInspectionOrderDto.orderId})}">
+            <button class="btn btn-primary">依頼を編集</button>
+          </form>
+
         </div>
         <!--      検査一覧画面からの遷移時-->
         <div class="card-footer border-secondary d-flex justify-content-end"
