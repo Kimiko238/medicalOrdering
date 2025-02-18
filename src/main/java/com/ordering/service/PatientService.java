@@ -89,4 +89,10 @@ public class PatientService {
     }
     return patientFormDtos;
   }
+
+
+  public void update(Patient editPatient, String userName) {
+    editPatient.setUpdatedBy(userName);
+    patientMapper.update(editPatient);
+  }
 }

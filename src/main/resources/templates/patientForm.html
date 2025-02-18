@@ -7,6 +7,7 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
         rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -29,12 +30,13 @@
 </header>
 
 <main>
-  <h1 th:text="${#strings.isEmpty(patient.id)} ? '患者新規登録画面' : '患者編集画面'"></h1>
+  <h1 th:text="${newPatient} ? '患者新規登録画面' : '患者編集画面'"></h1>
   <form method="post"
-        th:action="${#strings.isEmpty(patient.id) ? '/createPatient' : '/updatePatient' }"
+        th:action="${newPatient ? '/createPatient' : '/updatePatient' }"
         th:object="${patient}">
     <!--  非表示項目  -->
     <input th:field="*{id}" type="hidden">
+    <input th:field="*{showId}" type="hidden">
     <input th:field="*{createdBy}" type="hidden">
     <input th:field="*{updatedBy}" type="hidden">
 
@@ -47,7 +49,7 @@
       <input th:field="*{gender}" type="radio" value="2">女性
     </p>
     <div>
-      <button th:value="${#strings.isEmpty(patient.id)} ? '保存': '更新'" type="submit"></button>
+      <button th:text="${newPatient} ? '保存': '更新'" type="submit"></button>
     </div>
 
 
@@ -56,9 +58,60 @@
       <p th:if="${showId}">IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
     </div>
   </form>
-  <script crossorigin="anonymous"
-          integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <form method="post"
+        th:action="${newPatient ? '/createPatient' : '/updatePatient'}"
+        th:object="${patient}">
+
+    <!--  見えない部分だが入れておく必要がある項目（送りたい項目）　-->
+    <input th:field="*{id}" type="hidden">
+    <input th:field="*{showId}" type="hidden">
+    <input th:field="*{createdBy}" type="hidden">
+    <input th:field="*{updatedBy}" type="hidden">
+    <!--  ここまで-->
+
+    <!--入力欄-->
+    <div class="container mt-5">
+      <div class="mb-3">
+        <label class="form-label" for="patientName">患者名</label>
+        <input class="form-control" id="patientName" th:field="*{name}" type="text">
+      </div>
+
+
+      <div class="mb-3">
+        <label class="form-label" for="dateOnlyPicker">生年月日</label>
+        <input class="form-control" id="dateOnlyPicker" th:field="*{birthday}"
+               type="text">
+      </div>
+      <div class="d-flex">
+        <div class="form-check me-3">
+          <input class="form-check-input" id="flexRadioDefault1" name="flexRadioDefault"
+                 th:field="*{gender}" type="radio" value="1">
+          <label class="form-check-label" for="flexRadioDefault1">男性</label>
+        </div>
+        <div class="form-check">
+          <input checked class="form-check-input" id="flexRadioDefault2" name="flexRadioDefault"
+                 th:field="*{gender}" type="radio" value="2">
+          <label class="form-check-label" for="flexRadioDefault2">女性</label>
+        </div>
+      </div>
+      <div>
+        <button th:text="${newPatient} ? '保存': '更新'" type="submit"></button>
+      </div>
+    </div>
+
+    <p th:if="${message}" th:text="${message}"></p>
+    <div th:if="${newPatient}">
+      <p th:if="${showId}">IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
+    </div>
+  </form>
+
 </main>
+
+<script crossorigin="anonymous"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script th:src="@{/js/script.js}"></script>
 </body>
 </html>

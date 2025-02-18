@@ -7,6 +7,8 @@ import com.ordering.service.PatientService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +37,8 @@ public class PatientController {
 
   //  患者編集画面の遷移
   @GetMapping("/editPatient/{id}")
-  public String editPatient(Model model, @PathVariable String id) {
+  public String editPatient(Model model,
+      @PathVariable String id) {
     Patient patient = patientService.findById(id);
     model.addAttribute("patient", patient);
     boolean newPatient = false;
@@ -77,7 +80,7 @@ public class PatientController {
       BindingResult bindingResult,
       Authentication authentication) {
     if (bindingResult.hasErrors()) {
-      return "redirect:newPatient";
+      return "patientForm";
     }
 
     try {
@@ -93,9 +96,18 @@ public class PatientController {
 
   //  患者更新
   @PostMapping("/updatePatient")
-  public String createCompPatient(RedirectAttributes redirectAttributes, @Validated Patient patient,
-      BindingResult bindingResult, Authentication authentication) {
-    patientService.findByShowId(patient.getShowId());
-    return "redirect:newPatient";
+  public String createCompPatient(RedirectAttributes redirectAttributes,
+      @Validated Patient patient,
+      BindingResult bindingResult,
+      @AuthenticationPrincipal UserDetails userDetails) {
+    if (bindingResult.hasErrors()) {
+      return "patientForm";
+    }
+    patientService.update(patient, userDetails.getUsername());
+    redirectAttributes.addFlashAttribute("message", "患者情報を更新しました");
+    redirectAttributes.addFlashAttribute("patient", patient);
+    redirectAttributes.addAttribute("id", patient.getId());
+
+    return "redirect:editPatient/{id}";
   }
 }

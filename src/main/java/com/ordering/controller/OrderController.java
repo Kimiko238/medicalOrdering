@@ -84,10 +84,10 @@ public class OrderController {
       // エラーがある場合、フォームに戻る
       return "orderForm";
     }
-    orderService.save(formInspectionOrderDto, authentication);
+    FormInspectionOrderDto showFormOrder = orderService.save(formInspectionOrderDto,
+        authentication);
     redirectAttributes.addFlashAttribute("message", "登録しました");
-    FormInspectionOrderDto returnFormInspectionOrderDto = orderService.showViewSaveData();
-    redirectAttributes.addFlashAttribute("formInspectionOrderDto", returnFormInspectionOrderDto);
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", showFormOrder);
     return "redirect:/";
   }
 
@@ -102,10 +102,9 @@ public class OrderController {
       return "orderForm";
     }
     //更新処理時の分岐
-    orderService.edit(editOrderDto, authentication);
+    FormInspectionOrderDto updatedOrderDto = orderService.edit(editOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "更新しました");
-    FormInspectionOrderDto editedOrderDto = orderService.showViewSaveData();
-    redirectAttributes.addFlashAttribute("formInspectionOrderDto", editedOrderDto);
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", updatedOrderDto);
     return "redirect:/";
   }
 

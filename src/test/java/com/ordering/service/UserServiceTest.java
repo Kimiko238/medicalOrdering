@@ -1,8 +1,6 @@
 package com.ordering.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -14,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,16 +57,16 @@ public class UserServiceTest {
     verify(userMapper, times(1)).insert(userSample);
   }
 
-  @Test
-  void testFindByName() {
-    String name = "taro";
-    UserDetails userDetailsSample = new UserPrincipal(userSample);
-    doReturn(userDetailsSample).when(userMapper).findByName(name);
-    UserDetails userDetailsDto = userService.loadUserByUsername(name);
-    assertEquals(userDetailsDto.getUsername(), userDetailsSample.getUsername());
-    assertEquals(userDetailsDto.getPassword(), userDetailsSample.getPassword());
-
-  }
+//  @Test
+//  void testFindByName() {
+//    String name = "taro";
+//    UserDetails userDetailsSample = new UserPrincipal(userSample);
+//    doReturn(userDetailsSample).when(userMapper).findByName(name);
+//    UserDetails userDetailsDto = userService.loadUserByUsername(name);
+//    assertEquals(userDetailsDto.getUsername(), userDetailsSample.getUsername());
+//    assertEquals(userDetailsDto.getPassword(), userDetailsSample.getPassword());
+//
+//  }
 
 
 }

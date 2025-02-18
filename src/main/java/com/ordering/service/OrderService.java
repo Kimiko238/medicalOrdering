@@ -11,45 +11,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class OrderService {
 
   private OrderMapper orderMapper;
   private InspectionMapper inspectionMapper;
   private OrderConvert orderConvert;
-  private Order order;
 
-  @Autowired
-  public OrderService(OrderMapper orderMapper, InspectionMapper inspectionMapper,
-      OrderConvert orderConvert) {
-    this.orderMapper = orderMapper;
-    this.inspectionMapper = inspectionMapper;
-    this.orderConvert = orderConvert;
-    this.order = new Order(); // ここで Order を初期化
-  }
 
   //  新規保存時
-  public void save(FormInspectionOrderDto formInspectionOrderDto,
+  public FormInspectionOrderDto save(FormInspectionOrderDto catchFormInspectionOrderDto,
       Authentication authentication) {
     Inspection inspection = inspectionMapper.selectById(
-        formInspectionOrderDto.getInspectionId());
-    order = orderConvert.convertEntity(formInspectionOrderDto);
-    order.setCreatedBy(authentication.getName());
-    orderMapper.insert(order);
+        catchFormInspectionOrderDto.getInspectionId());
+    Order saveOrder = orderConvert.convertEntity(catchFormInspectionOrderDto);
+    saveOrder.setCreatedBy(authentication.getName());
+    orderMapper.insert(saveOrder);
+    return this.showViewSaveData(saveOrder);
   }
 
   //  新規保存後、または編集保存後の表示
-  public FormInspectionOrderDto showViewSaveData() {
-    Order savedOrderData = orderMapper.selectById(order.getId());
-    FormInspectionOrderDto formInspectionOrderDto = orderConvert.convertForm(savedOrderData);
-    order = new Order();
-    return formInspectionOrderDto;
+  public FormInspectionOrderDto showViewSaveData(Order targetOrder) {
+    Order savedOrderData = orderMapper.selectById(targetOrder.getId());
+    return orderConvert.convertForm(savedOrderData);
   }
 
   public FormInspectionOrderDto settingOrder(int showId) {
@@ -79,13 +70,12 @@ public class OrderService {
   }
 
   //  検査の詳細を編集
-
-
-  public void edit(FormInspectionOrderDto formInspectionOrderDto, Authentication authentication) {
-    Order order = orderConvert.convertEntity(formInspectionOrderDto);
-    order.setUpdatedBy(authentication.getName());
-    this.order = order;
-    orderMapper.update(order);
+  public FormInspectionOrderDto edit(FormInspectionOrderDto formInspectionOrderDto,
+      Authentication authentication) {
+    Order updateOrder = orderConvert.convertEntity(formInspectionOrderDto);
+    updateOrder.setUpdatedBy(authentication.getName());
+    orderMapper.update(updateOrder);
+    return this.showViewSaveData(updateOrder);
   }
 
   //  検査を削除
@@ -116,9 +106,9 @@ public class OrderService {
     Optional.ofNullable(formInspectionOrderDto)
         .flatMap(dto -> Optional.ofNullable(showStatus).map(s -> {
           dto.setStatus(s);
-          order = orderMapper.selectById(formInspectionOrderDto.getOrderId());
-          order.setStatus(s);
-          orderMapper.update(order);
+          Order catchOrder = orderMapper.selectById(formInspectionOrderDto.getOrderId());
+          catchOrder.setStatus(s);
+          orderMapper.update(catchOrder);
           return dto;
         }));
   }

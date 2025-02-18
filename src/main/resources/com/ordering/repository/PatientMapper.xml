@@ -75,4 +75,14 @@
     FROM patients
     WHERE id = #{Id}
   </select>
+
+  <update id="update">
+    UPDATE patients SET
+    name = #{name},
+    birthday = #{birthday},
+    gender = #{gender},
+    updated_by = #{updatedBy},
+    updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+  </update>
 </mapper>

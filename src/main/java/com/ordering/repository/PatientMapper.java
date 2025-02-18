@@ -20,5 +20,7 @@ public interface PatientMapper {
   Patient selectById(String id);
 
   Patient selectByNameAndBirthday(String name, String birthday);
+
+  void update(Patient patient);
 }
 

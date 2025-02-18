@@ -17,6 +17,11 @@ flatpickr("#datetimepicker", {
     }
 });
 
+   flatpickr("#dateOnlyPicker", {
+        enableTime: false,        // 時間を無効化
+        dateFormat: "Y-m-d",      // フォーマット YYYY-MM-DD
+    });
+
   function customizeTimePicker(instance) {
     const timeContainer = instance.timeContainer;
     if (!timeContainer) return;
@@ -36,7 +41,7 @@ flatpickr("#datetimepicker", {
 // 時間セレクトボックスを作成
     const hourSelect = document.createElement("select");
     hourSelect.className = "custom-hour-select";
-    for (let i = 6; i <= 23; i++) {
+    for (let i = 9; i <= 15; i++) {
     let option = document.createElement("option");
     option.value = i;
     option.textContent = i.toString().padStart(2, "0");
