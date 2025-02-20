@@ -63,7 +63,7 @@ public class PatientController {
         showId);
 //    リストが空だった場合の処理
     boolean zeroList = false;
-    if (formInspectionOrderDtos.size() == 0) {
+    if (formInspectionOrderDtos.isEmpty()) {
       zeroList = true;
     }
 
@@ -76,10 +76,14 @@ public class PatientController {
 
   //  患者新規作成
   @PostMapping("/createPatient")
-  public String createPatient(RedirectAttributes redirectAttributes, @Validated Patient patient,
+  public String createPatient(RedirectAttributes redirectAttributes,
+      @Validated Patient patient,
       BindingResult bindingResult,
-      Authentication authentication) {
+      Authentication authentication,
+      Model model) {
     if (bindingResult.hasErrors()) {
+      Boolean newPatient = true;
+      model.addAttribute("newPatient", newPatient);
       return "patientForm";
     }
 
@@ -106,8 +110,8 @@ public class PatientController {
     patientService.update(patient, userDetails.getUsername());
     redirectAttributes.addFlashAttribute("message", "患者情報を更新しました");
     redirectAttributes.addFlashAttribute("patient", patient);
-    redirectAttributes.addAttribute("id", patient.getId());
+    redirectAttributes.addAttribute("showId", patient.getShowId());
 
-    return "redirect:editPatient/{id}";
+    return "redirect:searchPatient";
   }
 }

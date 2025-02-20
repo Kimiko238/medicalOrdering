@@ -25,15 +25,6 @@ public class PatientService {
   private OrderMapper orderMapper;
   private OrderConvert orderConvert;
 
-//  @Autowired
-//  public PatientService(PatientMapper patientMapper,
-//      OrderMapper orderMapper,
-//      OrderConvert orderConvert) {
-//    this.patientMapper = patientMapper;
-//    this.orderMapper = orderMapper;
-//    this.orderConvert = orderConvert;
-//  }
-
 
   //  連番IDから患者情報を取得
   public Patient findByShowId(Integer showId) {

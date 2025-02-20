@@ -71,7 +71,22 @@
 
   <!--  検査の一覧表示-->
   <select id="selectAll">
-    SELECT * FROM inspection_orders
+    SELECT
+    io.id,
+    io.patient_show_id,
+    p.name AS patientName,
+    io.inspection_id,
+    io.status,
+    io.inspection_details AS details,
+    io.inspection_date AS date,
+    io.created_by,  
+    io.created_at,
+    io.updated_by,
+    io.updated_at,
+    io.deleted_by,
+    io.deleted_at
+    FROM inspection_orders io
+    INNER JOIN patients p ON io.patient_show_id = p.show_id
   </select>
 
 

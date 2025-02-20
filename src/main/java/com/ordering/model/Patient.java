@@ -1,5 +1,7 @@
 package com.ordering.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -26,15 +28,18 @@ public class Patient {
   /**
    * 名前
    */
-  @Size(min = 1)
+  @Size(min = 1, max = 10, message = "{patientName.size}")
+  @Pattern(regexp = "^\\S+\\s+\\S+$", message = "{patientName.pattern}")
   private String name;
   /**
    * 生年月日
    */
+  @NotBlank(message = "{birthday.null}")
   private String birthday;
   /**
    * 性別
    */
+  @NotBlank(message = "{gender.null}")
   private String gender;
   /**
    * 作成者

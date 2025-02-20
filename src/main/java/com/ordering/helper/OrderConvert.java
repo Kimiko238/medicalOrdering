@@ -1,6 +1,7 @@
 package com.ordering.helper;
 
 import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.entity.PatientOrderDto;
 import com.ordering.model.Inspection;
 import com.ordering.model.Order;
 import com.ordering.repository.InspectionMapper;
@@ -46,6 +47,24 @@ public class OrderConvert {
       order.setStatus("未実施"); // Order ID が空の場合、"未実施" を設定
     }
     return order;
+  }
+
+
+  public FormInspectionOrderDto convertForm(PatientOrderDto patientOrderDto) {
+    FormInspectionOrderDto formInspectionOrderDto = new FormInspectionOrderDto();
+    Inspection inspection = inspectionMapper.selectById(patientOrderDto.getInspectionId());
+    formInspectionOrderDto.setOrderId(patientOrderDto.getOrderId());
+    formInspectionOrderDto.setInspectionId(patientOrderDto.getInspectionId());
+    formInspectionOrderDto.setPatientShowId(patientOrderDto.getPatientShowId());
+    formInspectionOrderDto.setPatientName(patientOrderDto.getPatientName());
+    formInspectionOrderDto.setStatus(patientOrderDto.getStatus());
+    formInspectionOrderDto.setInspectionName(inspection.getName());
+    formInspectionOrderDto.setDate(patientOrderDto.getDate());
+    formInspectionOrderDto.setDetails(patientOrderDto.getDetails());
+    if (formInspectionOrderDto.getInspections() == null) {
+      formInspectionOrderDto.setInspections(inspectionMapper.selectAll());
+    }
+    return formInspectionOrderDto;
   }
 
 }

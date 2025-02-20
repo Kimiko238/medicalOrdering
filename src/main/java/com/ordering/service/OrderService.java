@@ -1,6 +1,7 @@
 package com.ordering.service;
 
 import com.ordering.entity.FormInspectionOrderDto;
+import com.ordering.entity.PatientOrderDto;
 import com.ordering.exception.OrderStatusException;
 import com.ordering.helper.OrderConvert;
 import com.ordering.model.Inspection;
@@ -54,13 +55,13 @@ public class OrderService {
 
   //  全件取得
   public List<FormInspectionOrderDto> findAll() {
-    List<Order> orders = orderMapper.selectAll();
-    List<FormInspectionOrderDto> formInspectionOrderDtos = new ArrayList<>();
-    for (Order order : orders) {
-      FormInspectionOrderDto formInspectionOrderDto = orderConvert.convertForm(order);
-      formInspectionOrderDtos.add(formInspectionOrderDto);
+    List<PatientOrderDto> patientOrdersDto = orderMapper.selectAll();
+    List<FormInspectionOrderDto> formInspectionOrdersDto = new ArrayList<>();
+    for (PatientOrderDto patientOrderDto : patientOrdersDto) {
+      FormInspectionOrderDto formInspectionOrderDto = orderConvert.convertForm(patientOrderDto);
+      formInspectionOrdersDto.add(formInspectionOrderDto);
     }
-    return formInspectionOrderDtos;
+    return formInspectionOrdersDto;
   }
 
   //  検査の詳細を取得

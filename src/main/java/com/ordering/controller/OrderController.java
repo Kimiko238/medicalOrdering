@@ -28,13 +28,13 @@ public class OrderController {
   @GetMapping
   public String index(Model model, Authentication authentication) {
     List<FormInspectionOrderDto> formInspectionOrderDtos = orderService.findAll();
-    boolean zeroList = false;
-    if (formInspectionOrderDtos.size() == 0) {
-      zeroList = true;
+    boolean isZeroList = false;
+    if (formInspectionOrderDtos.isEmpty()) {
+      isZeroList = true;
     }
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
     model.addAttribute("authentication", authentication);
-    model.addAttribute("zeroList", zeroList);
+    model.addAttribute("zeroList", isZeroList);
     return "index";
   }
 
@@ -114,10 +114,10 @@ public class OrderController {
       Model model, Authentication authentication) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
     orderService.delete(formInspectionOrderDto);
-    boolean zeroList = true;
+    boolean isZeroList = true;
     model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
-    model.addAttribute("zeroList", zeroList);
+    model.addAttribute("zeroList", isZeroList);
     return "index";
   }
 

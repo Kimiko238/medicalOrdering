@@ -69,6 +69,8 @@
       <thead>
       <tr>
         <th scope="col">No.</th>
+        <th scope="col">患者ID</th>
+        <th scope="col">患者名</th>
         <th scope="col">ステータス</th>
         <th scope="col">検査名</th>
         <th scope="col">検査日時</th>
@@ -80,6 +82,8 @@
       <tbody>
       <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
         <th scope="row" th:text="${no.count}"></th>
+        <th scope="row" th:text="${formInspectionOrderDto.patientShowId}"></th>
+        <th scope="row" th:text="${formInspectionOrderDto.patientName}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.status}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.inspectionName}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.date}"></th>

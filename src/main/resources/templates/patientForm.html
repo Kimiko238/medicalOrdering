@@ -32,34 +32,6 @@
 <main>
   <h1 th:text="${newPatient} ? '患者新規登録画面' : '患者編集画面'"></h1>
   <form method="post"
-        th:action="${newPatient ? '/createPatient' : '/updatePatient' }"
-        th:object="${patient}">
-    <!--  非表示項目  -->
-    <input th:field="*{id}" type="hidden">
-    <input th:field="*{showId}" type="hidden">
-    <input th:field="*{createdBy}" type="hidden">
-    <input th:field="*{updatedBy}" type="hidden">
-
-    <!--  入力部分です   -->
-    <p>※苗字と名前の間は半角開けてください。</p>
-    <p>患者名：<input th:field="*{name}"></p>
-    <p>生年月日：<input th:field="*{birthday}" type="date"></p>
-    <p>性別：
-      <input th:field="*{gender}" type="radio" value="1">男性
-      <input th:field="*{gender}" type="radio" value="2">女性
-    </p>
-    <div>
-      <button th:text="${newPatient} ? '保存': '更新'" type="submit"></button>
-    </div>
-
-
-    <p th:if="${message}" th:text="${message}"></p>
-    <div th:if="${newPatient}">
-      <p th:if="${showId}">IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
-    </div>
-  </form>
-
-  <form method="post"
         th:action="${newPatient ? '/createPatient' : '/updatePatient'}"
         th:object="${patient}">
 
@@ -75,6 +47,9 @@
       <div class="mb-3">
         <label class="form-label" for="patientName">患者名</label>
         <input class="form-control" id="patientName" th:field="*{name}" type="text">
+        <div style="color: green;" th:errors="*{name}"
+             th:if="${#fields.hasErrors('name')}">
+        </div>
       </div>
 
 
@@ -82,6 +57,8 @@
         <label class="form-label" for="dateOnlyPicker">生年月日</label>
         <input class="form-control" id="dateOnlyPicker" th:field="*{birthday}"
                type="text">
+        <div style="color: green;" th:errors="*{birthday}"
+             th:if="${#fields.hasErrors('birthday')}"></div>
       </div>
       <div class="d-flex">
         <div class="form-check me-3">
@@ -105,6 +82,7 @@
       <p th:if="${showId}">IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
     </div>
   </form>
+
 
 </main>
 
