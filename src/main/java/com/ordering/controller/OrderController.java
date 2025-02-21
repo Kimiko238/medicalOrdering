@@ -26,14 +26,13 @@ public class OrderController {
 
   //検査依頼：検査一覧画面遷移時
   @GetMapping
-  public String index(Model model, Authentication authentication) {
+  public String index(Model model) {
     List<FormInspectionOrderDto> formInspectionOrderDtos = orderService.findAll();
     boolean isZeroList = false;
     if (formInspectionOrderDtos.isEmpty()) {
       isZeroList = true;
     }
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
-    model.addAttribute("authentication", authentication);
     model.addAttribute("zeroList", isZeroList);
     return "index";
   }

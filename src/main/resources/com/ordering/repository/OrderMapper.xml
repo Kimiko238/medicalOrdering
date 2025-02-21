@@ -79,7 +79,7 @@
     io.status,
     io.inspection_details AS details,
     io.inspection_date AS date,
-    io.created_by,  
+    io.created_by,
     io.created_at,
     io.updated_by,
     io.updated_at,
