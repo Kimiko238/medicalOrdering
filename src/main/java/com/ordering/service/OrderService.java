@@ -30,8 +30,6 @@ public class OrderService {
   //  新規保存時
   public FormInspectionOrderDto save(FormInspectionOrderDto catchFormInspectionOrderDto,
       Authentication authentication) {
-    Inspection inspection = inspectionMapper.selectById(
-        catchFormInspectionOrderDto.getInspectionId());
     Order saveOrder = orderConvert.convertEntity(catchFormInspectionOrderDto);
     saveOrder.setCreatedBy(authentication.getName());
     orderMapper.insert(saveOrder);

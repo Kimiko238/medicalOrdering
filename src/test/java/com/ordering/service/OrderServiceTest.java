@@ -35,15 +35,17 @@
 //  @BeforeEach
 //  void setUp() {
 //    orderSample = new Order(
-//        "id",
-//        "検査",
-//        "2024-12-22 11:05:15",
-//        "検査の詳細",
+//        "addId",
+//        "1",
+//        100,
+//        "未実施",
+//        "テストテスト",
+//        "2021-05-10 12:00:00",
 //        "アシュ",
-//        null,// createdAt
-//        null,          // updatedBy
-//        null,          // updatedAt
-//        null,          // deletedBy
+//        "2024-05-10 12:00:00",
+//        null,
+//        null,
+//        null,
 //        null
 //    );
 //  }

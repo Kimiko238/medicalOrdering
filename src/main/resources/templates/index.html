@@ -80,7 +80,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
+      <tr th:each="formInspectionOrderDto, no:${formInspectionOrdersDto}">
         <th scope="row" th:text="${no.count}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.patientShowId}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.patientName}"></th>

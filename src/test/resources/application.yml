@@ -6,6 +6,9 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
+  sql:
+    init:
+      mode: always
 
     logging:
   level:
