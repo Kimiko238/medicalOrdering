@@ -15,9 +15,12 @@ public interface PatientMapper {
   /**
    * 指定されたIDに対応する「すること」を取得します。
    */
-  Patient selectById(@Param("showId") Integer showId);
+  Patient selectByShowId(@Param("showId") Integer showId);
 
+  Patient selectById(String id);
 
   Patient selectByNameAndBirthday(String name, String birthday);
+
+  void update(Patient patient);
 }
 

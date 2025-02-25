@@ -26,15 +26,14 @@ public class OrderController {
 
   //検査依頼：検査一覧画面遷移時
   @GetMapping
-  public String index(Model model, Authentication authentication) {
+  public String index(Model model) {
     List<FormInspectionOrderDto> formInspectionOrderDtos = orderService.findAll();
-    boolean zeroList = false;
-    if (formInspectionOrderDtos.size() == 0) {
-      zeroList = true;
+    boolean isZeroList = false;
+    if (formInspectionOrderDtos.isEmpty()) {
+      isZeroList = true;
     }
     model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
-    model.addAttribute("authentication", authentication);
-    model.addAttribute("zeroList", zeroList);
+    model.addAttribute("zeroList", isZeroList);
     return "index";
   }
 
@@ -64,9 +63,11 @@ public class OrderController {
   //  検査依頼：新規登録画面遷移時
   @GetMapping("/newOrder")
   public String newOrder(Model model,
-      @RequestParam int showId) {
+      @RequestParam int showId,
+      Authentication authentication) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.settingOrder(showId);
     model.addAttribute("formInspectionOrderDto", formInspectionOrderDto);
+    model.addAttribute("authentication", authentication);
     return "orderForm";
   }
 
@@ -82,10 +83,10 @@ public class OrderController {
       // エラーがある場合、フォームに戻る
       return "orderForm";
     }
-    orderService.save(formInspectionOrderDto, authentication);
+    FormInspectionOrderDto showFormOrder = orderService.save(formInspectionOrderDto,
+        authentication);
     redirectAttributes.addFlashAttribute("message", "登録しました");
-    FormInspectionOrderDto returnFormInspectionOrderDto = orderService.showViewSaveData();
-    redirectAttributes.addFlashAttribute("formInspectionOrderDto", returnFormInspectionOrderDto);
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", showFormOrder);
     return "redirect:/";
   }
 
@@ -100,10 +101,9 @@ public class OrderController {
       return "orderForm";
     }
     //更新処理時の分岐
-    orderService.edit(editOrderDto, authentication);
+    FormInspectionOrderDto updatedOrderDto = orderService.edit(editOrderDto, authentication);
     redirectAttributes.addFlashAttribute("message", "更新しました");
-    FormInspectionOrderDto editedOrderDto = orderService.showViewSaveData();
-    redirectAttributes.addFlashAttribute("formInspectionOrderDto", editedOrderDto);
+    redirectAttributes.addFlashAttribute("formInspectionOrderDto", updatedOrderDto);
     return "redirect:/";
   }
 
@@ -113,10 +113,10 @@ public class OrderController {
       Model model, Authentication authentication) {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
     orderService.delete(formInspectionOrderDto);
-    boolean zeroList = true;
+    boolean isZeroList = true;
     model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
-    model.addAttribute("zeroList", zeroList);
+    model.addAttribute("zeroList", isZeroList);
     return "index";
   }
 

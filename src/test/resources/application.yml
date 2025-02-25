@@ -6,7 +6,8 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
-logging:
+
+    logging:
   level:
     org:
       springframework:

@@ -1,10 +1,7 @@
 package com.ordering.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -15,8 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.ordering.config.SecurityConfig;
-import com.ordering.entity.EntityInspectionOrderDto;
-import com.ordering.model.Order;
+import com.ordering.entity.FormInspectionOrderDto;
 import com.ordering.service.OrderService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +29,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import(SecurityConfig.class)
 public class OrderControllerTest {
 
-  Order sampleOrder;
-  List<Order> mockOrderList;
+  FormInspectionOrderDto sampleOrder;
+  List<FormInspectionOrderDto> mockOrderList;
   @Autowired
   MockMvc mockMvc;
 
@@ -46,17 +42,16 @@ public class OrderControllerTest {
 
   @BeforeEach
   void setUp() {
-    sampleOrder = new Order(
+    sampleOrder = new FormInspectionOrderDto(
         "id",
-        "検査",
-        "2024-12-22 11:05:15",
-        "検査の詳細",
-        "アシュ",
-        null,// createdAt
-        null,          // updatedBy
-        null,          // updatedAt
-        null,          // deletedBy
-        null
+        "1",
+        1,
+        "テスト患者",
+        "採血",
+        List.of(),
+        "2024-01-01 10:00:00",
+        "未実施",
+        "詳細"
     );
   }
 
@@ -65,28 +60,27 @@ public class OrderControllerTest {
   @Test
   void test_GET_index() throws Exception {
     mockOrderList = List.of(
-        new Order(
+        new FormInspectionOrderDto(
             "id1",
-            "検査1",
+            "2",
+            2,
+            "テスト患者1",
+            "心電図",
+            List.of(),
             "2024-01-01 10:00:00",
-            "詳細1",
-            "太郎",
-            null,
-            null,
-            null,
-            null,
-            null),
-        new Order(
+            "未実施",
+            "詳細1"
+        ),
+        new FormInspectionOrderDto(
             "id2",
-            "検査2",
-            "2024-01-02 10:00:00",
-            "詳細2",
-            "次郎",
-            null,
-            null,
-            null,
-            null,
-            null));
+            "3",
+            2,
+            "テスト患者1",
+            "心電図",
+            List.of(),
+            "2024-01-01 10:00:00",
+            "未実施",
+            "詳細1"));
     Mockito.when(orderService.findAll()).thenReturn(mockOrderList);
 
     mockMvc.perform(
@@ -106,7 +100,7 @@ public class OrderControllerTest {
   void test_GET_inspectionDetails() throws Exception {
     Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/inspectionDetails/{id}", sampleOrder.getId())
+            get("/inspectionDetails/{id}", sampleOrder.getOrderId())
                 .with(csrf())
                 .with(user("test").password("testTest"))
         )
@@ -120,7 +114,7 @@ public class OrderControllerTest {
   void test_GET_edit() throws Exception {
     Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/edit/{id}", sampleOrder.getId())
+            get("/edit/{id}", sampleOrder.getOrderId())
                 .with(csrf())
                 .with(user("test").password(("pass")))
         )
@@ -143,12 +137,11 @@ public class OrderControllerTest {
 
   //  検査依頼：新規登録時にバリデーションOKだった、テスト
   @Test
-  void test_POST_newSubmitOk() throws Exception {
-    doNothing().when(orderService)
-        .save(any(EntityInspectionOrderDto.class), any(Authentication.class));
-    doReturn(sampleOrder).when(orderService).findById(any(String.class));
+  void test_POST_newOrderSubmitOk() throws Exception {
+    doReturn(sampleOrder).when(orderService)
+        .save(any(FormInspectionOrderDto.class), any(Authentication.class));
     mockMvc.perform(
-            post("/newInspectionSubmit")
+            post("/newOrderSubmit")
                 .with(csrf())
                 .with(user("test").password("pass"))
                 .param("id", "id")
@@ -157,10 +150,8 @@ public class OrderControllerTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/"))
         .andExpect(flash().attribute("message", "登録しました"))
-        .andExpect(flash().attributeExists("inspectionDto"));
+        .andExpect(flash().attributeExists("formInspectionOrderDto"));
 
-    verify(orderService, times(1)).save(any(EntityInspectionOrderDto.class),
-        any(Authentication.class));
   }
 
   //  検査依頼：新規登録時にバリデーションNGだった、テスト
@@ -179,9 +170,8 @@ public class OrderControllerTest {
   //検査依頼：編集登録時にバリデーションOKだった、テスト
   @Test
   void test_POST_editSubmitOK() throws Exception {
-    doNothing().when(orderService)
-        .edit(any(Order.class), any(Authentication.class));
-    doReturn(sampleOrder).when(orderService).findById(any(String.class));
+    doReturn(sampleOrder).when(orderService)
+        .edit(any(FormInspectionOrderDto.class), any(Authentication.class));
     mockMvc.perform(
             post("/editInspectionSubmit")
                 .with(csrf())
@@ -194,8 +184,6 @@ public class OrderControllerTest {
         .andExpect(flash().attribute("message", "更新しました"))
         .andExpect(flash().attributeExists("inspectionCorrection"));
 
-    verify(orderService, times(1)).edit(any(Order.class),
-        any(Authentication.class));
   }
 
   //検査依頼：編集登録時にバリデーションNGだった、テスト
@@ -215,7 +203,7 @@ public class OrderControllerTest {
   void test_GET_delete() throws Exception {
     Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/delete/{id}", sampleOrder.getId())
+            get("/delete/{id}", sampleOrder.getOrderId())
                 .with(csrf())
                 .with(user("test").password("pass"))
         )

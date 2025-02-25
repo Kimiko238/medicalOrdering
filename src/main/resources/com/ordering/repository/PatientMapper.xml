@@ -25,7 +25,7 @@
     null, null)
   </insert>
 
-  <select id="selectById" resultType="com.ordering.model.Patient">
+  <select id="selectByShowId" resultType="com.ordering.model.Patient">
     SELECT
     id,
     show_id ,
@@ -58,4 +58,31 @@
     FROM patients
     WHERE name = #{name} AND birthday = #{birthday}
   </select>
+
+  <select id="selectById" resultType="com.ordering.model.Patient">
+    SELECT
+    id,
+    show_id ,
+    name,
+    birthday,
+    gender,
+    created_by,
+    created_at,
+    updated_by,
+    updated_at,
+    deleted_by,
+    deleted_at
+    FROM patients
+    WHERE id = #{Id}
+  </select>
+
+  <update id="update">
+    UPDATE patients SET
+    name = #{name},
+    birthday = #{birthday},
+    gender = #{gender},
+    updated_by = #{updatedBy},
+    updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+  </update>
 </mapper>
