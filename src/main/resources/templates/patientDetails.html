@@ -25,7 +25,7 @@
       </form>
 
       <div class="text-end">
-        ログイン名：<span sec:authentication="principal.user.name"></span>
+        ログイン名：<span sec:authentication="principal.username"></span>
       </div>
     </div>
 
@@ -47,7 +47,7 @@
       <h3 class="me-3" style="display: inline; ">患者の検査一覧</h3>
       <a class="btn btn-warning" th:href="@{/newOrder(showId=${patient.showId})}">新規検査を作成</a>
     </div>
-    <div th:if="${!zeroList}">
+    <div th:if="${!isZeroList}">
       <table class="table table-hover">
         <thead>
         <tr>
@@ -61,7 +61,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="formInspectionOrderDto, no:${formInspectionOrderDtos}">
+        <tr th:each="formInspectionOrderDto, no:${formInspectionOrdersDto}">
           <th scope="row" th:text="${no.count}"></th>
           <th scope="row" th:text="${formInspectionOrderDto.status}"></th>
           <th scope="row" th:text="${formInspectionOrderDto.inspectionName}"></th>

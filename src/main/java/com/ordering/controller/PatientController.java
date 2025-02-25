@@ -30,8 +30,7 @@ public class PatientController {
   @GetMapping("/newPatient")
   public String newPatient(Model model, Authentication authentication) {
     model.addAttribute("patient", new Patient());
-    boolean newPatient = true;
-    model.addAttribute("newPatient", newPatient);
+    model.addAttribute("isNewPatient", true);
     return "patientForm";
   }
 
@@ -41,8 +40,7 @@ public class PatientController {
       @PathVariable String id) {
     Patient patient = patientService.findById(id);
     model.addAttribute("patient", patient);
-    boolean newPatient = false;
-    model.addAttribute("newPatient", newPatient);
+    model.addAttribute("isNewPatient", false);
     return "patientForm";
   }
 
@@ -62,14 +60,14 @@ public class PatientController {
     List<FormInspectionOrderDto> formInspectionOrderDtos = patientService.viewInspectionList(
         showId);
 //    リストが空だった場合の処理
-    boolean zeroList = false;
+    boolean isZeroList = false;
     if (formInspectionOrderDtos.isEmpty()) {
-      zeroList = true;
+      isZeroList = true;
     }
 
     //modelへ登録する
-    model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
-    model.addAttribute("zeroList", zeroList);
+    model.addAttribute("formInspectionOrdersDto", formInspectionOrderDtos);
+    model.addAttribute("isZeroList", isZeroList);
     return "patientDetails";
   }
 
@@ -82,8 +80,7 @@ public class PatientController {
       Authentication authentication,
       Model model) {
     if (bindingResult.hasErrors()) {
-      Boolean newPatient = true;
-      model.addAttribute("newPatient", newPatient);
+      model.addAttribute("isNewPatient", true);
       return "patientForm";
     }
 

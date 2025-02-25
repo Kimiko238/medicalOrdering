@@ -1,6 +1,7 @@
 package com.ordering.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -90,23 +91,22 @@ public class OrderControllerTest {
         )
         .andExpect(status().is2xxSuccessful())
         .andExpect(view().name("index"))
-        .andExpect(model().attribute("inspections", mockOrderList))
-        .andExpect(model().attributeExists("authentication"));
-    ;
+        .andExpect(model().attribute("formInspectionOrdersDto", mockOrderList))
+        .andExpect(model().attribute("zeroList", Boolean.FALSE));
   }
 
   //検査依頼：詳細画面遷移時、のテスト
   @Test
-  void test_GET_inspectionDetails() throws Exception {
+  void test_GET_orderDetails() throws Exception {
     Mockito.when(orderService.findById("id")).thenReturn(sampleOrder);
     mockMvc.perform(
-            get("/inspectionDetails/{id}", sampleOrder.getOrderId())
+            get("/orderDetails/{id}", sampleOrder.getOrderId())
                 .with(csrf())
                 .with(user("test").password("testTest"))
         )
         .andExpect(status().is2xxSuccessful())
-        .andExpect(view().name("inspectionDetails"))
-        .andExpect(model().attribute("inspection", sampleOrder));
+        .andExpect(view().name("orderDetails"))
+        .andExpect(model().attribute("formInspectionOrderDto", sampleOrder));
   }
 
   //  検査依頼：編集画面への遷移時、のテスト
@@ -120,19 +120,24 @@ public class OrderControllerTest {
         )
         .andExpect(status().is2xxSuccessful())
         .andExpect(view().name("orderForm"))
-        .andExpect(model().attribute("inspection", sampleOrder));
+        .andExpect(model().attribute("formInspectionOrderDto", sampleOrder));
   }
 
   //  検査依頼：新規登録画面遷移時、のテスト
   @Test
   void test_GET_newInspection() throws Exception {
+    doReturn(sampleOrder).when(orderService)
+        .settingOrder(anyInt());
     mockMvc.perform(
-            get("/newInspection")
+            get("/newOrder")
                 .with(csrf())
                 .with(user("test").password("pass"))
+                .param("showId", String.valueOf(1000))
+
         )
         .andExpect(status().is2xxSuccessful())
-        .andExpect(view().name("orderForm"));
+        .andExpect(view().name("orderForm"))
+        .andExpect(model().attribute("formInspectionOrderDto", sampleOrder));
   }
 
   //  検査依頼：新規登録時にバリデーションOKだった、テスト
@@ -158,7 +163,7 @@ public class OrderControllerTest {
   @Test
   void test_POST_newSubmitNG() throws Exception {
     mockMvc.perform(
-            post("/newInspectionSubmit")
+            post("/newOrderSubmit")
                 .with(csrf())
                 .with(user("test").password("pass"))
         )
@@ -173,7 +178,7 @@ public class OrderControllerTest {
     doReturn(sampleOrder).when(orderService)
         .edit(any(FormInspectionOrderDto.class), any(Authentication.class));
     mockMvc.perform(
-            post("/editInspectionSubmit")
+            post("/editOrderSubmit")
                 .with(csrf())
                 .with(user("test").password("pass"))
                 .param("id", "id")
@@ -182,7 +187,7 @@ public class OrderControllerTest {
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/"))
         .andExpect(flash().attribute("message", "更新しました"))
-        .andExpect(flash().attributeExists("inspectionCorrection"));
+        .andExpect(flash().attributeExists("formInspectionOrderDto"));
 
   }
 
@@ -190,7 +195,7 @@ public class OrderControllerTest {
   @Test
   void test_POST_editSubmitNG() throws Exception {
     mockMvc.perform(
-            post("/editInspectionSubmit")
+            post("/editOrderSubmit")
                 .with(csrf())
                 .with(user("test").password("pass"))
         )
@@ -209,7 +214,6 @@ public class OrderControllerTest {
         )
         .andExpect(status().is2xxSuccessful())
         .andExpect(view().name("index"))
-        .andExpect(model().attributeExists("authentication"))
         .andExpect(model().attribute("message", "削除しました"));
   }
 }

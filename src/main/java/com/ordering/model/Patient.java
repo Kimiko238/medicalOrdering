@@ -28,7 +28,7 @@ public class Patient {
   /**
    * 名前
    */
-  @Size(min = 1, max = 10, message = "{patientName.size}")
+  @Size(min = 1, message = "{patientName.size}")
   @Pattern(regexp = "^\\S+\\s+\\S+$", message = "{patientName.pattern}")
   private String name;
   /**
@@ -44,7 +44,7 @@ public class Patient {
   /**
    * 作成者
    */
-  private String createdBy;
+   private String createdBy;
   /**
    * 作成日時
    */

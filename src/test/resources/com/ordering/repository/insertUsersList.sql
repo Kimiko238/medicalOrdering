@@ -1,4 +1,4 @@
-INSERT INTO md_test_db.users (
+INSERT IGNORE INTO md_test_db.users (
   id,
   name,
   birthday,

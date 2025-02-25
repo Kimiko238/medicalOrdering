@@ -3,6 +3,7 @@ package com.ordering.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ordering.model.Patient;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
@@ -25,13 +26,13 @@ public class PatientMapperTest {
   void setUp() {
 
     patientSample = new Patient(
-        "44",
-        null,
-        "冴子",
-        "2023-01-15",
+        "patientId",
+        100,
+        "テスト 太郎",
+        "2000-05-18",
         "2",
-        "アシュ",
-        null,
+        "テスト ユーザー",
+        LocalDateTime.now(),
         null,
         null,
         null,
@@ -40,29 +41,40 @@ public class PatientMapperTest {
   }
 
   @Test
-  @Sql("./insertPatientList.sql")
+  @Sql("./data.sql")
   void testInsert() {
     patientMapper.insert(patientSample);
-    Patient checkPatient = patientMapper.selectByNameAndBirthday("冴子", "2023-01-15");
-//    assertEquals(patientSample.getShowId(), checkPatient.getShowId());
+    Patient checkPatient = patientMapper.selectByNameAndBirthday("テスト 太郎", "2000-05-18");
     assertEquals(patientSample.getGender(), checkPatient.getGender());
   }
 
   @Test
-  @Sql("./insertPatientList.sql")
+  @Sql("./data.sql")
   void testSelectById() {
-    patientMapper.insert(patientSample);
-    Patient patientDto = patientMapper.selectByNameAndBirthday("冴子", "2023-01-15");
+    Patient checkPatient = patientMapper.selectById("patientId");
 //    Patient checkPatient = patientMapper.selectById(patientDto.getShowId());
-    assertEquals("2", patientDto.getGender());
-    assertEquals("アシュ", patientDto.getCreatedBy());
+    assertEquals("2", checkPatient.getGender());
+    assertEquals("テスト ユーザー", checkPatient.getCreatedBy());
   }
 
   @Test
-  @Sql("./insertPatientList.sql")
+  @Sql("./data.sql")
   void testSelectByNameBirthday() {
-    Patient patientDto = patientMapper.selectByNameAndBirthday("トム", "2025-01-17");
+    Patient patientDto = patientMapper.selectByNameAndBirthday("テスト 花子", "2000-05-18");
     assertEquals("2", patientDto.getGender());
-    assertEquals("アシュ", patientDto.getCreatedBy());
+    assertEquals("テスト ユーザー", patientDto.getCreatedBy());
+  }
+
+  @Test
+  @Sql("./data.sql")
+  void testUpdate() {
+    Patient updatePatient = patientMapper.selectById("patientId");
+    updatePatient.setGender("1");
+    updatePatient.setBirthday("2023-10-08");
+    patientMapper.update(updatePatient);
+    Patient checkPatient = patientMapper.selectById("patientId");
+    assertEquals(updatePatient.getGender(), checkPatient.getGender());
+    assertEquals(updatePatient.getBirthday(), checkPatient.getBirthday());
+
   }
 }
