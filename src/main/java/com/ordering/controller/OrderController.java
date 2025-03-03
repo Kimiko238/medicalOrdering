@@ -51,6 +51,7 @@ public class OrderController {
     return "orderDetails";
   }
 
+
   //  検査依頼：編集画面への遷移時
   @GetMapping("/edit/{id}")
   public String edit(@PathVariable("id") String inspectionId, Model model) {

@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -154,6 +155,7 @@ public class PatientControllerTest {
 
   //  すでに患者が登録されていて、Exceptionをスローした時のテスト
   @Test
+  @WithMockUser
   void test_POST_createPatientException() throws Exception {
     when(patientService.save(any(
         Patient.class), any(Authentication.class))).thenThrow(
@@ -161,7 +163,6 @@ public class PatientControllerTest {
     mockMvc.perform(
             post("/createPatient")
                 .with(csrf())
-                .with(user("testman").password("eivkb"))
                 .param("id", "id")
                 .param("showId", "1")
                 .param("name", "akane komatsu")

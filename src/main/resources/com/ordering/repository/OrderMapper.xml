@@ -72,7 +72,7 @@
   <!--  検査の一覧表示-->
   <select id="selectAll">
     SELECT
-    io.id,
+    io.id AS orderId,
     io.patient_show_id,
     p.name AS patientName,
     io.inspection_id,
