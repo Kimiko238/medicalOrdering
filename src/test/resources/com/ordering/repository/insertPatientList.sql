@@ -1,15 +1,17 @@
 
 INSERT INTO md_test_db.patients (
-    id,
-    name,
-    birthday,
-    gender,
-    created_by,
-    created_at,
-    updated_by,
-    updated_at,
-    deleted_by,
-    deleted_at
+     id,
+     patient_show_id,
+     inspection_id,
+     status,
+     inspection_details,
+     inspection_date,
+     created_by,
+     created_at,
+     updated_by,
+     updated_at,
+     deleted_by,
+     deleted_at
 )
 VALUES(
 'id',

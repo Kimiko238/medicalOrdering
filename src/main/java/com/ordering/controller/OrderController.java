@@ -32,7 +32,7 @@ public class OrderController {
     if (formInspectionOrderDtos.isEmpty()) {
       isZeroList = true;
     }
-    model.addAttribute("formInspectionOrderDtos", formInspectionOrderDtos);
+    model.addAttribute("formInspectionOrdersDto", formInspectionOrderDtos);
     model.addAttribute("zeroList", isZeroList);
     return "index";
   }
@@ -50,6 +50,7 @@ public class OrderController {
     model.addAttribute("from", from);
     return "orderDetails";
   }
+
 
   //  検査依頼：編集画面への遷移時
   @GetMapping("/edit/{id}")
@@ -91,7 +92,7 @@ public class OrderController {
   }
 
   //検査依頼：編集登録時
-  @PostMapping("/editInspectionSubmit")
+  @PostMapping("/editOrderSubmit")
   public String editSubmit(Model model,
       RedirectAttributes redirectAttributes,
       @Validated FormInspectionOrderDto editOrderDto,
@@ -114,7 +115,6 @@ public class OrderController {
     FormInspectionOrderDto formInspectionOrderDto = orderService.findById(inspectionId);
     orderService.delete(formInspectionOrderDto);
     boolean isZeroList = true;
-    model.addAttribute("authentication", authentication);
     model.addAttribute("message", "削除しました");
     model.addAttribute("zeroList", isZeroList);
     return "index";

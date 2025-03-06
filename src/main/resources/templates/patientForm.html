@@ -16,10 +16,10 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand navi-font" th:href="@{/}"
-         th:if="${newPatient}">＜＜検査一覧画面へもどる</a>
+         th:if="${isNewPatient}">＜＜検査一覧画面へもどる</a>
 
       <a class="navbar-brand navi-font" th:href="@{/searchPatient(showId=${patient.showId})}"
-         th:if="${!newPatient}"
+         th:if="${!isNewPatient}"
       >＜＜患者詳細画面へ戻る</a>
 
       <div class="d-flex justify-content-end">
@@ -30,9 +30,9 @@
 </header>
 
 <main>
-  <h1 th:text="${newPatient} ? '患者新規登録画面' : '患者編集画面'"></h1>
+  <h1 th:text="${isNewPatient} ? '患者新規登録画面' : '患者編集画面'"></h1>
   <form method="post"
-        th:action="${newPatient ? '/createPatient' : '/updatePatient'}"
+        th:action="${isNewPatient ? '/createPatient' : '/updatePatient'}"
         th:object="${patient}">
 
     <!--  見えない部分だが入れておく必要がある項目（送りたい項目）　-->
@@ -73,12 +73,12 @@
         </div>
       </div>
       <div>
-        <button th:text="${newPatient} ? '保存': '更新'" type="submit"></button>
+        <button th:text="${isNewPatient} ? '保存': '更新'" type="submit"></button>
       </div>
     </div>
 
     <p th:if="${message}" th:text="${message}"></p>
-    <div th:if="${newPatient}">
+    <div th:if="${isNewPatient}">
       <p th:if="${showId}">IDは<span th:if="${showId}" th:text="${showId}"></span>です</p>
     </div>
   </form>

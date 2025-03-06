@@ -19,7 +19,9 @@
 
   <h1 class="fw-bold fs-2 mb-4 me-5">ログイン画面 </h1>
   <form method="post" th:action="@{/login}">
-
+<div>
+ <a th:href="@{/userRegister}">※ユーザー登録</a> <p>してからログインしてください。</p>
+</div>
     <div class="mb-3">
       <label class="form-label" for="exampleInputName">登録名</label>
       <input aria-describedby="emailHelp" class="form-control" name="name"
@@ -34,7 +36,6 @@
   </form>
 
 </div>
-<a th:href="@{/userRegister}">ユーザー登録</a>
 
 
 <script crossorigin="anonymous"
