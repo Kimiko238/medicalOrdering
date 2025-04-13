@@ -77,7 +77,7 @@ public class OrderMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testSelectAll() {
     List<PatientOrderDto> inspectionsList = orderMapper.selectAll();
     PatientOrderDto patientOrderDto = inspectionsList.stream().findFirst().orElseThrow();
@@ -87,7 +87,7 @@ public class OrderMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testSelectById() {
     Order checkOrder = orderMapper.selectById("orderId");
     assertEquals("1", checkOrder.getInspectionId());
@@ -96,7 +96,7 @@ public class OrderMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testUpdate() {
     Order checkOrder = orderMapper.selectById("orderId");
     orderMapper.update(checkOrder);
@@ -106,7 +106,7 @@ public class OrderMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testDelete() {
     Order checkOrder = orderMapper.selectById("orderId");
     orderMapper.delete(checkOrder);

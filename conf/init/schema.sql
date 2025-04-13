@@ -16,7 +16,7 @@ PRIMARY KEY (id),
 UNIQUE KEY (show_id)
 );
 
---- usersテーブル
+-- usersテーブル
  CREATE TABLE IF NOT EXISTS users (
  id VARCHAR(255) NOT NULL,
  name VARCHAR(20) NOT NULL,
@@ -33,7 +33,7 @@ UNIQUE KEY (show_id)
  );
 
 
---検査の種類
+-- 検査の種類
 CREATE TABLE IF NOT EXISTS inspection_types (
     id VARCHAR(255) NOT NULL,
     name VARCHAR(20) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS inspection_types (
 );
 
 
---オーダー情報
+-- オーダー情報
 CREATE TABLE IF NOT EXISTS inspection_orders (
     id VARCHAR(255) NOT NULL,
     patient_show_id INT NOT NULL,
