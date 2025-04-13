@@ -1,0 +1,28 @@
+version: '3.8' # docker-composeのバージョン
+services:
+  spring-app: # Springアプリケーションのサービスに関する設定
+    build: # コンテナイメージのビルドに使用する設定
+      context: . # 現在のディレクトリ（本ファイルが配置されているディレクトリ）をコンテキストとして設定する。
+      dockerfile: Dockerfile # 現在のディレクトリにあるDockerfileをイメージのビルドに使用する。
+    ports:
+      - "8080:8080" # ローカルの8080ポートと、コンテナ内の8080ポートを接続する。
+    depends_on:
+      - db # spring-appサービスはdbサービスが起動してから実行されるようにする。
+
+  db: # MySQLのサービスに関する設定
+    image: mysql:8.0 # 使用するDockerイメージ
+    container_name: mysql_mdOrdering # コンテナ名
+    ports:
+      - "3307:3306" # ローカルの3307ポートと、コンテナ内の3306ポートを接続する。
+    environment: # MySQLの初期設定を定義する環境変数
+      MYSQL_DATABASE: md_db # DB名
+      MYSQL_ROOT_PASSWORD: mdDb # DBのルートパスワード
+      MYSQL_USER: ash # DBのユーザー名
+      MYSQL_PASSWORD: ash # DBのパスワード
+      TZ: Asia/Tokyo # タイムゾーン
+    volumes:
+      - db-data:/var/lib/mysql # コンテナの /var/lib/mysql ディレクトリ（MySQL のデータが保存される場所）をホストにマウント。
+      - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf # コンテナのdb設定ファイル /etc/mysql/conf.d/my.cnf を、ローカルの ./conf/my.cnf へマウント
+      - ./init:/docker-entrypoint-init # 初期テーブルの作成とレコード投入をする。
+volumes:
+  db-data: # 名前付きボリューム
