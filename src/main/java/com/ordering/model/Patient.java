@@ -1,6 +1,7 @@
 package com.ordering.model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -39,12 +40,12 @@ public class Patient {
   /**
    * 性別
    */
-  @NotBlank(message = "{gender.null}")
-  private String gender;
+  @NotNull(message = "{gender.null}")
+  private Character gender;
   /**
    * 作成者
    */
-   private String createdBy;
+  private String createdBy;
   /**
    * 作成日時
    */

@@ -39,7 +39,7 @@ public class UserController {
   @PostMapping("/createUser")
   public String createUser(Model model, @Validated User user, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
-      return "redirect:/userRegister";
+      return "userRegister";
     }
     try {
       userService.save(user);

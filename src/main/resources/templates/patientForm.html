@@ -47,7 +47,7 @@
       <div class="mb-3">
         <label class="form-label" for="patientName">患者名</label>
         <input class="form-control" id="patientName" th:field="*{name}" type="text">
-        <div style="color: green;" th:errors="*{name}"
+        <div style="color: red;" th:errors="*{name}"
              th:if="${#fields.hasErrors('name')}">
         </div>
       </div>
@@ -57,7 +57,7 @@
         <label class="form-label" for="dateOnlyPicker">生年月日</label>
         <input class="form-control" id="dateOnlyPicker" th:field="*{birthday}"
                type="text">
-        <div style="color: green;" th:errors="*{birthday}"
+        <div style="color: red;" th:errors="*{birthday}"
              th:if="${#fields.hasErrors('birthday')}"></div>
       </div>
       <div class="d-flex">
@@ -67,12 +67,15 @@
           <label class="form-check-label" for="flexRadioDefault1">男性</label>
         </div>
         <div class="form-check">
-          <input checked class="form-check-input" id="flexRadioDefault2" name="flexRadioDefault"
+          <input class="form-check-input" id="flexRadioDefault2" name="flexRadioDefault"
                  th:field="*{gender}" type="radio" value="2">
           <label class="form-check-label" for="flexRadioDefault2">女性</label>
         </div>
       </div>
+      <div style="color: red;" th:errors="*{gender}"
+           th:if="${#fields.hasErrors('gender')}"></div>
       <div>
+
         <button th:text="${isNewPatient} ? '保存': '更新'" type="submit"></button>
       </div>
     </div>

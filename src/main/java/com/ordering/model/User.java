@@ -1,5 +1,8 @@
 package com.ordering.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +16,16 @@ public class User {
   private String id;
 
   //  ユーザー名
+  @Pattern(regexp = "^\\S+\\s+\\S+$", message = "{patientName.pattern}")
   private String name;
 
   //ユーザーの生年月日
+  @NotBlank(message = "{birthday.null}")
   private String birthday;
 
-  //  ユーザーの生年月日
-  private char gender;
+  //  ユーザーの性別
+  @NotNull(message = "{gender.null}")
+  private Character gender;
 
   //ユーザーのパスワード
   private String pass;

@@ -32,7 +32,7 @@ public class PatientMapperTest {
         100,
         "テスト 太郎",
         "2000-05-18",
-        "2",
+        '2',
         "テスト ユーザー",
         LocalDateTime.now(),
         null,
@@ -71,7 +71,7 @@ public class PatientMapperTest {
   @Sql("data.sql")
   void testUpdate() {
     Patient updatePatient = patientMapper.selectById("patientId");
-    updatePatient.setGender("1");
+    updatePatient.setGender('1');
     updatePatient.setBirthday("2023-10-08");
     patientMapper.update(updatePatient);
     Patient checkPatient = patientMapper.selectById("patientId");

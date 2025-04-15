@@ -51,7 +51,7 @@ public class PatientControllerTest {
         3,
         "小町",
         "1988-10-5",
-        "2",
+        '2',
         "アシュ",
         null,
         null,
