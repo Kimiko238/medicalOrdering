@@ -1,5 +1,6 @@
 package com.ordering.service;
 
+import com.ordering.exception.UserAlreadyExistsException;
 import com.ordering.model.User;
 import com.ordering.repository.UserMapper;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,10 @@ public class UserService implements UserDetailsService {
   private PasswordEncoder passwordEncoder;
 
   public void save(User user) {
+    User serchUser = userMapper.findByName(user.getName());
+    if (serchUser != null) {
+      throw new UserAlreadyExistsException("このユーザーはすでに登録されています");
+    }
     String hashedPass = passwordEncoder.encode(user.getPass());
     user.setPass(hashedPass);
     userMapper.insert(user);

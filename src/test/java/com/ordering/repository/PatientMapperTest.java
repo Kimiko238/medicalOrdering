@@ -32,7 +32,7 @@ public class PatientMapperTest {
         100,
         "テスト 太郎",
         "2000-05-18",
-        "2",
+        '2',
         "テスト ユーザー",
         LocalDateTime.now(),
         null,
@@ -43,7 +43,7 @@ public class PatientMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testInsert() {
     patientMapper.insert(patientSample);
     Patient checkPatient = patientMapper.selectByNameAndBirthday("テスト 太郎", "2000-05-18");
@@ -51,7 +51,7 @@ public class PatientMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testSelectById() {
     Patient checkPatient = patientMapper.selectById("patientId");
 //    Patient checkPatient = patientMapper.selectById(patientDto.getShowId());
@@ -60,7 +60,7 @@ public class PatientMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testSelectByNameBirthday() {
     Patient patientDto = patientMapper.selectByNameAndBirthday("テスト 花子", "2000-05-18");
     assertEquals("2", patientDto.getGender());
@@ -68,10 +68,10 @@ public class PatientMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testUpdate() {
     Patient updatePatient = patientMapper.selectById("patientId");
-    updatePatient.setGender("1");
+    updatePatient.setGender('1');
     updatePatient.setBirthday("2023-10-08");
     patientMapper.update(updatePatient);
     Patient checkPatient = patientMapper.selectById("patientId");

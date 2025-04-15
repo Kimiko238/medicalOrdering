@@ -7,22 +7,38 @@ services:
     ports:
       - "8080:8080" # ローカルの8080ポートと、コンテナ内の8080ポートを接続する。
     depends_on:
-      - db # spring-appサービスはdbサービスが起動してから実行されるようにする。
+      db:
+        condition: service_healthy
+
+  #    environment:
+  #      DB_NAME: ${DB_NAME}
+  #      DB_USER: ${DB_USER}
+  #      DB_ROOT_PASS: ${DB_ROOT_PASS}
+  #      DB_PASS: ${DB_PASS}
+  #      DB_PORT: ${DB_PORT}
+  #      TZ: ${TZ}
 
   db: # MySQLのサービスに関する設定
     image: mysql:8.0 # 使用するDockerイメージ
-    container_name: mysql_mdOrdering # コンテナ名
+    container_name: db # コンテナ名
     ports:
       - "3307:3306" # ローカルの3307ポートと、コンテナ内の3306ポートを接続する。
     environment: # MySQLの初期設定を定義する環境変数
       MYSQL_DATABASE: md_db # DB名
-      MYSQL_ROOT_PASSWORD: mdDb # DBのルートパスワード
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"# DBのルートパスワード
       MYSQL_USER: ash # DBのユーザー名
-      MYSQL_PASSWORD: ash # DBのパスワード
-      TZ: Asia/Tokyo # タイムゾーン
+      MYSQL_PASSWORD: ash238 # DBのパスワード
+      TZ: ${DB_TZ} # タイムゾーン
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - db-data:/var/lib/mysql # コンテナの /var/lib/mysql ディレクトリ（MySQL のデータが保存される場所）をホストにマウント。
       - ./conf/my.cnf:/etc/mysql/conf.d/my.cnf # コンテナのdb設定ファイル /etc/mysql/conf.d/my.cnf を、ローカルの ./conf/my.cnf へマウント
-      - ./init:/docker-entrypoint-init # 初期テーブルの作成とレコード投入をする。
+#      - ./conf/init:/docker-entrypoint-initdb.d # 初期テーブルの作成とレコード投入をする。
+
 volumes:
   db-data: # 名前付きボリューム

@@ -1,5 +1,6 @@
 package com.ordering.controller;
 
+import com.ordering.exception.UserAlreadyExistsException;
 import com.ordering.model.User;
 import com.ordering.service.UserService;
 import lombok.AllArgsConstructor;
@@ -36,13 +37,16 @@ public class UserController {
 
   //  新規登録処理
   @PostMapping("/createUser")
-  public String createUser(Model model, @Validated User user,
-      BindingResult bindingResult) {
+  public String createUser(Model model, @Validated User user, BindingResult bindingResult) {
     if (bindingResult.hasErrors()) {
-      return "redirect:/userRegister";
+      return "userRegister";
     }
-    userService.save(user);
-    model.addAttribute("message", "登録できました");
+    try {
+      userService.save(user);
+      model.addAttribute("message", "登録できました");
+    } catch (UserAlreadyExistsException e) {
+      model.addAttribute("message", "このユーザーはすでに登録済みです。");
+    }
     return "login";
   }
 }

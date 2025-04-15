@@ -43,7 +43,7 @@ public class UserMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testInsert() {
     userMapper.insert(userSample);
     User checkUser = userMapper.findByName(userSample.getName());
@@ -52,7 +52,7 @@ public class UserMapperTest {
   }
 
   @Test
-  @Sql("./data.sql")
+  @Sql("data.sql")
   void testFindByName() {
     User checkUser = userMapper.findByName("たろう");
     assertEquals("2024-12-10", checkUser.getBirthday());

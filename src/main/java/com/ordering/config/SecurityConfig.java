@@ -26,7 +26,8 @@ public class SecurityConfig {
         // ★HTTPリクエストに対するセキュリティ設定
         .authorizeHttpRequests(authorize -> authorize
                 //下記は指定したもので遷移した際に認証をしないでパスする設定
-                .requestMatchers("/login", "/favicon.ico", "/userRegister", "/createUser")
+                .requestMatchers("/login", "/favicon.ico", "/userRegister", "/createUser", "/css/**",
+                    "/js/**", "/images/**")
                 .permitAll()
                 .requestMatchers("/api/**").permitAll() //REST APIを作ってみるのに通したパス
 //            その他の設定：認証が必要と設定している

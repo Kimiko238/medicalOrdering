@@ -40,7 +40,7 @@ public class PatientServiceTest {
         99,
         "小町さん",
         "1993-10-20",
-        "2",
+        '2',
         "アシュ",
         null,
         null,
