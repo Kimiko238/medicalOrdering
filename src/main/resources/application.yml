@@ -2,12 +2,12 @@
 #  port: 8001
 spring:
   datasource:
-    url: jdbc:mysql://db:3306/md_db
+    url: jdbc:postgresql://db:5432/md_db
     username: ash
-    password: ash238
+    password: D28z6eqMxIlVX2rgycFRTXQ2TDE6pYFG
 
 
-
+  
   #    こちらはローカル環境でダイレクトに入れる環境
   #spring:
   #  datasource:
