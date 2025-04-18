@@ -78,4 +78,15 @@ function setStatus(status) {
     }
 
 
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+  const select = document.querySelector("select[name='inspectionId']");
+  const hiddenInput = document.querySelector("input[name='inspectionName']");
+
+  form.addEventListener("submit", function () {
+    const selectedOption = select.options[select.selectedIndex];
+    hiddenInput.value = selectedOption.text;
+  });
+});
+
 

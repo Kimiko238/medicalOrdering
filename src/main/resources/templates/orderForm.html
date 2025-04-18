@@ -56,6 +56,7 @@
   <input th:field="*{orderId}" type="hidden">
   <input th:field="*{patientShowId}" type="hidden">
   <input th:field="*{status}" th:value="未実施" type="hidden">
+  <input id="inspection-name" th:field="*{inspectionName}" type="hidden">
 
   <!--  <input th:field="*{createdBy}" type="hidden">-->
   <!--  <input th:field="*{updatedBy}" type="hidden">-->
@@ -74,7 +75,9 @@
     <!--  <p>検査日：<input th:field="*{date}" type="datetime-local"></p>-->
     <div class="mb-3">
       <label class="form-label" for="datetimepicker">検査日時</label>
-      <input class="form-control" id="datetimepicker" th:field="*{date}" type="text">
+      <input class="form-control" id="datetimepicker" name="date"
+             th:value="${#temporals.format(formInspectionOrderDto.date, 'yyyy-MM-dd HH:mm')}"
+             type="text">
     </div>
 
     <div class="form-floating">

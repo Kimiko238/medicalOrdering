@@ -50,7 +50,7 @@ public class PatientControllerTest {
         "id",
         3,
         "小町",
-        "1988-10-5",
+        LocalDate.parse("1988-10-5"),
         '2',
         "アシュ",
         null,

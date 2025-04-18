@@ -14,11 +14,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/md_db_wduc
     username: postgres
     password: porigone
-sql:
-  init:
-    mode: always
-    schema-locations: classpath:schema.sql
-    data-locations: classpath:data.sql
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
 
 
 

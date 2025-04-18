@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import com.ordering.model.Patient;
 import com.ordering.repository.PatientMapper;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +40,7 @@ public class PatientServiceTest {
         "id",
         99,
         "小町さん",
-        "1993-10-20",
+        LocalDate.parse("1993-10-20"),
         '2',
         "アシュ",
         null,
