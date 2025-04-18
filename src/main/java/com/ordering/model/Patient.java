@@ -1,9 +1,9 @@
 package com.ordering.model;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,8 +35,8 @@ public class Patient {
   /**
    * 生年月日
    */
-  @NotBlank(message = "{birthday.null}")
-  private String birthday;
+  @NotNull(message = "{birthday.null}")
+  private LocalDate birthday;
   /**
    * 性別
    */

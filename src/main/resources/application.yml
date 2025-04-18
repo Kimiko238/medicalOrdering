@@ -11,9 +11,9 @@ server:
 #      こちらはローカル環境でダイレクトに入れる環境
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: jdbc:postgresql://localhost:5432/md_db_wduc
+    username: postgres
+    password: porigone
 sql:
   init:
     mode: always
@@ -31,8 +31,8 @@ sql:
 
 
 
-config:
-  import: optional:file:.env[.properties]
+#config:
+#  import: optional:file:.env[.properties]
 
 logging:
   level:

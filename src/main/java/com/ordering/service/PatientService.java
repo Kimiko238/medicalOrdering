@@ -7,6 +7,7 @@ import com.ordering.model.Order;
 import com.ordering.model.Patient;
 import com.ordering.repository.OrderMapper;
 import com.ordering.repository.PatientMapper;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +48,7 @@ public class PatientService {
   }
 
 
-  public boolean existPatient(String name, String birthday) {
+  public boolean existPatient(String name, LocalDate birthday) {
     return patientMapper.selectByNameAndBirthday(name, birthday) != null;
 
   }
@@ -66,7 +67,7 @@ public class PatientService {
     return findByNameAndBirthday(patient.getName(), patient.getBirthday());
   }
 
-  public Patient findByNameAndBirthday(String name, String birthDay) {
+  public Patient findByNameAndBirthday(String name, LocalDate birthDay) {
     return patientMapper.selectByNameAndBirthday(name, birthDay);
   }
 
