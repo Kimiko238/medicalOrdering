@@ -14,7 +14,7 @@
   <insert id="insert">
     <!--    UUIDの発行-->
     <selectKey keyProperty="id" order="BEFORE" resultType="string">
-      SELECT REPLACE(UUID(), '-', '')FROM DUAL
+      SELECT REPLACE(gen_random_uuid()::text, '-', '')
     </selectKey>
 
 

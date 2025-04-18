@@ -16,6 +16,7 @@ import com.ordering.exception.OrderStatusException;
 import com.ordering.helper.OrderConvert;
 import com.ordering.model.Order;
 import com.ordering.repository.OrderMapper;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,9 +58,9 @@ public class OrderServiceTest {
         100,
         "未実施",
         "テストテスト",
-        "2021-05-10 12:00:00",
+        LocalDateTime.parse("2021-05-10T12:00:00"),
         "アシュ",
-        "2024-05-10 12:00:00",
+        LocalDateTime.parse("2021-05-10T12:00:00"),
         null,
         null,
         null,
@@ -73,7 +74,7 @@ public class OrderServiceTest {
         "テスト患者1",
         "心電図",
         List.of(),
-        "2024-01-01 10:00:00",
+        LocalDateTime.parse("2024-01-01 10:00:00"),
         "未実施",
         "詳細1"
     );
@@ -85,7 +86,7 @@ public class OrderServiceTest {
         "テスト患者1",
         "心電図",
         List.of(),
-        "2024-01-01 10:00:00",
+        LocalDateTime.parse("2024-01-01 10:00:00"),
         "未実施",
         "テストテスト",
         "アシュ",

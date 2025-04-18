@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- 患者情報
 CREATE TABLE IF NOT EXISTS patients (

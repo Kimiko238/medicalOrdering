@@ -1,8 +1,8 @@
 package com.ordering.model;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,8 +20,8 @@ public class User {
   private String name;
 
   //ユーザーの生年月日
-  @NotBlank(message = "{birthday.null}")
-  private String birthday;
+  @NotNull(message = "{birthday.null}")
+  private LocalDate birthday;
 
   //  ユーザーの性別
   @NotNull(message = "{gender.null}")

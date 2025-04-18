@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ordering.repository.PatientMapper">
-  <insert id="insert" keyProperty="showId" useGeneratedKeys="true">
+  <insert id="insert" keyProperty="showId">
     <!--    UUIDの発行-->
     <selectKey keyProperty="id" order="BEFORE" resultType="string">
-      SELECT REPLACE(UUID(), '-', '')FROM DUAL
+      SELECT REPLACE(gen_random_uuid()::text, '-', '')
     </selectKey>
 
     INSERT INTO patients (
@@ -73,7 +73,7 @@
     deleted_by,
     deleted_at
     FROM patients
-    WHERE id = #{Id}
+    WHERE id = #{id}
   </select>
 
   <update id="update">

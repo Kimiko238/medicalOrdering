@@ -1,6 +1,7 @@
 package com.ordering.model;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,24 +28,24 @@ public class Order {
   private String inspectionDetails;
 
   //検査日
-  private String inspectionDate;
+  private LocalDateTime inspectionDate;
 
   //  作成者
   private String createdBy;
 
   //  作成日時
-  private String createdAt;
+  private LocalDateTime createdAt;
 
   //  更新者
   private String updatedBy;
 
   //  更新日時
-  private String updatedAt;
+  private LocalDateTime updatedAt;
 
   //  削除者
   private String deletedBy;
 
   //  削除日時
-  private String deletedAt;
+  private LocalDateTime deletedAt;
 
 }

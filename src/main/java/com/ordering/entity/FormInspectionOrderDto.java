@@ -2,6 +2,7 @@ package com.ordering.entity;
 
 import com.ordering.model.Inspection;
 import jakarta.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class FormInspectionOrderDto {
 
   private List<Inspection> inspections;
 
-  private String date;
+  private LocalDateTime date;
 
   private String status;
 

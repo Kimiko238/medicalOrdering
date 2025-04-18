@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 
 import com.ordering.model.User;
 import com.ordering.repository.UserMapper;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +37,7 @@ public class UserServiceTest {
     userSample = new User(
         "id",
         "taro",
-        "2024-12-30",
+        LocalDate.parse("2024-12-30"),
         '1',
         "pass",
         "アシュ",

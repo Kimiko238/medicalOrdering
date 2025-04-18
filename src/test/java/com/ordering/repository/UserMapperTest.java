@@ -3,6 +3,7 @@ package com.ordering.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ordering.model.User;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ public class UserMapperTest {
     userSample = new User(
         "addId",
         "太郎",
-        "2024-12-30",
+        LocalDate.parse("2024-12-30"),
         '1',
         "pass",
         "アシュ",

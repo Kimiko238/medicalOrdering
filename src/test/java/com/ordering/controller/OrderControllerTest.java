@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.ordering.config.SecurityConfig;
 import com.ordering.entity.FormInspectionOrderDto;
 import com.ordering.service.OrderService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class OrderControllerTest {
         "テスト患者",
         "採血",
         List.of(),
-        "2024-01-01 10:00:00",
+        LocalDateTime.parse("2024-01-01 10:00:00"),
         "未実施",
         "詳細"
     );
@@ -70,7 +71,7 @@ public class OrderControllerTest {
             "テスト患者1",
             "心電図",
             List.of(),
-            "2024-01-01 10:00:00",
+            LocalDateTime.parse("2024-01-01 10:00:00"),
             "未実施",
             "詳細1"
         ),
@@ -81,7 +82,7 @@ public class OrderControllerTest {
             "テスト患者1",
             "心電図",
             List.of(),
-            "2024-01-01 10:00:00",
+            LocalDateTime.parse("2024-01-01 10:00:00"),
             "未実施",
             "詳細1"));
     Mockito.when(orderService.findAll()).thenReturn(mockOrderList);
