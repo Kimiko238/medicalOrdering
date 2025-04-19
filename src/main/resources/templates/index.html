@@ -86,7 +86,8 @@
         <th scope="row" th:text="${formInspectionOrderDto.patientName}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.status}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.inspectionName}"></th>
-        <th scope="row" th:text="${formInspectionOrderDto.date}"></th>
+        <th scope="row"
+            th:text="${#temporals.format(formInspectionOrderDto.date, 'yyyy-MM-dd HH:mm')}"></th>
         <th scope="row" th:text="${formInspectionOrderDto.details}"></th>
         <td><a class="button btn btn-primary"
                th:href="@{/orderDetails/{id}(id=${formInspectionOrderDto.orderId}, from='index')}">検査ステータス変更</a>

@@ -21,9 +21,16 @@ public class UserController {
 
   //ユーザーのログイン画面遷移
   @GetMapping("/login")
-  public String login(Authentication authentication, Model model) {
+  public String login(
+      @org.springframework.web.bind.annotation.RequestParam(value = "error", required = false) String error,
+      Authentication authentication,
+      Model model) {
     if (authentication != null && authentication.isAuthenticated()) {
       return "redirect:/";
+    }
+
+    if (authentication == null) {
+      model.addAttribute("message", "ユーザー名またはパスワードが正しくありません。");
     }
     return "login";
   }

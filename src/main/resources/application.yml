@@ -1,19 +1,19 @@
 server:
   port: 8002
-#spring:
-#  datasource:
-#    url: jdbc:postgresql://dpg-d001rt9r0fns73drbadg-a:5432/md_db_wduc
-#    username: ash
-#    password: D28z6eqMxIlVX2rgycFRTXQ2TDE6pYFG
-
-
-
-#      こちらはローカル環境でダイレクトに入れる環境
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/md_db_wduc
-    username: postgres
-    password: porigone
+    url: jdbc:postgresql://dpg-d01rekje5dus73bgedj0-a73drbadg-a:5432/md_db_wduc
+    username: ash
+    password: txVTxp7MbcGOV5rAZQlemp5NFNEMW5hr
+
+
+
+  #      こちらはローカル環境でダイレクトに入れる環境
+  #spring:
+  #  datasource:
+  #    url: jdbc:postgresql://localhost:5432/md_db_wduc
+  #    username: postgres
+  #    password: porigone
   sql:
     init:
       mode: always

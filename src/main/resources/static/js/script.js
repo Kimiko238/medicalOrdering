@@ -86,6 +86,12 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function () {
     const selectedOption = select.options[select.selectedIndex];
     hiddenInput.value = selectedOption.text;
+
+if (fp.selectedDates.length > 0) {
+    const formatted = fp.formatDate(fp.selectedDates[0], "Y-m-d H:i");
+    inputDate.value = formatted;
+    console.log("送信直前のdate:", inputDate.value); // デバッグ用
+          }
   });
 });
 
