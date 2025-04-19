@@ -1,8 +1,8 @@
-server:
-  port: 8002
+#server:
+#  port: 8002
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-d01rekje5dus73bgedj0-a73drbadg-a:5432/md_db_wduc
+    url: jdbc:postgresql://dpg-d01rekje5dus73bgedj0-a:5432/md_db_wduc_dic8
     username: ash
     password: txVTxp7MbcGOV5rAZQlemp5NFNEMW5hr
 
