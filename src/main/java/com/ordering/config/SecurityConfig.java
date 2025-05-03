@@ -39,7 +39,8 @@ public class SecurityConfig {
             .loginProcessingUrl("/login")
             .usernameParameter("name")
             .passwordParameter("pass")
-            .failureForwardUrl("/login?error")
+            .failureForwardUrl("/login")
+            .failureUrl("/login?error")
             .defaultSuccessUrl("/", true)
         )
         //        ログアウト時の設定
