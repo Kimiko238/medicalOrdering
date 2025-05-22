@@ -2,9 +2,9 @@
 #  port: 8002
 spring:
   datasource:
-    url: jdbc:postgresql://dpg-d01rekje5dus73bgedj0-a:5432/md_db_wduc_dic8
+    url: jdbc:postgresql://dpg-d0noq4qdbo4c73aha1ag-a:5432/medicalorderingdb_2
     username: ash
-    password: txVTxp7MbcGOV5rAZQlemp5NFNEMW5hr
+    password: qk2nkQt2u9CrfSEsKxK3xDDmxWLiNznW
 
 
 
